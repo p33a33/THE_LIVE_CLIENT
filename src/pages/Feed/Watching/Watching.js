@@ -6,7 +6,7 @@ import { NodePlayerView } from 'react-native-nodemediaclient'
 export default class Watching extends React.Component {
 
     render() {
-        let RTMP_SERVER = 'rtmp://172.30.1.44:4000'
+        let RTMP_SERVER = 'rtmp://000.000.000.000:4000'
         let userName = 'test'
         let inputUrl = `${RTMP_SERVER}/live${userName}`
         return (
