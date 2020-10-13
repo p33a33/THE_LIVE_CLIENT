@@ -13,26 +13,25 @@ export default class Signup extends React.Component {
                 password: null,
                 fullname: null,
                 nickname: null,
-                address: null
+                address: 'default'
             },
             passwordCheck: null,
         }
     }
 
     handleSignup = () => {
-        let { signupForm, passwordCheck } = this.state
+        let { passwordCheck, signupForm } = this.state
         let emptyInput = false
-
-        for (let key in signupForm) {
+        for (let key in this.state.signupForm) {
             if (!signupForm[key]) {
                 emptyInput = true
             }
         }
-
         if (emptyInput) {
             alert('Please fill in all the fields')
         } else {
             if (signupForm.password === passwordCheck) {
+                console.log(signupForm)
                 return axios.post(`http://172.30.1.44:5000/signup`, signupForm)
                     .then(res => {
                         if (res.status === 201) {
@@ -48,16 +47,18 @@ export default class Signup extends React.Component {
     }
 
     render() {
+        let { signupForm } = this.state
+
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
                 <Text h1 > The Live </Text>
                 <Input
                     placeholder="Email"
-                    onChangeText={val => this.setState({ signupForm: { email: val } })}
+                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { email: val }) })}
                     leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
                 <Input
                     placeholder="Password"
-                    onChangeText={val => this.setState({ signupForm: { password: val } })}
+                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { password: val }) })}
                     leftIcon={<Icon name="key" type="font-awesome" size={30} />}
                     secureTextEntry={true} />
                 <Input
@@ -67,11 +68,11 @@ export default class Signup extends React.Component {
                     secureTextEntry={true} />
                 <Input
                     placeholder="Fullname"
-                    onChangeText={val => this.setState({ signupForm: { fullname: val } })}
+                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { fullname: val }) })}
                     leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
                 <Input
                     placeholder="Nickname"
-                    onChangeText={val => this.setState({ signupForm: { nickname: val } })}
+                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { nickname: val }) })}
                     leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
                 <Button
                     title="Sign Up"
