@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View } from 'react-native'
+import { Text, Button, Input } from 'react-native-elements'
 
 export default class SellerHome extends React.Component {
     constructor(props) {

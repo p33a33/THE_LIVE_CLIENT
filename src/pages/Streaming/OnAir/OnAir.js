@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Button, Dimensions, PermissionsAndroid, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Dimensions, PermissionsAndroid, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text, Button } from 'react-native-elements';
 import { NodeCameraView } from 'react-native-nodemediaclient';
 
 export default class OnAir extends React.Component {
