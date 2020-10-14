@@ -11,8 +11,8 @@ export default class Oauth extends React.Component {
     handleRedirect = (webViewState) => {
         let { navigation } = this.props
         if (webViewState.url.includes('codestates')) {
-            navigation.navigate('FeedIndex')
             this.webview.stopLoading();
+            navigation.navigate('FeedIndex')
         }
     }
 
