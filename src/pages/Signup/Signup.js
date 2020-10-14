@@ -1,9 +1,8 @@
 import React from 'react'
-import { View, Modal } from 'react-native'
-import { Text, Button, Input } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { View, ScrollView } from 'react-native'
+import { Text, Button } from 'react-native-elements'
 import axios from 'axios'
-import Postcode from 'react-native-daum-postcode'
+import SignupForm from './SignupForm'
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -16,25 +15,29 @@ export default class Signup extends React.Component {
                 nickname: null,
                 address: null,
                 addressDetail: null,
+                photo: null,
             },
             passwordCheck: null,
             isModalOn: false
         }
+        this.handleFormValues = this.handleFormValues.bind(this)
     }
 
-    handleSelectAddress = (data) => {
-        console.log(data)
-        this.setState({
-            signupForm: Object.assign(this.state.signupForm, { address: data.address })
-        })
-        this.setState({
-            isModalOn: false
-        })
+    handleFormValues = (name, val) => {
+        let { signupForm } = this.state
+        if (name === "passwordCheck") {
+            this.setState({ passwordCheck: val })
+        } else {
+            this.setState({ signupForm: Object.assign(signupForm, { [name]: val }) })
+        }
     }
 
     handleSignup = () => {
         let { passwordCheck, signupForm } = this.state
         let emptyInput = false
+
+        console.log('signupForm', signupForm)
+
         for (let key in this.state.signupForm) {
             if (!signupForm[key]) {
                 emptyInput = true
@@ -60,48 +63,16 @@ export default class Signup extends React.Component {
     }
 
     render() {
-        let { signupForm, isModalOn } = this.state
+        let { signupForm } = this.state
 
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
-                <Text h1 > The Live </Text>
-                <Input
-                    placeholder="Email"
-                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { email: val }) })}
-                    leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
-                <Input
-                    placeholder="Password"
-                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { password: val }) })}
-                    leftIcon={<Icon name="key" type="font-awesome" size={30} />}
-                    secureTextEntry={true} />
-                <Input
-                    placeholder="One more password"
-                    onChangeText={val => this.setState({ passwordCheck: val })}
-                    leftIcon={<Icon name="key" type="font-awesome" size={30} />}
-                    secureTextEntry={true} />
-                <Input
-                    placeholder="Fullname"
-                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { fullname: val }) })}
-                    leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
-                <Input
-                    placeholder="Nickname"
-                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { nickname: val }) })}
-                    leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
-                <Button title="modal opener" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
-                <Text>선택한 주소 : {this.state.signupForm.address} </Text>
-                <Input
-                    placeholder="상세 주소"
-                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { addressDetail: val }) })}
-                    leftIcon={<Icon name="home" type="font-awesome" size={30} />} />
-
-                <Modal visible={isModalOn}>
-                    <Postcode style={{ flex: 1 }} jsOptions={{ animated: true }} onSelected={this.handleSelectAddress} ></Postcode>
-                    <Button title="modal closer" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
-                </Modal>
-                <Button
-                    title="Sign Up"
-                    onPress={this.handleSignup} />
-            </View>
+            <ScrollView stickyHeaderIndices>
+                <View style={{ padding: "10%" }}>
+                    <Text h1 style={{ textAlign: 'center' }}> The Live </Text>
+                    <SignupForm handleFormValues={this.handleFormValues} address={signupForm.address} photo={signupForm.photo} />
+                </View>
+                <Button style={{ position: "sticky" }} title="Sign Up" onPress={this.handleSignup} />
+            </ScrollView>
         )
     }
 }
