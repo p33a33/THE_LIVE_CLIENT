@@ -21,13 +21,8 @@ export default class SignupForm extends React.Component {
     }
 
     handleChoosePhoto = () => {
-        return ImagePicker.openPicker({
-            multiple: true
-        }).then((images) => {
-            console.log('selected images', images)
-            this.props.handleFormValues('photo', images)
-        }
-        )
+        ImagePicker.openPicker({ multiple: false })
+            .then((image) => { this.props.handleFormValues('photo', image) })
     }
 
     render() {
@@ -68,7 +63,7 @@ export default class SignupForm extends React.Component {
                 <Button title="modal closer" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
             </Modal>
             <View style={{ alignItems: 'center' }}>
-                {photo && <Image source={{ uri: photo.uri }} style={{ width: 150, height: 150 }} />}
+                {photo && <Image source={{ uri: photo.path }} style={{ width: 150, height: 150 }} />}
                 {!photo && <Text>사진을 선택해주세요</Text>}
             </View>
             <Button title="Choose Photo" onPress={this.handleChoosePhoto} />

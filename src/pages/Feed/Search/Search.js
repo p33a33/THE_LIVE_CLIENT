@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ScrollView, StyleSheet, ListView } from 'react-native'
 import { Text, Button, Image, Input } from 'react-native-elements'
 import { min } from 'react-native-reanimated';
-import { YOUTUBE_API_KEY } from '../config/youtube';
+import { YOUTUBE_API_KEY } from '../../config'
 import { searchYouTube } from '../searchYouTube';
 
 

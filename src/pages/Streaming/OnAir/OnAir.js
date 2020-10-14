@@ -2,18 +2,15 @@ import React from 'react';
 import { View, Dimensions, PermissionsAndroid, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { NodeCameraView } from 'react-native-nodemediaclient';
+import { RTMP_SERVER } from '../../config'
 
 export default class OnAir extends React.Component {
     constructor(props) {
         super(props)
-
         this.state = {
             liveStatus: false
         }
-
         this.setCameraRef = this.setCameraRef.bind(this)
-        let RTMP_SERVER = 'rmtp://000.00.00.00' // RTMP SERVER 주소 입력
-        let userName = 'test' // 
     }
 
 
@@ -59,12 +56,12 @@ export default class OnAir extends React.Component {
     };
 
     render() {
-
+        let userName = 'test'
         let { liveStatus } = this.state
-
         let deviceHeight = Dimensions.get('window').height
         let deviceWidth = Dimensions.get('window').width
-        let outputURL = `${this.RTMP_SERVER}/live/${this.userName}` // 영상을 전송받을 URL을 정의
+        let outputURL = `${RTMP_SERVER}/live/${userName}` // 영상을 전송받을 URL을 정의
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <NodeCameraView
