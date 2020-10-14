@@ -2,7 +2,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { Text, Button, Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import qs from 'qs';
 import axios from 'axios'
+import WebView from 'react-native-webview'
 
 export default class Signin extends React.Component {
     constructor(props) {
@@ -10,15 +12,22 @@ export default class Signin extends React.Component {
         this.state = {
             email: null,
             password: null,
+            googleAuth: null
         }
         this.handleSignin = this.handleSignin.bind(this)
     }
 
     handleSignin = () => {
         let { email, password } = this.state
-        console.log(email, password)
-        axios.post(`http://172.30.1.44:5000/signin`, { email, password })
+        let data = qs.stringify({ email, password }) // 데이터를 Form Data 형식으로 변환해줍니다.
+        axios.post(`http://172.30.1.44:5000/signin`, data)
             .then(res => console.log('signin result is', res))
+    }
+
+    handleGoogleSignin = () => {
+        axios.get(`http://172.30.1.44:5000/auth/google`)
+            .then(res => this.setState({ googleAuth: res.request.responseURL }))
+            .then(() => this.props.navigation.navigate('Oauth', { url: this.state.googleAuth }))
     }
 
     render() {
@@ -37,7 +46,7 @@ export default class Signin extends React.Component {
                 <Button
                     title="Login"
                     onPress={this.handleSignin} />
-                <Icon.Button name="google" backgroundColor="#D14E45">
+                <Icon.Button name="google" backgroundColor="#D14E45" onPress={this.handleGoogleSignin}>
                     Login in with Google
                 </Icon.Button>
                 <Icon.Button name="facebook" backgroundColor="#3b5998">

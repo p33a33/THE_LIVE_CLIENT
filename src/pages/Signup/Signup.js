@@ -1,8 +1,9 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Modal } from 'react-native'
 import { Text, Button, Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios'
+import Postcode from 'react-native-daum-postcode'
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -13,10 +14,22 @@ export default class Signup extends React.Component {
                 password: null,
                 fullname: null,
                 nickname: null,
-                address: 'default'
+                address: null,
+                addressDetail: null,
             },
             passwordCheck: null,
+            isModalOn: false
         }
+    }
+
+    handleSelectAddress = (data) => {
+        console.log(data)
+        this.setState({
+            signupForm: Object.assign(this.state.signupForm, { address: data.address })
+        })
+        this.setState({
+            isModalOn: false
+        })
     }
 
     handleSignup = () => {
@@ -47,7 +60,7 @@ export default class Signup extends React.Component {
     }
 
     render() {
-        let { signupForm } = this.state
+        let { signupForm, isModalOn } = this.state
 
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -74,6 +87,17 @@ export default class Signup extends React.Component {
                     placeholder="Nickname"
                     onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { nickname: val }) })}
                     leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
+                <Button title="modal opener" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
+                <Text>선택한 주소 : {this.state.signupForm.address} </Text>
+                <Input
+                    placeholder="상세 주소"
+                    onChangeText={val => this.setState({ signupForm: Object.assign(signupForm, { addressDetail: val }) })}
+                    leftIcon={<Icon name="home" type="font-awesome" size={30} />} />
+
+                <Modal visible={isModalOn}>
+                    <Postcode style={{ flex: 1 }} jsOptions={{ animated: true }} onSelected={this.handleSelectAddress} ></Postcode>
+                    <Button title="modal closer" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
+                </Modal>
                 <Button
                     title="Sign Up"
                     onPress={this.handleSignup} />

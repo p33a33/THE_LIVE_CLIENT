@@ -1,6 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
-import { Text, Button, Input } from 'react-native-elements'
+import { View, Text } from 'react-native'
 
 export default class FollowingList extends React.Component {
 
