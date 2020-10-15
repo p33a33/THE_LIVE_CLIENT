@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ScrollView } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import axios from 'axios'
-import SignupForm from './SignupForm'
+import SignupForm from '../../components/SignupForm'
 
 export default class Signup extends React.Component {
     constructor(props) {
