@@ -1,14 +1,17 @@
 import React, { Children } from 'react'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Dimensions } from 'react-native'
 import { Text, Button, Input, Image, ButtonGroup } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Carousel from 'react-native-snap-carousel';
 
 export default class ProductDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            inWishlist: false
+            inWishlist: false,
         }
+        this.handleButtonPress = this.handleButtonPress.bind(this)
+        this._renderItem = this._renderItem.bind(this)
     }
 
     handleButtonPress = (index) => {
@@ -22,25 +25,36 @@ export default class ProductDetail extends React.Component {
                 }
         }
     }
-
+    _renderItem = ({ item, index }) => {
+        return (
+            <View style={{ margin: 10, padding: 10, alignItems: "center" }} >
+                {console.log(item)}
+                <Image source={{ uri: item }} style={{ width: 300, height: 300, borderRadius: 20 }} />
+            </View>
+        );
+    }
     render() {
         let { image, image2, image3, title, body, price } = this.props.route.params.info
+        const horizontalMargin = 20;
+        const slideWidth = 280;
+
+        const sliderWidth = Dimensions.get('window').width;
+        const itemWidth = slideWidth + horizontalMargin * 2;
+        const itemHeight = 200;
+
         return (
-            <ScrollView contentContainerStyle={{ flex: 1, padding: 20 }}>
+            <ScrollView contentContainerStyle={{ flex: 1, padding: 20 }}
+            >
                 <Text h4 style={{ textAlign: 'left' }}>it's ProductDetail Page</Text>
-                <View style={{ alignItems: "center" }}>
-                    <ScrollView
-                        horizontal
-                        contentContainerStyle={{ width: `${100 * Children.length}%` }}
-                        showsHorizontalScrollIndicator={false}
-                        scrollEventThrottle={250}
-                        decelerationRate="fast"
-                        pagingEnabled
-                        style={{ width: 250, marginBottom: 10 }}>
-                        <Image style={{ backgroundColor: "blue", width: 250, height: 250, }} resizeMode="contain" />
-                        {image2 && <Image style={{ backgroundColor: "red", width: 250, height: 250 }} resizeMode="contain" />}
-                        {image3 && <Image style={{ backgroundColor: "yellow", width: 250, height: 250 }} resizeMode="contain" />}
-                    </ScrollView>
+                <View style={{ alignItems: "center" }} >
+                    <Carousel
+                        ref={(c) => { this._carousel = c; }}
+                        data={this.props.route.params.info.image}
+                        renderItem={this._renderItem}
+                        sliderWidth={sliderWidth}
+                        itemWidth={itemWidth}
+                        itemHeight={itemHeight}
+                    />
                 </View>
                 <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
                 <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginBottom: 50 }}>{price}</Text>

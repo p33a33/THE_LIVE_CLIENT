@@ -14,7 +14,6 @@ export const searchYouTube = ({ query, max, key }, callback) => {
     .then((data) => {
       console.log(data)
       callback(data.items)
-
     })
     .catch((err) => { console.log(err) })
 };

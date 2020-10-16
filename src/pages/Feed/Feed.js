@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, ScrollView, StyleSheet, ListView } from 'react-native'
 import { Text, Button, Image } from 'react-native-elements'
+import { FlatList } from 'react-native-gesture-handler';
 import { min } from 'react-native-reanimated';
 import { YOUTUBE_API_KEY } from '../config'
 import { searchYouTube } from '../Feed/searchYouTube';
@@ -13,44 +14,53 @@ export default class Feed extends React.Component {
             subscribeVids: [],
             popularVids: [],
         }
+        this.fetchData = this.fetchData.bind(this)
+        this.renderItem = this.renderItem.bind(this)
     }
     componentDidMount() {
+        this.fetchData()
+    }
+    fetchData() {
         let initOption = {
-            query: 'storror',
-            max: 10,
+            query: 'vertical+video',
+            max: 5,
             key: YOUTUBE_API_KEY
         }
-        searchYouTube(initOption, (data) => this.setState({ subscribeVids: data }))
+        searchYouTube(initOption, (data) => this.setState({ subscribeVids: this.state.subscribeVids.concat(data) }))
     }
-
+    renderItem({ item }) {
+        let imgSrc = item.snippet.thumbnails.high.url
+        return (
+            <View className="video-list-entry" style={styles.listItems} >
+                <Image className="media-thumbnail"
+                    style={{ height: 400, width: 250, borderRadius: 20 }}
+                    source={{ uri: imgSrc }}
+                    onPress={() => {
+                        this.props.navigation.navigate('Watching')
+                    }}
+                >
+                    <View className="media-body"  >
+                        <Text className="video-list-entry-title" style={styles.itemTitle} onPress={() => this.props.navigation.navigate('Watching')} >
+                            {item.snippet.title}
+                        </Text>
+                    </View>
+                </Image>
+            </View >
+        )
+    }
     render() {
         return (
-            <ScrollView >
+            <>
                 <Text style={styles.title}>Feed Page</Text>
-                <View style={styles.container}>
-                    {this.state.subscribeVids.map((vid) => {
-                        let imgSrc = vid.snippet.thumbnails.default.url
-                        return (
-                            <View className="video-list-entry" style={styles.listItems} >
-                                <View >
-                                    <Image className="media-thumbnail"
-                                        style={{ height: 400, width: 250, borderRadius: 20 }}
-                                        source={{ uri: imgSrc }}
-                                        onPress={() => this.props.navigation.navigate('Watching')}
-                                    >
-                                        <View className="media-body"  >
-                                            <Text className="video-list-entry-title" style={styles.itemTitle} onPress={() => this.props.navigation.navigate('Watching')} >
-                                                {vid.snippet.title}
-                                            </Text>
-                                        </View>
-                                    </Image>
-                                </View>
-                            </View >
-                        )
-                    })
-                    }
-                </View>
-            </ScrollView >
+                <FlatList
+                    data={this.state.subscribeVids}
+                    renderItem={this.renderItem}
+                    style={styles.container}
+                    keyExtractor={(item, index) => String(index)}
+                    onScrollEndDrag={this.fetchData}
+                >
+                </FlatList>
+            </>
         )
     }
 }
@@ -64,13 +74,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     container: {
-        justifyContent: "space-around",
+        alignContent: "center",
         marginTop: 5,
         flexDirection: "column",
         flexWrap: "wrap",
         flex: 1,
         width: "100%",
-        alignItems: "center",
         backgroundColor: "#f2f2f2",
     },
     listItems: {
