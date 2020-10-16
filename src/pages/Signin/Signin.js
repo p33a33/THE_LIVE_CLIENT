@@ -20,7 +20,7 @@ export default class Signin extends React.Component {
     handleSignin = () => {
         let { email, password } = this.state
         let data = qs.stringify({ email, password }) // 데이터를 Form Data 형식으로 변환해줍니다.
-        axios.post(`http://172.30.1.44:5000/signin`, data)
+        axios.post(`http://172.30.1.22:5000/signin`, data)
             .then(res => {
                 if (res.status === 200) {
                     this.props.navigation.navigate('FeedIndex')
@@ -29,7 +29,7 @@ export default class Signin extends React.Component {
     }
 
     handleGoogleSignin = () => {
-        axios.get(`http://172.30.1.44:5000/auth/google`)
+        axios.get(`http://172.30.1.22:5000/auth/google`)
             .then(res => this.setState({ googleAuth: res.request.responseURL }))
             .then(() => this.props.navigation.navigate('Oauth', { url: this.state.googleAuth }))
     }
