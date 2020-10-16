@@ -36,7 +36,7 @@ export default class UserInfoEdit extends React.Component {
         let { newPassword } = userInfoEditForm
 
         if (passwordCheck === newPassword) {
-            // axios.post('http://172.30.1.22:5000/userInfoEdit')
+            // axios.post('http://172.30.1.44:5000/userInfoEdit')
             alert('수정이 완료되었습니다.')
         } else {
             alert('새 비밀번호를 다시 확인해주세요.')
