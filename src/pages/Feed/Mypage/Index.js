@@ -7,6 +7,7 @@ import OrderInfo from './OrderInfo/OrderInfo'
 import UserInfoEdit from './UserInfoEdit/UserInfoEdit.js'
 import WishList from './WishList/WishList.js'
 import Mypage from './Mypage'
+import axios from 'axios'
 
 
 const Drawer = createDrawerNavigator();
