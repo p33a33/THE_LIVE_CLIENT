@@ -16,7 +16,7 @@ export default class UserInfoEditForm extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://172.30.1.22:5000/userinfo").then(res => this.setState({ userInfo: res.data }))
+        axios.get("http://172.30.1.44:5000/userinfo").then(res => this.setState({ userInfo: res.data }))
     }
 
     handleSelectAddress = (data) => {
