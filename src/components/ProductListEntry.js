@@ -20,7 +20,7 @@ export default class ProductListEntry extends React.Component {
         );
     }
     render() {
-        let { productInfo, navigation } = this.props
+        let { productInfo, navigation, list } = this.props
         let { title, price } = productInfo
         const horizontalMargin = 20;
         const slideWidth = 280;
@@ -29,7 +29,7 @@ export default class ProductListEntry extends React.Component {
         const itemHeight = 200;
         return (
 
-            <ListItem bottomDivider style={{ width: "100%" }} containerStyle={{ margin: 0 }} onPress={() => navigation.navigate('ProductDetail', { info: productInfo })}>
+            <ListItem bottomDivider style={{ width: "100%" }} containerStyle={{ margin: 0 }} onPress={() => navigation.navigate('ProductDetail', { info: productInfo, list: list })}>
                 <ListItem.Content style={{ alignItems: "center" }}>
                     <Carousel
                         ref={(c) => { this._carousel = c; }}
