@@ -109,7 +109,7 @@ export default class ProductDetail extends React.Component {
                             )
                         })}
                     </View>
-                    <View style={styles.sellerItms}>
+                    {this.props.route.params.list ? <View style={styles.sellerItms}>
                         {this.props.route.params.list.map((itm) => {
                             let imgSrc = itm.image[0]
                             return (
@@ -130,7 +130,7 @@ export default class ProductDetail extends React.Component {
                             )
                         })
                         }
-                    </View>
+                    </View> : <Text>no image to render</Text>}
                 </ScrollView >
             </View>
         )
