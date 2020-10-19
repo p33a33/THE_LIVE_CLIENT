@@ -1,8 +1,15 @@
 import React, { Children } from 'react'
-import { View, ScrollView, Dimensions, StyleSheet } from 'react-native'
+import { View, ScrollView, Dimensions, StyleSheet, InteractionManager } from 'react-native'
 import { Text, Button, Input, Image, ButtonGroup } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Carousel from 'react-native-snap-carousel';
+import { useScrollToTop } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+import SellerItemEntry from '../../components/SellerItemEntry';
+import SellerHomeIndex from '../SellerHome/Index';
+import SellerInfoHome from '../../components/SellerInfoHome';
+
+
 
 export default class ProductDetail extends React.Component {
     constructor(props) {
@@ -13,6 +20,10 @@ export default class ProductDetail extends React.Component {
         this.handleButtonPress = this.handleButtonPress.bind(this)
         this._renderItem = this._renderItem.bind(this)
     }
+    componentDidMount() {
+        this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true });
+    }
+
 
     handleButtonPress = (index) => {
         switch (index) {
@@ -27,7 +38,7 @@ export default class ProductDetail extends React.Component {
     }
     _renderItem = ({ item, index }) => {
         return (
-            <View style={{ margin: 10, padding: 10, alignItems: "center" }} >
+            <View style={{ margin: 10, padding: 10, alignItems: "center" }} key={item.title}>
                 {console.log(item)}
                 <Image source={{ uri: item }} style={{ width: 300, height: 300, borderRadius: 20 }} />
             </View>
@@ -40,14 +51,13 @@ export default class ProductDetail extends React.Component {
         const sliderWidth = Dimensions.get('window').width;
         const itemWidth = slideWidth + horizontalMargin * 2;
         const itemHeight = 200;
-        let { navigation } = this.props
-        let { navigate } = navigation
-        console.log(this)
 
         return (
-            <View style={{ flex: 1, padding: 20 }}>
+            <LinearGradient colors={{ useAngle: true, angle: 45 }, ['#FFFFFF', '#EEE5E2']} style={{ flex: 1, }}>
                 <Text h4 style={{ textAlign: 'left' }}>it's ProductDetail Page</Text>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} ref='_scrollView' onContentSizeChange={
+                    () => this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })
+                }>
                     <View style={{ alignItems: "center" }}  >
                         <Carousel
                             ref={(c) => { this._carousel = c; }}
@@ -59,110 +69,67 @@ export default class ProductDetail extends React.Component {
                         />
                     </View>
                     <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
-                    <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginBottom: 50 }}>{price}</Text>
-                    <Text style={{ fontSize: 15, }}>{body}</Text>
+                    <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, }}>{price}</Text>
+                    <Text style={styles.itmInfoText}>{body}</Text>
                     <ButtonGroup
                         onPress={this.handleButtonPress}
                         buttons={['Add to wishlist', 'Buy now']}
                     />
-                    <View style={styles.sellerContainer}>
-                        <Text style={styles.sellerTitle}>{this.props.route.params.info.name}</Text>
-                        <View style={styles.sellerInfoContainer}>
-                            <View>
-                                <Text style={styles.sellerContainerText}>
-                                    Rate
-                                    {"\n"}
-                                    9.3
-                                    </Text>
-                            </View>
-                            <View>
-                                <Text style={styles.sellerContainerText}>
-                                    Products
-                                    {"\n"}
-                                    271
-                                    </Text>
-                            </View>
-                            <View>
-                                <Text style={styles.sellerContainerText}>
-                                    Follower
-                                    {"\n"}
-                                    5.3k
-                                    </Text>
-                            </View>
-                        </View>
-                        <Button
-                            onPress={() => navigate('SellerHome')}
-                            title="go to Seller Home"
-                        />
-                    </View>
-                    <View style={{ alignItems: "center", }}>
-                        {this.props.route.params.info.image.map((ele) => {
+                    <View style={{ alignItems: "center", marginTop: 20 }}>
+                        {this.props.route.params.info.image.map((itm) => {
                             return (
                                 <Image
-                                    source={{ uri: ele }}
+                                    key={itm.title}
+                                    source={{ uri: itm }}
                                     style={{
-                                        width: 250,
-                                        height: 250,
-                                        padding: 5
+                                        width: 270,
+                                        height: 270,
+                                        padding: 5,
+                                        margin: 10
                                     }}
                                 />
                             )
                         })}
                     </View>
-                    {this.props.route.params.list ? <View style={styles.sellerItms}>
-                        {this.props.route.params.list.map((itm) => {
-                            let imgSrc = itm.image[0]
-                            return (
-                                <View className="video-list-entry" style={styles.listItems} >
-                                    <View >
-                                        <Image className="media-thumbnail"
-                                            style={{ height: 130, width: 130 }}
-                                            source={{ uri: imgSrc }}
-                                            onPress={() => this.props.navigation.navigate('ProductDetail')}
-                                        />
-                                        <View className="media-body" >
-                                            <Text className="video-list-entry-title" onPress={() => this.props.navigation.navigate('ProductDetail')} >
-                                                {itm.title}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View >
-                            )
-                        })
-                        }
-                    </View> : <Text>no image to render</Text>}
+                    <View style={styles.sellerContainer}>
+                        <Text style={styles.sellerTitle}>{this.props.route.params.info.name}</Text>
+                        <SellerInfoHome navigation={this.props.navigation} />
+                    </View>
+                    {this.props.route.params.list ?
+                        <View style={styles.sellerItms} >
+                            {this.props.route.params.list.map((itm) => <SellerItemEntry itm={itm} navigation={this.props.navigation} />)}
+                        </View>
+                        : <Text>no image to render</Text>}
                 </ScrollView >
-            </View>
+            </LinearGradient >
         )
     }
 }
 
 const styles = StyleSheet.create({
     sellerContainer: {
-        margin: 5,
-        padding: 5
+        margin: 15,
+        padding: 15
     },
     sellerTitle: {
         fontSize: 20,
         fontWeight: "bold",
-        padding: 5
+        padding: 5,
+        marginTop: 10,
+        marginLeft: 10
     },
-    sellerInfoContainer: {
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        textAlign: "auto"
-    },
-    sellerContainerText: {
+    itmInfoText: {
         textAlign: "center",
-        padding: 5
+        padding: 35,
+        marginBottom: 5,
     },
     sellerItms: {
-        justifyContent: "space-around",
-        marginTop: 5,
+        justifyContent: "space-evenly",
+        marginTop: 10,
         flexDirection: "row",
         flexWrap: "wrap",
         flex: 1,
         width: "100%",
-        alignItems: "flex-start",
+        alignItems: "center",
     }
 })

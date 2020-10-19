@@ -2,7 +2,6 @@ import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FollowingListIndex from './FollowingList/Index'
 import MyItemListIndex from './MyItemList/Index'
-import OrderedList from './OrderedList/OrderedList'
 import OrderInfoIndex from './OrderInfo/Index'
 import UserInfoEdit from './UserInfoEdit/UserInfoEdit.js'
 import WishList from './WishList/WishList.js'
@@ -19,7 +18,6 @@ export default function MypageIndex() {
             <Drawer.Screen name="OrderInfo" component={OrderInfoIndex} />
             <Drawer.Screen name="FollowingList" component={FollowingListIndex} />
             <Drawer.Screen name="MyItemLIst" component={MyItemListIndex} />
-            <Drawer.Screen name="OrderedList" component={OrderedList} />
             <Drawer.Screen name="WishList" component={WishList} />
         </Drawer.Navigator>
     )
