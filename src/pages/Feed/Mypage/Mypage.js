@@ -17,7 +17,7 @@ export default class Mypage extends React.Component {
                     <Text style={{ textAlign: "right", fontWeight: "bold" }}>클릭해서 구매내역 보기</Text>
                 </Card>
                 <Card containerStyle={{ width: "90%" }}>
-                    <Card.Title > [닉네임]님이 팔로우중인 Seller는 </Card.Title>
+                    <Card.Title> [닉네임]님이 팔로우중인 Seller는 </Card.Title>
                     <Card.Divider />
                     <Text style={{ textAlign: "right", fontSize: 20, fontWeight: "bold" }}>15명 입니다</Text>
                     <Text style={{ textAlign: "right", fontWeight: "bold" }}>클릭해서 팔로우중인 Seller 확인하기</Text>

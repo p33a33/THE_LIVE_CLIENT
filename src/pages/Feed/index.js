@@ -9,7 +9,7 @@ import ProductListIndex from './ProductList/Index';
 const Tab = createBottomTabNavigator();
 export default function FeedIndex() {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator >
             <Tab.Screen name="Feed" component={WatchingIndex} />
             <Tab.Screen name="ProductList" component={ProductListIndex} />
             <Tab.Screen name="Streaming" component={StreamingIndex} options={{ tabBarVisible: false }} />

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Postcode from 'react-native-daum-postcode'
 import ImagePicker from 'react-native-image-crop-picker'
 import axios from 'axios'
+import { SERVER } from '../pages/config'
 
 export default class UserInfoEditForm extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class UserInfoEditForm extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://172.30.1.44:5000/userinfo").then(res => this.setState({ userInfo: res.data }))
+        axios.get(`${SERVER}/mypage`).then(res => this.setState({ userInfo: res.data }))
     }
 
     handleSelectAddress = (data) => {

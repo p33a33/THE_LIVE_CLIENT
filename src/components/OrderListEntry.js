@@ -1,7 +1,6 @@
 import React, { Children } from 'react'
-import { View, Modal, Dimensions } from 'react-native'
+import { View } from 'react-native'
 import { Text, Button, Input, Image, ListItem } from 'react-native-elements'
-import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import OrderInfo from '../pages/Feed/Mypage/OrderInfo/OrderInfo'
 

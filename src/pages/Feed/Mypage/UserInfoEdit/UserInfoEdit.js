@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import { Text, Button, Input } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler'
 import UserInfoEditForm from '../../../../components/UserInfoEditForm'
+import { SERVER } from '../../../config'
 
 export default class UserInfoEdit extends React.Component {
     constructor(props) {
@@ -36,7 +37,7 @@ export default class UserInfoEdit extends React.Component {
         let { newPassword } = userInfoEditForm
 
         if (passwordCheck === newPassword) {
-            // axios.post('http://172.30.1.44:5000/userInfoEdit')
+            // axios.post(`${SERVER}/signedit`, userInfoEditForm)
             alert('수정이 완료되었습니다.')
         } else {
             alert('새 비밀번호를 다시 확인해주세요.')

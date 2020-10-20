@@ -3,6 +3,7 @@ import { View, ScrollView } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import axios from 'axios'
 import SignupForm from '../../components/SignupForm'
+import { SERVER } from '../config'
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -15,7 +16,8 @@ export default class Signup extends React.Component {
                 nickname: null,
                 address: null,
                 addressDetail: null,
-                photo: null,
+                profileImage: null,
+                phone: null,
             },
             passwordCheck: null,
             isModalOn: false
@@ -48,7 +50,7 @@ export default class Signup extends React.Component {
         } else {
             if (signupForm.password === passwordCheck) {
                 console.log(signupForm)
-                return axios.post(`http://172.30.1.44:5000/signup`, signupForm)
+                return axios.post(`${SERVER}/signup`, signupForm)
                     .then(res => {
                         if (res.status === 201) {
                             this.props.navigation.navigate('Signin');
