@@ -39,7 +39,6 @@ export default class ProductDetail extends React.Component {
     _renderItem = ({ item, index }) => {
         return (
             <View style={{ margin: 10, padding: 10, alignItems: "center" }} key={item.title}>
-                {console.log(item)}
                 <Image source={{ uri: item }} style={{ width: 300, height: 300, borderRadius: 20 }} />
             </View>
         );
@@ -92,7 +91,7 @@ export default class ProductDetail extends React.Component {
                         })}
                     </View>
                     <View style={styles.sellerContainer}>
-                        <Text style={styles.sellerTitle}>{this.props.route.params.info.name}</Text>
+                        <Text style={styles.sellerTitle}>{this.props.route.params.info.name.toUpperCase()}</Text>
                         <SellerInfoHome navigation={this.props.navigation} />
                     </View>
                     {this.props.route.params.list ?
