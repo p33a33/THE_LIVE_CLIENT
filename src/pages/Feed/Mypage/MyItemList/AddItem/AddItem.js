@@ -1,10 +1,12 @@
 import { HeaderTitle } from '@react-navigation/stack'
+import Axios from 'axios'
 import React from 'react'
 import { Image, View, Alert, KeyboardAvoidingView } from 'react-native'
 import { Text, Button, Input, Card } from 'react-native-elements'
 import { ScrollView, TapGestureHandler, TouchableOpacity } from 'react-native-gesture-handler'
 import ImagePicker from 'react-native-image-crop-picker'
 import HTML from 'react-native-render-html'
+import { SERVER } from '../../../../config'
 
 
 export default class AddItem extends React.Component {
@@ -86,12 +88,14 @@ export default class AddItem extends React.Component {
                     let deleted = temp.slice(0, index).concat(temp.slice(index + 1, temp.length))
                     this.setState({ itemInfo: Object.assign(this.state.itemInfo, { tags: deleted }) })
                 }
-            }, { text: "Cancle", onPress: () => false }]))
+            }, { text: "Cancel", onPress: () => false }]))
         )
     }
 
     handleConfirm = () => {
         console.log('send this data', this.state.itemInfo)
+        Axios.post(`${SERVER}/additem`, this.state.itemInfo)
+            .then(data => console.log(data))
     }
 
     render() {

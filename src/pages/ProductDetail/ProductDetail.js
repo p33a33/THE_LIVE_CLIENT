@@ -8,6 +8,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import SellerItemEntry from '../../components/SellerItemEntry';
 import SellerHomeIndex from '../SellerHome/Index';
 import SellerInfoHome from '../../components/SellerInfoHome';
+import Axios from 'axios';
+import { SERVER } from '../config';
 
 
 
@@ -29,10 +31,18 @@ export default class ProductDetail extends React.Component {
         switch (index) {
             case 0:
                 this.setState({ inWishlist: !this.state.inWishlist })
-                if (this.state.inWishlist) {
-                    alert('This item has added on your wish list')
+                if (!this.state.inWishlist) {
+                    Axios.post(`${SERVER}/addwishlist`, { productId: this.props.route.params.info.id })
+                        .then(data => {
+                            console.log(data.data)
+                            alert('This item has added on your wish list')
+                        })
                 } else {
-                    alert(' No more interesting? ')
+                    Axios.post(`${SERVER}/deletewishlist`, { productId: this.props.route.params.info.id })
+                        .then(data => {
+                            console.log(data.data)
+                            alert(' No more interesting? ')
+                        })
                 }
         }
     }

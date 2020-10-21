@@ -1,10 +1,15 @@
+import Axios from 'axios';
 import React from 'react'
 import { RefreshControl, View, ScrollView, StyleSheet, ListView } from 'react-native'
 import { Text, Button, Image } from 'react-native-elements'
 import { FlatList } from 'react-native-gesture-handler';
 import { min } from 'react-native-reanimated';
+<<<<<<< Updated upstream
 import SearchDefaultEntry from '../../components/SearchDefaultEntry';
 import { YOUTUBE_API_KEY } from '../config'
+=======
+import { SERVER, YOUTUBE_API_KEY } from '../config'
+>>>>>>> Stashed changes
 import { searchYouTube } from '../Feed/searchYouTube';
 
 
@@ -24,6 +29,7 @@ export default class Feed extends React.Component {
     componentDidMount() {
         this.fetchData()
     }
+<<<<<<< Updated upstream
     ConvertSystemSourcetoHtml(str) {
         str = str.replace("&lt;", "<");
         str = str.replace("&gt;", ">");
@@ -34,6 +40,16 @@ export default class Feed extends React.Component {
 
         return str;
     }
+=======
+
+    handleSignout = () => {
+        Axios.get(`${SERVER}/signout`)
+            .then(data => {
+                this.props.navigation.navigate('Signin')
+            })
+    }
+
+>>>>>>> Stashed changes
     fetchData() {
         let initOption = {
             query: 'vertical+video',
@@ -84,6 +100,7 @@ export default class Feed extends React.Component {
     }
     render() {
         return (
+<<<<<<< Updated upstream
             <ScrollView
                 style={styles.container}
                 refreshControl={
@@ -93,6 +110,11 @@ export default class Feed extends React.Component {
                         color="black"
                     />}
             >
+=======
+            <>
+                <Button title="Logout" onPress={this.handleSignout} />
+                <Text style={styles.title}>Feed Page</Text>
+>>>>>>> Stashed changes
                 <FlatList
                     enableEmptySections={true}
                     data={this.state.subscribeVids}
