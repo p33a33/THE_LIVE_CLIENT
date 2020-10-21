@@ -22,7 +22,7 @@ export default class SignupForm extends React.Component {
 
     handleChoosePhoto = () => {
         ImagePicker.openPicker({ multiple: false })
-            .then((image) => { this.props.handleFormValues('photo', image) })
+            .then((image) => { this.props.handleFormValues("profileImage", image) })
     }
 
     render() {
@@ -43,6 +43,11 @@ export default class SignupForm extends React.Component {
                 onChangeText={val => handleFormValues('passwordCheck', val)}
                 leftIcon={<Icon name="key" type="font-awesome" size={22} />}
                 secureTextEntry={true} />
+            <Input
+                placeholder="Phone"
+                onChangeText={val => handleFormValues('phone', val)}
+                leftIcon={<Icon name="phone" type="font-awesome" size={30} />} />
+            {/* 전화번호 형식 확인 필요 */}
             <Input
                 placeholder="Fullname"
                 onChangeText={val => handleFormValues('fullname', val)}

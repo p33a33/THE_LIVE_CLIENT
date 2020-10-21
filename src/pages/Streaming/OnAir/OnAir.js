@@ -11,6 +11,7 @@ export default class OnAir extends React.Component {
             liveStatus: false
         }
         this.setCameraRef = this.setCameraRef.bind(this)
+        this.handleLiveStatus = this.handleLiveStatus.bind(this)
     }
 
 
@@ -19,9 +20,11 @@ export default class OnAir extends React.Component {
     }
 
     handleLiveStatus = () => {
-        if (this.state.liveStatus) {
+        if (!this.state.liveStatus) {
+            console.log('check start')
             this.nodeCameraViewRef.start()
         } else {
+            console.log('check stop')
             this.nodeCameraViewRef.stop()
         }
         this.setState({ liveStatus: !this.state.liveStatus })
@@ -61,13 +64,13 @@ export default class OnAir extends React.Component {
         let deviceHeight = Dimensions.get('window').height
         let deviceWidth = Dimensions.get('window').width
         let outputURL = `${RTMP_SERVER}/live/${userName}` // 영상을 전송받을 URL을 정의
-
+        console.log(outputURL)
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <NodeCameraView
                     style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
                     ref={this.setCameraRef}
-                    output={outputURL} // URL이 확정되면 해당 URL로 영상을 전송
+                    outputUrl={outputURL} // URL이 확정되면 해당 URL로 영상을 전송
                     camera={{ cameraId: 1, cameraFrontMirror: true }}
                     audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
                     video={{ preset: 12, bitrate: 400000, profile: 1, fps: 15, videoFrontMirror: false }}

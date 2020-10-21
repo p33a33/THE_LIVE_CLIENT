@@ -8,7 +8,7 @@ export default class Watching extends React.Component {
 
     render() {
         let userName = 'test'
-        let inputUrl = `${RTMP_SERVER}/live${userName}`
+        let inputUrl = `${RTMP_SERVER}/live/${userName}`
         return (
             <NodePlayerView
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
