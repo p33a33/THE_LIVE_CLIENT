@@ -2,6 +2,7 @@ import React from 'react'
 import { View, ScrollView, StyleSheet, ListView } from 'react-native'
 import { Text, Button, Image, Input } from 'react-native-elements'
 import { min } from 'react-native-reanimated';
+import SearchDefaultEntry from '../../../components/SearchDefaultEntry';
 import { YOUTUBE_API_KEY } from '../../config'
 import { searchYouTube } from '../searchYouTube';
 
@@ -41,49 +42,11 @@ export default class Search extends React.Component {
                 </View>
                 <Text style={styles.title}>현재 인기있는 방송</Text>
                 <View style={styles.container}>
-                    {this.state.popularVids.map((vid) => {
-                        let imgSrc = vid.snippet.thumbnails.default.url
-                        return (
-                            <View className="video-list-entry" style={styles.listItems} >
-                                <View >
-                                    <Image className="media-thumbnail"
-                                        style={{ height: 130, width: 130 }}
-                                        source={{ uri: imgSrc }}
-                                        onPress={() => this.props.navigation.navigate('Watching')}
-                                    />
-                                    <View className="media-body" >
-                                        <Text className="video-list-entry-title" onPress={() => this.props.navigation.navigate('Watching')} >
-                                            {vid.snippet.title}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View >
-                        )
-                    })
-                    }
+                    {this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
                 </View>
                 <Text style={styles.title}>현재 인기있는 제품</Text>
                 <View style={styles.container}>
-                    {this.state.popularItms.map((vid) => {
-                        let imgSrc = vid.snippet.thumbnails.default.url
-                        return (
-                            <View className="video-list-entry" style={styles.listItems} >
-                                <View >
-                                    <Image className="media-thumbnail"
-                                        style={{ height: 130, width: 130 }}
-                                        source={{ uri: imgSrc }}
-                                        onPress={() => this.props.navigation.navigate('Watching')}
-                                    />
-                                    <View className="media-body" >
-                                        <Text className="video-list-entry-title" onPress={() => this.props.navigation.navigate('Watching')} >
-                                            {vid.snippet.title}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View >
-                        )
-                    })
-                    }
+                    {this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
                 </View>
             </ScrollView >
         )
@@ -92,7 +55,7 @@ export default class Search extends React.Component {
 
 const styles = StyleSheet.create({
     body: {
-        padding: 30,
+        padding: 20,
     },
     title: {
         fontSize: 20,
@@ -111,10 +74,6 @@ const styles = StyleSheet.create({
     searchButton: {
         width: "50%",
         marginBottom: 5,
-    },
-    listItems: {
-        padding: 10,
-        width: "50%",
     },
 });
 
