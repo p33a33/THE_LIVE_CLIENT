@@ -1,7 +1,7 @@
 ---
 name: 회고template
 about: 우리 모두 회고 합시다.
-title: '[retrospect] N주차 회고 - ""'
+title: '[retrospect] "N"주차 회고 - "이름"'
 labels: retrospect, 진실의방, 화이팅!, 회고
 assignees: Kim-144, kimwunhae, kyugshim, p33a33
 
