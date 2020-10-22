@@ -10,15 +10,9 @@ export default class ProductListEntry extends React.Component {
     constructor(props) {
         super(props)
         this._renderItem = this._renderItem.bind(this)
-        this.ConvertSystemSourcetoHtml = this.ConvertSystemSourcetoHtml.bind(this)
+
     }
-    ConvertSystemSourcetoHtml(str) {
-        str = str.replace("&lt;", "<");
-        str = str.replace("&gt;", ">");
-        str = str.replace("&quot;", '"');
-        str = str.replace("&#39;", "'");
-        return str;
-    }
+
     _renderItem = ({ item, index }) => {
         return (
             <View style={{ margin: 10, padding: 10, alignItems: "center" }} >
