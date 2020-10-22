@@ -4,13 +4,20 @@ import { Text, Button, Input, Image } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Postcode from 'react-native-daum-postcode'
 import ImagePicker from 'react-native-image-crop-picker'
+import axios from 'axios'
+import { SERVER } from '../pages/config'
 
-export default class SignupForm extends React.Component {
+export default class UserInfoEditForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isModalOn: false
+            isModalOn: false,
+            userInfo: null,
         }
+    }
+
+    componentDidMount() {
+        axios.get(`${SERVER}/userInfo`).then(res => this.setState({ userInfo: res.data }))
     }
 
     handleSelectAddress = (data) => {
@@ -26,34 +33,35 @@ export default class SignupForm extends React.Component {
     }
 
     render() {
-        let { handleFormValues, address, photo } = this.props
-        let { isModalOn } = this.state
+        let { handleFormValues, newUserinfo } = this.props
+        let { isModalOn, userInfo } = this.state
+        console.log(this.props)
         return (<View>
             <Input
-                placeholder="Email"
-                onChangeText={val => handleFormValues('email', val)}
-                leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
+                placeholder="Current Password"
+                onChangeText={val => handleFormValues('oldPassword', val)}
+                leftIcon={<Icon name="key" type="font-awesome" size={22} />}
+                secureTextEntry={true}
+            />
             <Input
-                placeholder="Password"
-                onChangeText={val => handleFormValues('password', val)}
+                placeholder="New Password"
+                onChangeText={val => handleFormValues('newPassword', val)}
                 leftIcon={<Icon name="key" type="font-awesome" size={22} />}
                 secureTextEntry={true} />
             <Input
-                placeholder="One more password"
+                placeholder="One more new password"
                 onChangeText={val => handleFormValues('passwordCheck', val)}
                 leftIcon={<Icon name="key" type="font-awesome" size={22} />}
                 secureTextEntry={true} />
+
+            <Text> 현재 닉네임 : {userInfo ? userInfo.nickname : ""}</Text>
             <Input
-                placeholder="Fullname"
-                onChangeText={val => handleFormValues('fullname', val)}
-                leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
-            <Input
-                placeholder="Nickname"
+                placeholder="New nickname"
                 onChangeText={val => handleFormValues('nickname', val)}
                 leftIcon={<Icon name="user" type="font-awesome" size={30} />} />
             <Button title="Search Address" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
             <Text style={{ fontSize: 20 }} >선택한 주소 </Text>
-            <Text style={{ fontSize: 16 }}>{address}</Text>
+            <Text style={{ fontSize: 16 }}>{newUserinfo.address}</Text>
             <Input
                 placeholder="상세 주소"
                 onChangeText={val => handleFormValues('addressDetail', val)}
@@ -63,8 +71,9 @@ export default class SignupForm extends React.Component {
                 <Button title="modal closer" onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}></Button>
             </Modal>
             <View style={{ alignItems: 'center' }}>
-                {photo && <Image source={{ uri: photo.path }} style={{ width: 150, height: 150 }} />}
-                {!photo && <Text>사진을 선택해주세요</Text>}
+                <Text>새로 사용할 프로필 사진</Text>
+                {newUserinfo.photo && <Image source={{ uri: newUserinfo.photo.path }} style={{ width: 150, height: 150 }} />}
+
             </View>
             <Button title="Choose Photo" onPress={this.handleChoosePhoto} />
         </View>
