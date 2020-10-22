@@ -80,10 +80,9 @@ export default class ProductDetail extends React.Component {
                     <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
                     <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, }}>{price}</Text>
                     <Text style={styles.itmInfoText}>{body}</Text>
-                    <ButtonGroup
-                        onPress={this.handleButtonPress}
-                        buttons={['Add to wishlist', 'Buy now']}
-                    />
+
+
+
                     <View style={{ alignItems: "center", marginTop: 20 }}>
                         {this.props.route.params.info.image.map((itm) => {
                             return (
@@ -110,6 +109,11 @@ export default class ProductDetail extends React.Component {
                         </View>
                         : <Text>no image to render</Text>}
                 </ScrollView >
+                <ButtonGroup
+                    onPress={this.handleButtonPress}
+                    buttons={['Add to wishlist', 'Buy now']}
+
+                />
             </LinearGradient >
         )
     }
