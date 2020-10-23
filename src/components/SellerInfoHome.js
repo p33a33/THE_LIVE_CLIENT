@@ -14,6 +14,7 @@ export default class SellerInfoHome extends React.Component {
             ]
         }
     }
+
     render() {
         let { navigation } = this.props
         let { navigate } = navigation

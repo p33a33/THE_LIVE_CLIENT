@@ -1,17 +1,12 @@
 import Axios from 'axios';
 import React from 'react'
-import { RefreshControl, View, ScrollView, StyleSheet, ListView } from 'react-native'
+import { FlatList, RefreshControl, View, ScrollView, StyleSheet, ListView } from 'react-native'
 import { Text, Button, Image } from 'react-native-elements'
-import { FlatList } from 'react-native-gesture-handler';
 import { min } from 'react-native-reanimated';
-<<<<<<< Updated upstream
 import SearchDefaultEntry from '../../components/SearchDefaultEntry';
-import { YOUTUBE_API_KEY } from '../config'
-=======
 import { SERVER, YOUTUBE_API_KEY } from '../config'
->>>>>>> Stashed changes
 import { searchYouTube } from '../Feed/searchYouTube';
-
+import { BoxShadow } from 'react-native-shadow'
 
 export default class Feed extends React.Component {
     constructor(props) {
@@ -19,8 +14,11 @@ export default class Feed extends React.Component {
         this.state = {
             subscribeVids: [],
             popularVids: [],
-            refreshing: false
+            refreshing: false,
+            dragging: false,
+            currentIndex: 0,
         }
+        this.FlatList = React.createRef()
         this.fetchData = this.fetchData.bind(this)
         this.renderItem = this.renderItem.bind(this)
         this.ConvertSystemSourcetoHtml = this.ConvertSystemSourcetoHtml.bind(this)
@@ -29,7 +27,6 @@ export default class Feed extends React.Component {
     componentDidMount() {
         this.fetchData()
     }
-<<<<<<< Updated upstream
     ConvertSystemSourcetoHtml(str) {
         str = str.replace("&lt;", "<");
         str = str.replace("&gt;", ">");
@@ -40,7 +37,6 @@ export default class Feed extends React.Component {
 
         return str;
     }
-=======
 
     handleSignout = () => {
         Axios.get(`${SERVER}/signout`)
@@ -49,7 +45,6 @@ export default class Feed extends React.Component {
             })
     }
 
->>>>>>> Stashed changes
     fetchData() {
         let initOption = {
             query: 'vertical+video',
@@ -58,7 +53,6 @@ export default class Feed extends React.Component {
         }
         searchYouTube(initOption, (data) => this.setState({ subscribeVids: this.state.subscribeVids.concat(data) }))
         console.log("fetchData Called")
-
     }
     async fetchNewData() {
         let initOption = {
@@ -79,74 +73,113 @@ export default class Feed extends React.Component {
     renderItem({ item }) {
         let imgSrc = item.snippet.thumbnails.high.url
         return (
-            <View className="video-list-entry" style={{
-                width: "100%", alignItems: "center",
-            }} >
-                <Image className="media-thumbnail"
-                    style={styles.listItems}
-                    source={{ uri: imgSrc }}
-                    onPress={() => {
-                        this.props.navigation.navigate('Watching')
-                    }}
-                >
-                    <View className="media-body"  >
-                        <Text className="video-list-entry-title" style={styles.itemTitle} onPress={() => this.props.navigation.navigate('Watching')} >
-                            {this.ConvertSystemSourcetoHtml(item.snippet.title.toUpperCase())}
-                        </Text>
-                    </View>
-                </Image>
+            <View className="video-list-entry" style={styles.listItems} >
+                <BoxShadow setting={shadowOpt}>
+                    <Image className="media-thumbnail"
+                        style={{
+                            height: 400, width: 250, borderRadius: 20,
+                        }}
+                        source={{ uri: imgSrc }}
+                        onPress={() => {
+                            this.props.navigation.navigate('Watching')
+                        }}
+                    >
+                        <View className="media-body"  >
+                            <Text className="video-list-entry-title" style={styles.itemTitle} onPress={() => this.props.navigation.navigate('Watching')} >
+                                {this.ConvertSystemSourcetoHtml(item.snippet.title.toUpperCase())}
+                            </Text>
+                        </View>
+                    </Image>
+                </BoxShadow>
             </View >
         )
     }
+    header() {
+        return (
+            <View style={{
+                backgroundColor: "white",
+                padding: 5
+            }}>
+                <Text style={styles.title} onPress={(() => this.FlatList.current.scrollToOffset({ animated: true, offset: 0 }))}>
+                    FEED PAGE
+                    </Text>
+            </View>
+        )
+    }
+    FlatListItemSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: "100%",
+                    backgroundColor: "#000",
+                }}
+            />
+        );
+    }
     render() {
         return (
-<<<<<<< Updated upstream
-            <ScrollView
-                style={styles.container}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this.fetchNewData}
-                        color="black"
-                    />}
-            >
-=======
             <>
                 <Button title="Logout" onPress={this.handleSignout} />
-                <Text style={styles.title}>Feed Page</Text>
->>>>>>> Stashed changes
                 <FlatList
-                    enableEmptySections={true}
+                    ref={this.FlatList}
+                    ListHeaderComponent={this.header.bind(this)}
+                    stickyHeaderIndices={[0]}
+                    flatListItemSeparator={this.FlatListItemSeparator.bind(this)}
+                    style={styles.container}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => this.fetchNewData()}
+                            color="black"
+                        />}
+                    onScroll={e => { e.nativeEvent.contentOffset.y }}
+                    onLayout={e => { this.flatListTopOffset = e.nativeEvent.layout.y }}
+                    numColumns={1}
                     data={this.state.subscribeVids}
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => String(index)}
                     onEndReached={this.fetchData}
+                    onEndReachedThreshold={1}
                 />
-            </ScrollView>
+            </>
         )
     }
+}
+const shadowOpt = {
+    width: 250,
+    height: 400,
+    color: "#000",
+    border: 9,
+    radius: 20,
+    opacity: 0.2,
+    x: 0,
+    y: 5,
+    style: { marginVertical: 5 }
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignContent: "center",
         marginTop: 5,
         flexDirection: "column",
-        flexWrap: "wrap",
         flex: 1,
-        overflow: "scroll",
-        backgroundColor: "beige"
+    },
+    title: {
+        textAlign: "center",
+        letterSpacing: 2,
+        fontWeight: "bold",
+
     },
     listItems: {
-        height: 400, width: 250, borderRadius: 20,
-        padding: 30,
-        margin: 20,
-        overflow: "visible",
-        shadowOffset: { width: 0, height: 100 },
-        shadowColor: '#000',
-        shadowOpacity: 100,
-        shadowRadius: 100,
-        elevation: 10,
+        height: 400,
+        width: 250,
+        borderRadius: 20,
+        alignSelf: "center",
+        paddingBottom: 30,
+        paddingTop: 20,
+        marginBottom: 30,
+        marginLeft: 20,
+        marginRight: 20,
     },
     itemTitle: {
         color: "white",

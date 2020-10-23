@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Text, Image } from 'react-native-elements'
-
+import { BoxShadow } from 'react-native-shadow'
 
 
 export default class SearchDefaultEntry extends React.Component {
@@ -13,32 +13,60 @@ export default class SearchDefaultEntry extends React.Component {
         str = str.replace("&lt;", "<");
         str = str.replace("&gt;", ">");
         str = str.replace("&quot;", '"');
+        str = str.replace("&quot;", '"');
         str = str.replace("&#39;", "'");
+        str = str.replace("&#39;", "'");
+
         return str;
     }
     render() {
         let imgSrc = this.props.itm.snippet.thumbnails.default.url
         return (
             <View style={styles.listItems}>
-                <View >
+                <BoxShadow setting={shadowOpt}>
                     <Image
                         style={{ height: 130, width: 130, borderRadius: 20 }}
                         source={{ uri: imgSrc }}
                         onPress={() => this.props.navigation.navigate('Watching')}
                     />
-                    <Text onPress={() => this.props.navigation.navigate('Watching')} >
-                        {this.ConvertSystemSourcetoHtml(this.props.itm.snippet.title)}
+                    <Text
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                        style={styles.listText}
+                        onPress={() => this.props.navigation.navigate('Watching')} >
+                        {this.ConvertSystemSourcetoHtml(this.props.itm.snippet.title.toUpperCase())}
                     </Text>
-                </View>
+                </BoxShadow>
             </View >
         )
 
     }
 }
 
+const shadowOpt = {
+    width: 130,
+    height: 130,
+    color: "#000",
+    border: 8,
+    radius: 15,
+    opacity: 0.2,
+    x: 0,
+    y: 3,
+    style: { marginVertical: 5 }
+}
 const styles = StyleSheet.create({
     listItems: {
-        padding: 5,
+        marginBottom: 33,
+        padding: 10,
         width: "50%",
     },
+    listText: {
+        width: 120,
+        marginTop: 5,
+        marginBottom: 10,
+        padding: 5,
+        textAlign: "center",
+        alignSelf: "center",
+        fontWeight: "bold"
+    }
 });
