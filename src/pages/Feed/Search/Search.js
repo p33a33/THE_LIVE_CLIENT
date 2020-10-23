@@ -64,10 +64,13 @@ export default class Search extends React.Component {
                     {this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
                 </View>
                 {this.state.search === "" ?
-                    <Text style={styles.title}>현재 인기있는 제품</Text> : null}
-                <View style={styles.container}>
-                    {this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
-                </View>
+                    <>
+                        <Text style={styles.title}>현재 인기있는 제품</Text>
+                        <View style={styles.container}>
+                            {this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
+                        </View>
+                    </>
+                    : null}
             </ScrollView >
         )
     }
