@@ -3,9 +3,10 @@ import { View, Dimensions, PermissionsAndroid, SafeAreaView, TouchableOpacity, S
 import { Text, Button, Card } from 'react-native-elements';
 import { NodeCameraView } from 'react-native-nodemediaclient';
 import ChatInput from '../../../components/ChatInput';
-import ChatOutput from '../../../components/ChatOutput';
 import { RTMP_SERVER } from '../../config'
 import FloatingHearts from '../../../components/floatingHeart/FloatingHearts'
+import StreamingItems from '../../../components/StreamingItems';
+
 
 export default class OnAir extends React.Component {
     constructor(props) {
@@ -52,11 +53,11 @@ export default class OnAir extends React.Component {
 
     handleLiveStatus = () => {
         if (!this.state.liveStatus) {
-            console.log('check start')
             this.nodeCameraViewRef.start()
+            this.setState({ liveStatus: true })
         } else {
-            console.log('check stop')
             this.nodeCameraViewRef.stop()
+            this.setState({ liveStatus: false })
         }
         this.setState({ liveStatus: !this.state.liveStatus })
     }
@@ -76,6 +77,14 @@ export default class OnAir extends React.Component {
 
         temp.push(message)
         this.setState({ messages: temp })
+    }
+
+    handleGoback = () => {
+        if (this.state.liveStatus) {
+            alert("방송중에는 뒤로 갈 수 없습니다.")
+        } else {
+            this.props.navigation.goBack();
+        }
     }
 
     handleSwitchCamera = () => {
@@ -116,7 +125,7 @@ export default class OnAir extends React.Component {
         let deviceHeight = Dimensions.get('window').height
         let deviceWidth = Dimensions.get('window').width
         let outputURL = `${RTMP_SERVER}/live/${userName}` // 영상을 전송받을 URL을 정의
-        console.log(outputURL)
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <NodeCameraView
@@ -142,16 +151,12 @@ export default class OnAir extends React.Component {
                             justifyContent: 'center',
                             alignItems: 'center',
                         }} />
+                    <Button
+                        title="뒤로 이동"
+                        onPress={this.handleGoback} />
                 </View>
-                <ScrollView horizontal style={{ height: `${10}%`, backgroundColor: 'rgba(0, 0, 0, 0.0)', paddingLeft: 380 }}>
-                    {this.list.map(product =>
-                        <Card containerStyle={{ width: 200, height: 250, alignItems: "center" }}>
-                            <Card.Title style={{ fontSize: 15 }} numberOfLines={1} ellipsizeMode="tail">{product.title}</Card.Title>
-                            <Card.Divider />
-                            <Image source={{ uri: product.image[0] }} style={{ width: 100, height: 100, borderWidth: 1, borderColor: "black", alignSelf: "center" }} />
-                        </Card>)}
-                </ScrollView>
-                <View style={{ zIndex: 1 }}>
+                <StreamingItems list={this.list} />
+                <View style={{ borderwidth: 2, borderColor: "black", zIndex: 1 }}>
                     <ChatInput
                         handleInputValue={this.handleInputValue}
                         handleSendChat={this.handleSendChat}
@@ -160,7 +165,7 @@ export default class OnAir extends React.Component {
                     />
                 </View>
                 <FloatingHearts count={count} />
-            </SafeAreaView>
+            </SafeAreaView >
         )
     }
 }

@@ -30,7 +30,7 @@ export default class ProductListEntry extends React.Component {
         const itemHeight = 200;
         return (
 
-            <ListItem bottomDivider style={{ width: "100%" }} containerStyle={{ margin: 0 }} onPress={() => navigation.navigate('ProductDetail', { info: productInfo, list: list })}>
+            <ListItem bottomDivider style={{ width: "100%" }} containerStyle={{ margin: 0 }} onPress={() => navigation.navigate('ProductDetail', { info: productInfo, list: list, handleVisible: this.props.handleVisible })}>
                 <ListItem.Content style={{ alignItems: "center" }}>
                     <Carousel
                         ref={(c) => { this._carousel = c; }}
