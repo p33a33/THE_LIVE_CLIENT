@@ -25,7 +25,7 @@ export default class ChatInput extends React.Component {
             <KeyboardAccessoryView
                 alwaysVisible={true}
                 androidAdjustResize={true}
-                style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', height: 0 }}
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', height: 0, borderWidth: 2, borderColor: "black" }}
             >
                 <ChatOutput messages={messages} />
                 <View style={{ width: `${100}%`, flexDirection: "row", alignItems: "center" }}>

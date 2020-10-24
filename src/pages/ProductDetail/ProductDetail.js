@@ -10,6 +10,7 @@ import SellerHomeIndex from '../SellerHome/Index';
 import SellerInfoHome from '../../components/SellerInfoHome';
 import Axios from 'axios';
 import { SERVER } from '../config';
+import HTML from 'react-native-render-html'
 
 
 
@@ -22,8 +23,14 @@ export default class ProductDetail extends React.Component {
         this.handleButtonPress = this.handleButtonPress.bind(this)
         this._renderItem = this._renderItem.bind(this)
     }
+
     componentDidMount() {
         this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true });
+        this.props.route.params.handleVisible();
+    }
+
+    componentWillUnmount() {
+        this.props.route.params.handleVisible();
     }
 
 
@@ -34,13 +41,11 @@ export default class ProductDetail extends React.Component {
                 if (!this.state.inWishlist) {
                     Axios.post(`${SERVER}/addwishlist`, { productId: this.props.route.params.info.id })
                         .then(data => {
-                            console.log(data.data)
                             alert('This item has added on your wish list')
                         })
                 } else {
                     Axios.post(`${SERVER}/deletewishlist`, { productId: this.props.route.params.info.id })
                         .then(data => {
-                            console.log(data.data)
                             alert(' No more interesting? ')
                         })
                 }
@@ -79,7 +84,9 @@ export default class ProductDetail extends React.Component {
                     </View>
                     <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
                     <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, }}>{price}</Text>
-                    <Text style={styles.itmInfoText}>{body}</Text>
+                    <View style={styles.itmInfoText} >
+                        <HTML html={body} />
+                    </View>
 
 
 

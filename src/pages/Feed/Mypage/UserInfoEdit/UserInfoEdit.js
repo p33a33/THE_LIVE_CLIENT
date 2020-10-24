@@ -19,6 +19,7 @@ export default class UserInfoEdit extends React.Component {
                 photo: null
             },
             passwordCheck: null,
+            isSeller: false
         }
         this.handleFormValues = this.handleFormValues.bind(this)
     }
@@ -44,12 +45,44 @@ export default class UserInfoEdit extends React.Component {
         }
     }
 
+    componentDidMount = () => {
+        axios.get(`${SERVER}/userInfo`)
+            .then(data => {
+                let { is_seller } = data.data
+
+                if (is_seller) {
+                    this.setState({ isSeller: true })
+                }
+            })
+    }
+
+    HandleRegistSeller = () => {
+        axios.post(`${SERVER}/registseller`)
+            .then(data => {
+                if (data.status === 200) {
+                    alert('성공적으로 판매자 등록을 마쳤습니다.')
+                    axios.get(`${SERVER}/userInfo`)
+                        .then(data => {
+                            this.setState({ isSeller: data.data.is_seller })
+                            this.props.handleSellerState(data.data.is_seller)
+                        })
+                } else {
+                    alert('등록 중 에러가 발생했습니다.')
+                }
+            })
+    }
+
+
     render() {
+        let { isSeller } = this.state
+
         return (
             <ScrollView style={{ padding: 20 }}>
                 <Text>it's UserInfoEdit Page</Text>
                 <UserInfoEditForm handleFormValues={this.handleFormValues} newUserinfo={this.state.userInfoEditForm} />
                 <Button title='변경하기' onPress={this.handleSubmit} />
+
+                <Button title={isSeller ? "판매자 그만두기" : "판매자로 등록하기"} onPress={this.HandleRegistSeller} />
             </ScrollView>
         )
     }
