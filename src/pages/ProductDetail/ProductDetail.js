@@ -10,7 +10,8 @@ import SellerHomeIndex from '../SellerHome/Index';
 import SellerInfoHome from '../../components/SellerInfoHome';
 import Axios from 'axios';
 import { SERVER } from '../config';
-import HTML from 'react-native-render-html'
+import HTML from 'react-native-render-html';
+import { Payment } from '../../payments/payment';
 
 
 
@@ -119,8 +120,17 @@ export default class ProductDetail extends React.Component {
                 <ButtonGroup
                     onPress={this.handleButtonPress}
                     buttons={['Add to wishlist', 'Buy now']}
-
                 />
+                <Payment price={totalPrice}>
+                    <View style={styles.container}>
+                        <Button
+                            title="Buy now"
+                            onPress={this.requestPayment}
+                            disabled={this.state.isPaymentPending}
+                        />
+
+                    </View>
+                </Payment>
             </LinearGradient >
         )
     }
@@ -151,5 +161,11 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         alignItems: "center",
-    }
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
 })
