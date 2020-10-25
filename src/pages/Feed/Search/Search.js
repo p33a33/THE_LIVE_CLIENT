@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, ListView } from 'react-native'
+import { View, ScrollView, StyleSheet, ListView, FlatList } from 'react-native'
 import { Text, Button, Image, SearchBar, Icon } from 'react-native-elements'
 import { min } from 'react-native-reanimated';
 import SearchDefaultEntry from '../../../components/SearchDefaultEntry';
@@ -13,8 +13,12 @@ export default class Search extends React.Component {
         this.state = {
             popularVids: [],
             popularItms: [],
-            search: ""
+            search: "",
+            result: null
         }
+        this.resultHandler = this.resultHandler.bind(this)
+        this.handleChangeText = this.handleChangeText.bind(this)
+        this._renderItem = this._renderItem.bind(this)
     }
     componentDidMount() {
         let initOption = {
@@ -30,13 +34,27 @@ export default class Search extends React.Component {
         Promise.all([searchYouTube(rdmOption, (data) => this.setState({ popularVids: data })), searchYouTube(initOption, (data) => this.setState({ popularItms: data }))])
     }
     async handleChangeText(text) {
-        await this.setState({ search: text })
-        // await searchYouTube({ query: this.state.search, max: 12, key: YOUTUBE_API_KEY }, (data) => this.setState({ popularVids: data }))
+        await this.setState({ search: text, result: null })
+        await searchYouTube({ query: this.state.search, max: 12, key: YOUTUBE_API_KEY }, (data) => this.setState({ popularVids: data }))
+        await searchYouTube({ query: this.state.search, max: 12, key: YOUTUBE_API_KEY }, (data) => this.setState({ popularItms: data }))
+    }
+    resultHandler(target) {
+        this.setState({ result: target })
+    }
+    _renderItem({ item }) {
+        return (<SearchDefaultEntry
+            itm={item}
+            navigation={this.props.navigation}
+        />)
     }
     render() {
-
+        let searchOpt = {
+            query: this.state.search,
+            max: 6,
+            key: YOUTUBE_API_KEY
+        }
         return (
-            <ScrollView style={styles.body}>
+            <View style={styles.body} >
                 <SearchBar
                     onChangeText={this.handleChangeText.bind(this)}
                     lightTheme={true}
@@ -58,23 +76,81 @@ export default class Search extends React.Component {
                         padding: 2
                     }}
                 />
-                {this.state.search === "" ?
-                    <Text style={styles.title}>현재 인기있는 방송</Text> : <Text style={styles.title}>검색 결과</Text>}
-                <View style={styles.container}>
-                    {this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
-                </View>
-                {this.state.search === "" ?
-                    <>
-                        <Text style={styles.title}>현재 인기있는 제품</Text>
-                        <View style={styles.container}>
-                            {this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
-                        </View>
-                    </>
-                    : null}
-            </ScrollView >
+                <ScrollView style={{ overflow: "scroll", height: "100%" }}>
+                    <View style={styles.container} >
+                        {this.state.search === "" ?
+                            <>
+                                <Text style={styles.title}>현재 인기있는 방송</Text>
+                                <View >
+                                    <ScrollView style={styles.scrollList} horizontal={true} >
+                                        {this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} navigation={this.props.navigation} />)}
+                                    </ScrollView>
+                                </View>
+                            </>
+                            : (this.state.result === 'live' ?
+                                <View>
+                                    <Text style={styles.title}>검색 결과 : 방송</Text>
+                                    <FlatList
+                                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+                                        numColumns={2}
+                                        data={this.state.popularVids}
+                                        keyExtractor={(item) => item.etag.toString()}
+                                        renderItem={this._renderItem}
+                                        onEndReached={() => { searchYouTube(searchOpt, (data) => this.setState({ popularVids: this.state.popularVids.concat(data) })) }}
+                                    />
+                                    {/*this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)*/}
+                                </View>
+                                : (this.state.result === 'item' ? <></> :
+                                    <>
+                                        <Text style={styles.title} onPress={() => { this.resultHandler("live"); }}>검색 결과 : 방송</Text>
+                                        <View >
+                                            <ScrollView style={styles.scrollList} horizontal={true} >
+                                                {this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} navigation={this.props.navigation} />)}
+                                            </ScrollView>
+                                        </View>
+                                    </>))}
+                    </View>
+                    <View style={styles.container}>
+                        {this.state.search === "" ?
+                            <>
+                                <Text style={styles.title}>현재 인기있는 제품</Text>
+                                <View >
+                                    <ScrollView style={styles.scrollList} horizontal={true}>
+                                        {this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
+                                    </ScrollView>
+                                </View>
+                            </>
+                            : (this.state.result === 'item' ?
+                                <View style={styles.resultContainer}>
+                                    <Text style={styles.title}>검색 결과 : 제품</Text>
+                                    <FlatList
+                                        numColumns={2}
+                                        data={this.state.popularItms}
+                                        keyExtractor={(item) => item.toString()}
+                                        renderItem={this._renderItem}
+                                        onEndReached={() => { searchYouTube(searchOpt, (data) => this.setState({ popularItms: this.state.popularItms.concat(data) })) }}
+                                    />
+                                    {/*{this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} onEndReached />)}*/}
+                                </View>
+                                : (this.state.result === 'live' ? <></> :
+                                    <>
+                                        <Text style={styles.title} onPress={() => { this.resultHandler("item"); }}>검색 결과 : 제품</Text>
+                                        <View >
+                                            <ScrollView style={styles.scrollList} horizontal={true}>
+                                                {this.state.popularItms.map((itm) =>
+                                                    <SearchDefaultEntry
+                                                        itm={itm} key={itm.etag} navigation={this.props.navigation} />)}
+                                            </ScrollView>
+                                        </View>
+                                    </>
+                                ))}
+                    </View>
+                </ScrollView>
+            </View >
         )
     }
 }
+
 
 const styles = StyleSheet.create({
     body: {
@@ -83,10 +159,22 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: "bold",
-        padding: 5,
-
+        padding: 2,
     },
     container: {
+        paddingBottom: 10,
+        marginBottom: 10,
+        backgroundColor: "#f2f2f2",
+    },
+    scrollList: {
+        flexDirection: "column",
+        flexWrap: "wrap",
+        flexGrow: 1,
+        alignContent: "space-around",
+        margin: 5,
+        paddingBottom: 10
+    },
+    resultContainer: {
         justifyContent: "space-around",
         marginTop: 5,
         flexDirection: "row",
@@ -96,7 +184,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         backgroundColor: "#f2f2f2",
         marginBottom: 70
-    },
-
+    }
 });
+
 
