@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
 import stripe from 'tipsi-stripe';
 import { doPayment } from './api';
 
@@ -25,22 +24,22 @@ export default class Payment extends Component {
                 this.setState({ isPaymentPending: false });
             });
     };
-    render() {
-        return (
-            <View style={styles.container}>
-                <Button
-                    title="Make a payment"
-                    onPress={this.requestPayment}
-                    disabled={this.state.isPaymentPending}
-                />
-            </View>
-        );
-    }
+    // render() {
+    //     return (
+    //         <View style={styles.container}>
+    //             <Button
+    //                 title="Make a payment"
+    //                 onPress={this.requestPayment}
+    //                 disabled={this.state.isPaymentPending}
+    //             />
+    //         </View>
+    //     );
+    // }
 }
-const styles = {
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-};
+// const styles = {
+//     container: {
+//         flex: 1,
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//     },
+// };
