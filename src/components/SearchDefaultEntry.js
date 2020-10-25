@@ -22,10 +22,10 @@ export default class SearchDefaultEntry extends React.Component {
     render() {
         let imgSrc = this.props.itm.snippet.thumbnails.default.url
         return (
-            <View style={styles.listItems}>
+            <View style={styles.listItems} >
                 <BoxShadow setting={shadowOpt}>
                     <Image
-                        style={{ height: 130, width: 130, borderRadius: 20 }}
+                        style={{ height: 100, width: 100, borderRadius: 20 }}
                         source={{ uri: imgSrc }}
                         onPress={() => this.props.navigation.navigate('Watching')}
                     />
@@ -44,8 +44,8 @@ export default class SearchDefaultEntry extends React.Component {
 }
 
 const shadowOpt = {
-    width: 130,
-    height: 130,
+    width: 100,
+    height: 100,
     color: "#000",
     border: 8,
     radius: 15,
@@ -56,14 +56,14 @@ const shadowOpt = {
 }
 const styles = StyleSheet.create({
     listItems: {
-        marginBottom: 33,
-        padding: 10,
+        marginBottom: 10,
+        paddingBottom: 30,
+        paddingLeft: 10,
         width: "50%",
     },
     listText: {
         width: 120,
         marginTop: 5,
-        marginBottom: 10,
         padding: 5,
         textAlign: "center",
         alignSelf: "center",
