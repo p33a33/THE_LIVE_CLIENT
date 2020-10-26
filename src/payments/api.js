@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { SERVER } from '../pages/config'
 export const doPayment = (amount, tokenId, accessToken) => {
     const body = {
@@ -16,4 +17,3 @@ export const doPayment = (amount, tokenId, accessToken) => {
         .catch(error => {
             return Promise.reject('Error in making payment', error);
         });
-};
