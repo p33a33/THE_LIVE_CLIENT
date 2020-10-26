@@ -24,6 +24,7 @@ export default class AddItem extends React.Component {
                 images: []
             }
         }
+
         this.handleEditorOpen = this.handleEditorOpen.bind(this)
         this.handleDeletePhoto = this.handleDeletePhoto.bind(this)
     }
@@ -37,9 +38,11 @@ export default class AddItem extends React.Component {
                 .then((images) => {
                     if (images.length > (5 - temp)) {
                         alert(`선택한 사진이 5장을 초과합니다. 선택한 사진 중 ${5 - temp}장만 추가됩니다`)
+                        let cutImages = images.slice(0, 5 - temp)
+                        cutImages.map(image => temp.push(image))
+                    } else {
+                        images.map(image => temp.push(image))
                     }
-                    let cutImages = images.slice(0, 5 - temp)
-                    cutImages.map(image => temp.push(image))
                     this.setState({ itemInfo: Object.assign(this.state.itemInfo, { images: temp }) })
                 })
         }
@@ -93,9 +96,27 @@ export default class AddItem extends React.Component {
     }
 
     handleConfirm = () => {
-        console.log('send this data', this.state.itemInfo)
+        let { images } = this.state.itemInfo
+        let imageFiles = new FormData();
+
+        images.map((image, index) => {
+            imageFiles.append("products", {
+                originalname: image.path.split("/")[image.path.split("/").length - 1],
+                mimetype: image.mime,
+                path: image.path,
+                size: image.size
+            })
+        })
+
         Axios.post(`${SERVER}/additem`, this.state.itemInfo)
-            .then(data => console.log(data))
+            .then(data => {
+                Axios.post(`${SERVER}/products`, imageFiles, {
+                    headers: { "Content-Type": "multipart/form-data" }
+                })
+                    .then(uploadedImage => {
+                        console.log('addedItem', data, 'uploadImage', uploadedImage)
+                    })
+            })
     }
 
     render() {

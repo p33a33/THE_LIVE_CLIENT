@@ -11,7 +11,7 @@ import SellerInfoHome from '../../components/SellerInfoHome';
 import Axios from 'axios';
 import { SERVER } from '../config';
 import HTML from 'react-native-render-html';
-import { Payment } from '../../payments/payment';
+import { requestPayment } from '../../payments/payment';
 
 
 
@@ -20,6 +20,8 @@ export default class ProductDetail extends React.Component {
         super(props)
         this.state = {
             inWishlist: false,
+            quantity: 1,
+            isPaymentPending: false // request payment 메소드에 대응하는 state 추가
         }
         this.handleButtonPress = this.handleButtonPress.bind(this)
         this._renderItem = this._renderItem.bind(this)
@@ -34,6 +36,11 @@ export default class ProductDetail extends React.Component {
         this.props.route.params.handleVisible();
     }
 
+    handleOpenPayment = () => {
+        this.setState({ isPaymentPending: true });
+        let amount = this.state.quantity * this.props.route.params.info.price
+        requestPayment(amount);
+    }
 
     handleButtonPress = (index) => {
         switch (index) {
@@ -50,6 +57,9 @@ export default class ProductDetail extends React.Component {
                             alert(' No more interesting? ')
                         })
                 }
+            case 1: {
+                this.handleOpenPayment();
+            }
         }
     }
     _renderItem = ({ item, index }) => {
@@ -121,16 +131,6 @@ export default class ProductDetail extends React.Component {
                     onPress={this.handleButtonPress}
                     buttons={['Add to wishlist', 'Buy now']}
                 />
-                <Payment price={totalPrice}>
-                    <View style={styles.container}>
-                        <Button
-                            title="Buy now"
-                            onPress={this.requestPayment}
-                            disabled={this.state.isPaymentPending}
-                        />
-
-                    </View>
-                </Payment>
             </LinearGradient >
         )
     }
