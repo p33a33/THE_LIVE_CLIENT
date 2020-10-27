@@ -1,13 +1,15 @@
 import { HeaderTitle } from '@react-navigation/stack'
 import Axios from 'axios'
 import React from 'react'
-import { Image, View, Alert, KeyboardAvoidingView } from 'react-native'
+import { Image, View, Alert, KeyboardAvoidingView, NativeModules } from 'react-native'
 import { Text, Button, Input, Card } from 'react-native-elements'
 import { ScrollView, TapGestureHandler, TouchableOpacity } from 'react-native-gesture-handler'
-import ImagePicker from 'react-native-image-crop-picker'
+// import ImageCropPicker from 'react-native-image-crop-picker'
+// import ImagePicker from 'react-native-image-crop-picker'
 import HTML from 'react-native-render-html'
 import { SERVER } from '../../../../config'
 
+const ImagePicker = NativeModules.ImageCropPicker
 
 export default class AddItem extends React.Component {
     constructor(props) {
@@ -29,6 +31,10 @@ export default class AddItem extends React.Component {
         this.handleDeletePhoto = this.handleDeletePhoto.bind(this)
     }
 
+    componentDidMount = () => {
+        console.log(this.navigation)
+    }
+
     handleChoosePhoto = () => {
         let temp = this.state.itemInfo.images
         if (temp.length >= 5) {
@@ -36,6 +42,7 @@ export default class AddItem extends React.Component {
         } else {
             ImagePicker.openPicker({ multiple: true })
                 .then((images) => {
+                    console.log(images)
                     if (images.length > (5 - temp)) {
                         alert(`선택한 사진이 5장을 초과합니다. 선택한 사진 중 ${5 - temp}장만 추가됩니다`)
                         let cutImages = images.slice(0, 5 - temp)
@@ -99,24 +106,30 @@ export default class AddItem extends React.Component {
         let { images } = this.state.itemInfo
         let imageFiles = new FormData();
 
-        images.map((image, index) => {
-            imageFiles.append("products", {
-                originalname: image.path.split("/")[image.path.split("/").length - 1],
-                mimetype: image.mime,
-                path: image.path,
-                size: image.size
+        images.map(image => {
+            imageFiles.append('products', {
+                name: image.path.split("/")[image.path.split("/").length - 1],
+                uri: image.path,
+                type: image.mime
             })
         })
 
+        console.log('Formdata', imageFiles);
         Axios.post(`${SERVER}/additem`, this.state.itemInfo)
             .then(data => {
-                Axios.post(`${SERVER}/products`, imageFiles, {
-                    headers: { "Content-Type": "multipart/form-data" }
+                Axios({
+                    method: "POST",
+                    url: `${SERVER}/products`,
+                    data: imageFiles,
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
                 })
                     .then(uploadedImage => {
                         console.log('addedItem', data, 'uploadImage', uploadedImage)
                     })
             })
+
     }
 
     render() {
