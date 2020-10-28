@@ -2,7 +2,7 @@ import React, { Children } from 'react'
 import { View, ScrollView, Dimensions, StyleSheet, InteractionManager } from 'react-native'
 import { Text, Button, Input, Image, ButtonGroup } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Carousel from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { useScrollToTop } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import SellerItemEntry from '../../components/SellerItemEntry';
@@ -12,6 +12,8 @@ import Axios from 'axios';
 import { SERVER } from '../config';
 import HTML from 'react-native-render-html';
 import { requestPayment } from '../../payments/payment';
+import NumericInput from 'react-native-numeric-input'
+import { HeaderBackButton } from '@react-navigation/stack';
 
 
 
@@ -21,7 +23,8 @@ export default class ProductDetail extends React.Component {
         this.state = {
             inWishlist: false,
             quantity: 1,
-            isPaymentPending: false // request payment 메소드에 대응하는 state 추가
+            isPaymentPending: false, // request payment 메소드에 대응하는 state 추가
+            activeSlide: 0
         }
         this.handleButtonPress = this.handleButtonPress.bind(this)
         this._renderItem = this._renderItem.bind(this)
@@ -64,9 +67,33 @@ export default class ProductDetail extends React.Component {
     }
     _renderItem = ({ item, index }) => {
         return (
-            <View style={{ margin: 10, padding: 10, alignItems: "center" }} key={item.title}>
-                <Image source={{ uri: item }} style={{ width: 300, height: 300, borderRadius: 20 }} />
+            <View style={{ margin: 5, padding: 5, alignItems: "center" }} key={item.title}>
+                <Image source={{ uri: item }} style={{ width: 250, height: 250, borderRadius: 20 }} />
             </View>
+        );
+    }
+    get pagination() {
+        const { activeSlide } = this.state;
+        return (
+            <Pagination
+                dotsLength={this.props.route.params.info.image.length}
+                activeDotIndex={activeSlide}
+                containerStyle={{ margin: -20 }}
+                dotStyle={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 5,
+                    marginHorizontal: 1,
+                    backgroundColor: 'white',
+                    elevation: 3
+
+                }}
+                inactiveDotStyle={{
+                    backgroundColor: 'grey'
+                }}
+                inactiveDotOpacity={0.4}
+                inactiveDotScale={0.6}
+            />
         );
     }
     render() {
@@ -79,10 +106,15 @@ export default class ProductDetail extends React.Component {
 
         return (
             <LinearGradient colors={{ useAngle: true, angle: 45 }, ['#FFFFFF', '#EEE5E2']} style={{ flex: 1, }}>
-                <Text h4 style={{ textAlign: 'left' }}>it's ProductDetail Page</Text>
+                <HeaderBackButton onPress={() => {
+                    this.props.navigation.goBack();
+                }} />
                 <ScrollView showsVerticalScrollIndicator={false} ref='_scrollView' onContentSizeChange={
                     () => this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })
                 }>
+                    <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
+                    <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, }}>￦ {price}</Text>
+
                     <View style={{ alignItems: "center" }}  >
                         <Carousel
                             ref={(c) => { this._carousel = c; }}
@@ -91,35 +123,27 @@ export default class ProductDetail extends React.Component {
                             sliderWidth={sliderWidth}
                             itemWidth={itemWidth}
                             itemHeight={itemHeight}
+                            onSnapToItem={(index) => this.setState({ activeSlide: index })}
                         />
+                        {this.pagination}
+                        <View style={{ marginTop: 10, }}>
+                            <NumericInput
+                                minValue={1}
+                                initValue={1}
+                                totalWidth={110}
+                                totalHeight={25}
+                                onChange={value => this.setState({ quantity: value })}
+
+                            />
+                        </View>
+
                     </View>
-                    <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
-                    <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, }}>{price}</Text>
                     <View style={styles.itmInfoText} >
                         <HTML html={body} />
                     </View>
-
-
-
-                    <View style={{ alignItems: "center", marginTop: 20 }}>
-                        {this.props.route.params.info.image.map((itm) => {
-                            return (
-                                <Image
-                                    key={itm.title}
-                                    source={{ uri: itm }}
-                                    style={{
-                                        width: 270,
-                                        height: 270,
-                                        padding: 5,
-                                        margin: 10
-                                    }}
-                                />
-                            )
-                        })}
-                    </View>
                     <View style={styles.sellerContainer}>
                         <Text style={styles.sellerTitle}>{this.props.route.params.info.name.toUpperCase()}</Text>
-                        <SellerInfoHome navigation={this.props.navigation} />
+                        <SellerInfoHome navigation={this.props.navigation} list={this.props.route.params.list} handleVisible={this.props.route.params.handleVisible} />
                     </View>
                     {this.props.route.params.list ?
                         <View style={styles.sellerItms} >
@@ -138,24 +162,22 @@ export default class ProductDetail extends React.Component {
 
 const styles = StyleSheet.create({
     sellerContainer: {
-        margin: 15,
+        margin: 10,
         padding: 15
     },
     sellerTitle: {
         fontSize: 20,
         fontWeight: "bold",
         padding: 5,
-        marginTop: 10,
         marginLeft: 10
     },
     itmInfoText: {
         textAlign: "center",
         padding: 35,
-        marginBottom: 5,
     },
     sellerItms: {
         justifyContent: "space-evenly",
-        marginTop: 10,
+        marginTop: 5,
         flexDirection: "row",
         flexWrap: "wrap",
         flex: 1,

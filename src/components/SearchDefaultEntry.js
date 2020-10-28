@@ -20,13 +20,18 @@ export default class SearchDefaultEntry extends React.Component {
         return str;
     }
     render() {
-        let imgSrc = this.props.itm.snippet.thumbnails.default.url
+        const { index, routes } = this.props.navigation.dangerouslyGetState();
+        const currentRoute = routes[index].name;
+
         return (
-            <View style={styles.listItems} >
+            <View style={currentRoute === "SellerHome" ? { margin: 5, paddingBottom: 50 } : styles.listItems} >
                 <BoxShadow setting={shadowOpt}>
                     <Image
                         style={{ height: 100, width: 100, borderRadius: 20 }}
-                        source={{ uri: imgSrc }}
+                        source={{
+                            uri: currentRoute === "SellerHome" ?
+                                this.props.itm.image[0] : this.props.itm.snippet.thumbnails.default.url
+                        }}
                         onPress={() => this.props.navigation.navigate('Watching')}
                     />
                     <Text
@@ -34,7 +39,7 @@ export default class SearchDefaultEntry extends React.Component {
                         ellipsizeMode="tail"
                         style={styles.listText}
                         onPress={() => this.props.navigation.navigate('Watching')} >
-                        {this.ConvertSystemSourcetoHtml(this.props.itm.snippet.title.toUpperCase())}
+                        {this.ConvertSystemSourcetoHtml(currentRoute === "SellerHome" ? this.props.itm.title : this.props.itm.snippet.title.toUpperCase())}
                     </Text>
                 </BoxShadow>
             </View >
@@ -57,9 +62,9 @@ const shadowOpt = {
 const styles = StyleSheet.create({
     listItems: {
         marginBottom: 10,
-        paddingBottom: 30,
         paddingLeft: 10,
-        width: "50%",
+        paddingRight: 10,
+        paddingBottom: 35
     },
     listText: {
         width: 120,
@@ -68,5 +73,5 @@ const styles = StyleSheet.create({
         textAlign: "center",
         alignSelf: "center",
         fontWeight: "bold"
-    }
+    },
 });

@@ -1,3 +1,4 @@
+import { HeaderBackButton } from '@react-navigation/stack';
 import React from 'react'
 import { View, ScrollView, StyleSheet, ListView, FlatList } from 'react-native'
 import { Text, Button, Image, SearchBar, Icon } from 'react-native-elements'
@@ -42,10 +43,14 @@ export default class Search extends React.Component {
         this.setState({ result: target })
     }
     _renderItem({ item }) {
-        return (<SearchDefaultEntry
-            itm={item}
-            navigation={this.props.navigation}
-        />)
+        return (
+            <View style={{ margin: 6 }}>
+                <SearchDefaultEntry
+                    itm={item}
+                    navigation={this.props.navigation}
+                />
+            </View>
+        )
     }
     render() {
         let searchOpt = {
@@ -88,18 +93,24 @@ export default class Search extends React.Component {
                                 </View>
                             </>
                             : (this.state.result === 'live' ?
-                                <View>
-                                    <Text style={styles.title}>검색 결과 : 방송</Text>
-                                    <FlatList
-                                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-                                        numColumns={2}
-                                        data={this.state.popularVids}
-                                        keyExtractor={(item) => item.etag.toString()}
-                                        renderItem={this._renderItem}
-                                        onEndReached={() => { searchYouTube(searchOpt, (data) => this.setState({ popularVids: this.state.popularVids.concat(data) })) }}
+                                <>
+                                    <HeaderBackButton
+                                        onPress={() => this.setState({ result: null })}
+                                        label='검색 결과 : 방송'
+                                        labelVisible={true}
                                     />
-                                    {/*this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)*/}
-                                </View>
+                                    <View style={styles.resultContainer}>
+                                        <FlatList
+                                            numColumns={2}
+                                            data={this.state.popularVids}
+                                            keyExtractor={(item) => item.etag.toString()}
+                                            renderItem={this._renderItem}
+                                            onEndReached={() => { searchYouTube(searchOpt, (data) => this.setState({ popularVids: this.state.popularVids.concat(data) })) }}
+                                        />
+
+                                        {/*this.state.popularVids.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} />)*/}
+                                    </View>
+                                </>
                                 : (this.state.result === 'item' ? <></> :
                                     <>
                                         <Text style={styles.title} onPress={() => { this.resultHandler("live"); }}>검색 결과 : 방송</Text>
@@ -121,17 +132,23 @@ export default class Search extends React.Component {
                                 </View>
                             </>
                             : (this.state.result === 'item' ?
-                                <View style={styles.resultContainer}>
-                                    <Text style={styles.title}>검색 결과 : 제품</Text>
-                                    <FlatList
-                                        numColumns={2}
-                                        data={this.state.popularItms}
-                                        keyExtractor={(item) => item.toString()}
-                                        renderItem={this._renderItem}
-                                        onEndReached={() => { searchYouTube(searchOpt, (data) => this.setState({ popularItms: this.state.popularItms.concat(data) })) }}
+                                <>
+                                    <HeaderBackButton
+                                        onPress={() => this.setState({ result: null })}
+                                        label='검색 결과 : 제품'
+                                        labelVisible={true}
                                     />
-                                    {/*{this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} onEndReached />)}*/}
-                                </View>
+                                    <View style={styles.resultContainer}>
+                                        <FlatList
+                                            numColumns={2}
+                                            data={this.state.popularItms}
+                                            keyExtractor={(item) => item.toString()}
+                                            renderItem={this._renderItem}
+                                            onEndReached={() => { searchYouTube(searchOpt, (data) => this.setState({ popularItms: this.state.popularItms.concat(data) })) }}
+                                        />
+                                        {/*{this.state.popularItms.map((itm) => <SearchDefaultEntry itm={itm} key={itm.etag} navigation={this.props.navigation} onEndReached />)}*/}
+                                    </View>
+                                </>
                                 : (this.state.result === 'live' ? <></> :
                                     <>
                                         <Text style={styles.title} onPress={() => { this.resultHandler("item"); }}>검색 결과 : 제품</Text>
@@ -157,13 +174,11 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "bold",
-        padding: 2,
+        padding: 5,
     },
     container: {
-        paddingBottom: 10,
-        marginBottom: 10,
         backgroundColor: "#f2f2f2",
     },
     scrollList: {
@@ -175,15 +190,8 @@ const styles = StyleSheet.create({
         paddingBottom: 10
     },
     resultContainer: {
-        justifyContent: "space-around",
-        marginTop: 5,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        flex: 1,
-        width: "100%",
-        alignItems: "flex-start",
+        alignItems: "center",
         backgroundColor: "#f2f2f2",
-        marginBottom: 70
     }
 });
 
