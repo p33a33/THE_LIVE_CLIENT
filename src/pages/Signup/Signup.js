@@ -1,9 +1,13 @@
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, StyleSheet } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import axios from 'axios'
 import SignupForm from '../../components/SignupForm'
 import { SERVER } from '../config'
+import LinearGradient from 'react-native-linear-gradient'
+import { BoxShadow } from 'react-native-shadow'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -68,12 +72,24 @@ export default class Signup extends React.Component {
         let { signupForm } = this.state
 
         return (
-            <ScrollView stickyHeaderIndices>
-                <View style={{ padding: "10%" }}>
-                    <Text h1 style={{ textAlign: 'center' }}> The Live </Text>
+            <ScrollView >
+                <LinearGradient useAngle={true} angle={45} colors={["lightgrey", "whitesmoke"]} style={styles.body}>
+                    <Text h2 style={{
+                        letterSpacing: -2.5,
+                        margin: 15,
+                        color: "black",
+                    }} >THE LIVE
+                    <Text style={{
+                            letterSpacing: -2.5,
+                            color: "blue",
+                        }} >SIGN UP</Text></Text>
                     <SignupForm handleFormValues={this.handleFormValues} address={signupForm.address} photo={signupForm.photo} />
-                </View>
-                <Button style={{ position: "sticky" }} title="Sign Up" onPress={this.handleSignup} />
+                    <BoxShadow setting={shadowOpt} >
+                        <Icon.Button borderRadius={15} name="check" iconStyle={{ color: "blue" }} style={styles.loginButton} onPress={this.handleSignup} >
+                            <Text style={styles.buttonText}>Sign Up</Text>
+                        </Icon.Button>
+                    </BoxShadow>
+                </LinearGradient>
             </ScrollView>
         )
     }
@@ -81,3 +97,42 @@ export default class Signup extends React.Component {
 
 
 
+
+const shadowOpt = {
+    width: 185,
+    height: 25,
+    color: "#808080",
+    border: 5,
+    radius: 10,
+    opacity: 0.3,
+    x: 0,
+    y: 13,
+    style: {
+        marginVertical: 11,
+    }
+}
+
+const styles = StyleSheet.create({
+    body: {
+        padding: 20,
+        flex: 1,
+        alignItems: 'center',
+    },
+    InputContainer: {
+        marginTop: 35,
+        marginBottom: 30,
+        width: 300,
+    },
+    Input: {
+        fontSize: 15,
+        letterSpacing: -0.5
+    },
+    loginButton: {
+        justifyContent: "center",
+        backgroundColor: "white",
+    },
+    buttonText: {
+        color: "blue",
+        letterSpacing: -1
+    }
+})
