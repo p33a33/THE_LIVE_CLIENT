@@ -41,7 +41,7 @@ export default class ProductListEntry extends React.Component {
                         itemHeight={itemHeight}
                     />
                     <ListItem.Title style={{ letterSpacing: 1.5 }}>{title}</ListItem.Title>
-                    <ListItem.Subtitle style={{ letterSpacing: 2 }}>{price}</ListItem.Subtitle>
+                    <ListItem.Subtitle style={{ letterSpacing: 2 }}>￦ {price}</ListItem.Subtitle>
                 </ListItem.Content>
             </ListItem>
         )

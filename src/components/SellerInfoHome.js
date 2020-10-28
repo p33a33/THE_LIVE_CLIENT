@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 
 
+
 export default class SellerInfoHome extends React.Component {
     constructor(props) {
         super(props)
@@ -18,7 +19,8 @@ export default class SellerInfoHome extends React.Component {
     render() {
         let { navigation } = this.props
         let { navigate } = navigation
-
+        const { index, routes } = this.props.navigation.dangerouslyGetState();
+        const currentRoute = routes[index].name;
         return (
             <>
                 <View style={styles.sellerInfoContainer}>
@@ -37,10 +39,12 @@ export default class SellerInfoHome extends React.Component {
                         )
                     })}
                 </View>
-                <Button
-                    onPress={() => navigate('SellerHome')}
-                    title="go to Seller Home"
-                />
+                {currentRoute !== 'SellerHome' ?
+                    <Button onPress={() => {
+                        this.props.handleVisible();
+                        navigate('SellerHome', { list: this.props.list, sellerInfo: this.state.sellerInfo });
+                    }}
+                        title="go to Seller Home" /> : <></>}
             </ >
         )
     }
