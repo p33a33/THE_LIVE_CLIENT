@@ -1,12 +1,15 @@
 import Axios from 'axios';
 import React from 'react'
 import { FlatList, RefreshControl, View, ScrollView, StyleSheet, ListView } from 'react-native'
-import { Text, Button, Image } from 'react-native-elements'
+import { Text, Button, Image, Header } from 'react-native-elements'
 import { min } from 'react-native-reanimated';
 import SearchDefaultEntry from '../../components/SearchDefaultEntry';
 import { SERVER, YOUTUBE_API_KEY } from '../config'
 import { searchYouTube } from '../Feed/searchYouTube';
 import { BoxShadow } from 'react-native-shadow'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import LinearGradient from 'react-native-linear-gradient';
+import { CustomHeader } from '../../components/CustomHeader';
 
 export default class Feed extends React.Component {
     constructor(props) {
@@ -38,12 +41,6 @@ export default class Feed extends React.Component {
         return str;
     }
 
-    handleSignout = () => {
-        Axios.get(`${SERVER}/signout`)
-            .then(data => {
-                this.props.navigation.navigate('Signin')
-            })
-    }
 
     fetchData() {
         let initOption = {
@@ -94,18 +91,9 @@ export default class Feed extends React.Component {
             </View >
         )
     }
-    header() {
-        return (
-            <View style={{
-                backgroundColor: "white",
-                padding: 5
-            }}>
-                <Text style={styles.title} onPress={(() => this.FlatList.current.scrollToOffset({ animated: true, offset: 0 }))}>
-                    FEED PAGE
-                    </Text>
-            </View>
-        )
-    }
+
+
+
     FlatListItemSeparator = () => {
         return (
             <View
@@ -119,11 +107,11 @@ export default class Feed extends React.Component {
     }
     render() {
         return (
-            <>
-                <Button title="Logout" onPress={this.handleSignout} />
+
+            <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1 }}>
                 <FlatList
                     ref={this.FlatList}
-                    ListHeaderComponent={this.header.bind(this)}
+                    ListHeaderComponent={<CustomHeader navigation={this.props.navigation} />}
                     stickyHeaderIndices={[0]}
                     flatListItemSeparator={this.FlatListItemSeparator.bind(this)}
                     style={styles.container}
@@ -142,7 +130,8 @@ export default class Feed extends React.Component {
                     onEndReached={this.fetchData}
                     onEndReachedThreshold={1}
                 />
-            </>
+            </LinearGradient>
+
         )
     }
 }
@@ -160,14 +149,15 @@ const shadowOpt = {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 5,
         flexDirection: "column",
         flex: 1,
     },
     title: {
         textAlign: "center",
-        letterSpacing: 2,
-        fontWeight: "bold",
+        letterSpacing: 1,
+        fontSize: 25,
+        padding: 5,
+        fontFamily: "sans-serif-light",
 
     },
     listItems: {

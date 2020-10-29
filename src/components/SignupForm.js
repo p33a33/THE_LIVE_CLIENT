@@ -6,6 +6,7 @@ import Postcode from 'react-native-daum-postcode'
 import ImagePicker from 'react-native-image-crop-picker'
 import { BoxShadow } from 'react-native-shadow'
 
+
 export default class SignupForm extends React.Component {
     constructor(props) {
         super(props)
@@ -38,14 +39,14 @@ export default class SignupForm extends React.Component {
                     leftIcon={<Icon name="user-circle-o" type="font-awesome" size={21} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />} />
                 <Input
                     style={styles.Input}
-                    placeholder="Password"
+                    placeholder=" ••••"
                     onChangeText={val => handleFormValues('password', val)}
                     leftIcon={<Icon name="unlock-alt" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />}
                     secureTextEntry={true}
                 />
                 <Input
                     style={styles.Input}
-                    placeholder="Password Check"
+                    placeholder=" ••••"
                     onChangeText={val => handleFormValues('passwordCheck', val)}
                     leftIcon={<Icon name="unlock-alt" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />}
                     secureTextEntry={true} />
@@ -70,7 +71,7 @@ export default class SignupForm extends React.Component {
                 <View style={{ alignItems: "center" }}>
                     <BoxShadow setting={shadowOpt} >
                         <Icon.Button name="map"
-                            iconStyle={{ color: "grey" }}
+                            iconStyle={{ color: "slategrey" }}
                             borderRadius={15}
                             style={styles.loginButton}
                             onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}>
@@ -85,14 +86,14 @@ export default class SignupForm extends React.Component {
                         padding: 15,
                         flex: 1,
                     }}>
-                        <Text style={{ fontSize: 16, fontWeight: "bold", letterSpacing: -0.5, color: "blue" }} >선택한 주소 </Text>
+                        <Text style={{ fontSize: 16, fontWeight: "bold", letterSpacing: -0.5, color: "slateblue", fontFamily: "sans-serif" }} >선택한 주소 </Text>
                         <Text style={{ fontSize: 14, letterSpacing: -0.5 }}>{address}</Text>
                     </View>
                     <Input
                         style={styles.Input}
                         placeholder="상세 주소"
                         onChangeText={val => handleFormValues('addressDetail', val)}
-                        leftIcon={<Icon name="home" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />
+                        leftIcon={<Icon name="home" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slateblue", fontFamily: "sans-serif-light" }} />
                         } />
                 </> : <View style={{
                     padding: 15,
@@ -101,18 +102,20 @@ export default class SignupForm extends React.Component {
 
             <Modal visible={isModalOn}>
                 <Postcode style={{ flex: 1 }} jsOptions={{ animated: true }} onSelected={this.handleSelectAddress} ></Postcode>
-                <BoxShadow setting={shadowOpt} >
-                    <Icon.Button name="close"
-                        iconStyle={{ color: "grey" }}
-                        style={styles.loginButton}
-                        onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}>
-                        <Text style={styles.buttonText}>Close</Text>
-                    </Icon.Button>
-                </BoxShadow>
+                <View style={{ justifyContent: "center" }}>
+                    <BoxShadow setting={shadowOpt} >
+                        <Icon.Button name="close"
+                            iconStyle={{ color: "grey" }}
+                            style={styles.loginButton}
+                            onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}>
+                            <Text style={styles.buttonText}>Close</Text>
+                        </Icon.Button>
+                    </BoxShadow>
+                </View>
             </Modal>
             <View style={{ alignItems: "center" }}>
                 {photo && <Image source={{ uri: photo.path }} style={{ width: 150, height: 150 }} />}
-                {!photo && <Text style={{ margin: 15, fontWeight: "bold", fontSize: 16, letterSpacing: -0.5, color: "blue" }}>사진을 선택해주세요</Text>}
+                {!photo && <Text style={{ margin: 15, fontSize: 16, letterSpacing: -0.5, color: "slateblue", fontFamily: "sans-serif" }}>사진을 선택해주세요</Text>}
                 <BoxShadow setting={shadowOpt} >
                     <Icon.Button name="camera" onPress={this.handleChoosePhoto}
                         borderRadius={15} iconStyle={{ color: "grey" }}
@@ -153,7 +156,8 @@ const styles = StyleSheet.create({
     },
     Input: {
         fontSize: 15,
-        letterSpacing: -0.5
+        letterSpacing: -0.5,
+        fontFamily: "sans-serif-light",
     },
     loginButton: {
         justifyContent: "center",
@@ -161,6 +165,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "slategrey",
-        letterSpacing: -1
+        letterSpacing: -0.5,
+        fontFamily: "sans-serif",
     }
 })

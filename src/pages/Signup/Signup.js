@@ -72,25 +72,18 @@ export default class Signup extends React.Component {
         let { signupForm } = this.state
 
         return (
-            <ScrollView >
-                <LinearGradient useAngle={true} angle={45} colors={["lightgrey", "whitesmoke"]} style={styles.body}>
-                    <Text h2 style={{
-                        letterSpacing: -2.5,
-                        margin: 15,
-                        color: "black",
-                    }} >THE LIVE
-                    <Text style={{
-                            letterSpacing: -2.5,
-                            color: "blue",
-                        }} >SIGN UP</Text></Text>
+            <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={styles.body} >
+                <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+                    <Text style={styles.headerTitle} >THE LIVE</Text>
                     <SignupForm handleFormValues={this.handleFormValues} address={signupForm.address} photo={signupForm.photo} />
                     <BoxShadow setting={shadowOpt} >
-                        <Icon.Button borderRadius={15} name="check" iconStyle={{ color: "blue" }} style={styles.loginButton} onPress={this.handleSignup} >
+                        <Icon.Button borderRadius={15} name="check" iconStyle={{ color: "slateblue" }} style={styles.loginButton} onPress={this.handleSignup} >
                             <Text style={styles.buttonText}>Sign Up</Text>
                         </Icon.Button>
                     </BoxShadow>
-                </LinearGradient>
-            </ScrollView>
+                </ScrollView>
+            </LinearGradient>
+
         )
     }
 }
@@ -100,19 +93,27 @@ export default class Signup extends React.Component {
 
 const shadowOpt = {
     width: 185,
-    height: 25,
-    color: "#808080",
-    border: 5,
+    height: 35,
+    color: "#708090",
+    border: 8,
     radius: 10,
-    opacity: 0.3,
+    opacity: 0.25,
     x: 0,
-    y: 13,
+    y: 3,
     style: {
         marginVertical: 11,
+        alignSelf: "center"
     }
 }
 
 const styles = StyleSheet.create({
+    headerTitle: {
+        textAlign: "center",
+        letterSpacing: 1,
+        fontSize: 25,
+        padding: 28,
+        fontFamily: "sans-serif-light",
+    },
     body: {
         padding: 20,
         flex: 1,
@@ -125,14 +126,18 @@ const styles = StyleSheet.create({
     },
     Input: {
         fontSize: 15,
-        letterSpacing: -0.5
+        letterSpacing: -0.5,
+        fontFamily: "sans-serif-light",
     },
     loginButton: {
         justifyContent: "center",
         backgroundColor: "white",
+        width: 185,
+        height: 35,
     },
     buttonText: {
-        color: "blue",
-        letterSpacing: -1
+        color: "slateblue",
+        letterSpacing: -0.5,
+        fontFamily: "sans-serif",
     }
 })

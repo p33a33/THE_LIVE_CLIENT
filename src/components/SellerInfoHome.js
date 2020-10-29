@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Text, Button } from 'react-native-elements'
+import { BoxShadow } from 'react-native-shadow';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
@@ -40,13 +42,37 @@ export default class SellerInfoHome extends React.Component {
                     })}
                 </View>
                 {currentRoute !== 'SellerHome' ?
-                    <Button onPress={() => {
-                        this.props.handleVisible();
-                        navigate('SellerHome', { list: this.props.list, sellerInfo: this.state.sellerInfo });
-                    }}
-                        title="go to Seller Home" /> : <></>}
+                    <View style={{ alignItems: "center" }}>
+                        <BoxShadow setting={shadowOpt} style={{ alignItems: 'center' }}>
+                            <Icon.Button onPress={() => {
+                                this.props.handleVisible();
+                                navigate('SellerHome', { list: this.props.list, sellerInfo: this.state.sellerInfo });
+                            }}
+                                name="shopping-bag"
+                                borderRadius={15}
+                                iconStyle={{ padding: 5 }}
+                                size={15}
+                                style={{ justifyContent: 'center', backgroundColor: 'slateblue' }}>
+                                Go to Seller Home
+                            </Icon.Button>
+                        </BoxShadow>
+                    </View> : <></>}
             </ >
         )
+    }
+}
+
+const shadowOpt = {
+    width: 200,
+    height: 38,
+    color: "#708090",
+    border: 5,
+    radius: 10,
+    opacity: 0.3,
+    x: 0,
+    y: 5,
+    style: {
+        marginVertical: 11,
     }
 }
 
@@ -62,7 +88,7 @@ const styles = StyleSheet.create({
     sellerContainerText: {
         textAlign: "center",
         padding: 5,
-        fontWeight: "bold"
+        fontFamily: 'sans-serif-light',
     },
     sellerItms: {
         justifyContent: "space-evenly",
