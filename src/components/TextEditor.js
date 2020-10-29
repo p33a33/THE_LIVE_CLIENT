@@ -45,7 +45,7 @@ export default class TextEditor extends React.Component {
                         <Button
                             title="Confirm"
                             onPress={() => {
-                                handleValue("body", body);
+                                handleValue("body", '<div>' + body + '</div>');
                                 this.props.navigation.goBack();
                             }
                             } />

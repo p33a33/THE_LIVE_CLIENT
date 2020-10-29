@@ -33,6 +33,7 @@ export default class ProductDetail extends React.Component {
     componentDidMount() {
         this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true });
         this.props.route.params.handleVisible();
+
     }
 
     componentWillUnmount() {
@@ -68,7 +69,7 @@ export default class ProductDetail extends React.Component {
     _renderItem = ({ item, index }) => {
         return (
             <View style={{ margin: 5, padding: 5, alignItems: "center" }} key={item.title}>
-                <Image source={{ uri: item }} style={{ width: 250, height: 250, borderRadius: 20 }} />
+                <Image source={{ uri: item }} style={{ width: 250, height: 250, borderRadius: 20, elevation: 2, margin: 5, }} />
             </View>
         );
     }
@@ -84,12 +85,12 @@ export default class ProductDetail extends React.Component {
                     height: 10,
                     borderRadius: 5,
                     marginHorizontal: 1,
-                    backgroundColor: 'white',
+                    backgroundColor: 'slateblue',
                     elevation: 3
 
                 }}
                 inactiveDotStyle={{
-                    backgroundColor: 'grey'
+                    backgroundColor: 'slategrey'
                 }}
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
@@ -105,57 +106,75 @@ export default class ProductDetail extends React.Component {
         const itemHeight = 200;
 
         return (
-            <LinearGradient colors={{ useAngle: true, angle: 45 }, ['#FFFFFF', '#EEE5E2']} style={{ flex: 1, }}>
-                <HeaderBackButton onPress={() => {
-                    this.props.navigation.goBack();
-                }} />
-                <ScrollView showsVerticalScrollIndicator={false} ref='_scrollView' onContentSizeChange={
-                    () => this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })
-                }>
-                    <Text h4 style={{ letterSpacing: 1.5, textAlign: "center" }}>{title}</Text>
-                    <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, }}>￦ {price}</Text>
+            <>
+                <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1, padding: 5, paddingTop: 20 }}>
+                    <View style={{ padding: 10 }}>
+                        <HeaderBackButton onPress={() => {
+                            this.props.navigation.goBack();
+                        }} />
+                        <ScrollView showsVerticalScrollIndicator={false} ref='_scrollView' onContentSizeChange={
+                            () => this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })
+                        }>
+                            <Text style={{ fontSize: 19, letterSpacing: -0.5, textAlign: "center", fontFamily: 'sans-serif' }}>{title}</Text>
+                            <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, fontFamily: 'sans-serif-light' }}>￦ {price}</Text>
 
-                    <View style={{ alignItems: "center" }}  >
-                        <Carousel
-                            ref={(c) => { this._carousel = c; }}
-                            data={this.props.route.params.info.image}
-                            renderItem={this._renderItem}
-                            sliderWidth={sliderWidth}
-                            itemWidth={itemWidth}
-                            itemHeight={itemHeight}
-                            onSnapToItem={(index) => this.setState({ activeSlide: index })}
-                        />
-                        {this.pagination}
-                        <View style={{ marginTop: 10, }}>
-                            <NumericInput
-                                minValue={1}
-                                initValue={1}
-                                totalWidth={110}
-                                totalHeight={25}
-                                onChange={value => this.setState({ quantity: value })}
+                            <View style={{ alignItems: "center", }}  >
+                                <Carousel
+                                    ref={(c) => { this._carousel = c; }}
+                                    data={this.props.route.params.info.image}
+                                    renderItem={this._renderItem}
+                                    sliderWidth={sliderWidth}
+                                    itemWidth={itemWidth}
+                                    itemHeight={itemHeight}
+                                    onSnapToItem={(index) => this.setState({ activeSlide: index })}
+                                />
+                                {this.pagination}
+                                <View style={{ marginTop: 10, }}>
+                                    <NumericInput
+                                        minValue={1}
+                                        initValue={1}
+                                        totalWidth={110}
+                                        totalHeight={25}
+                                        onChange={value => this.setState({ quantity: value })}
+                                    />
+                                </View>
 
-                            />
-                        </View>
-
+                            </View>
+                            <View style={styles.itmInfoText} >
+                                <HTML html={body} tagsStyles={{
+                                    div: {
+                                        fontFamily: 'sans-serif-thin',
+                                        textAlign: 'center',
+                                        letterSpacing: -0.25
+                                    }
+                                }} />
+                            </View>
+                            <View style={styles.sellerContainer}>
+                                <Text style={styles.sellerTitle}>{this.props.route.params.info.name.toUpperCase()}</Text>
+                                <SellerInfoHome navigation={this.props.navigation} list={this.props.route.params.list} handleVisible={this.props.route.params.handleVisible} />
+                            </View>
+                            {this.props.route.params.list ?
+                                <View style={styles.sellerItms} >
+                                    {this.props.route.params.list.map((itm) => <SellerItemEntry itm={itm} navigation={this.props.navigation} />)}
+                                </View>
+                                : <Text>no image to render</Text>}
+                        </ScrollView >
                     </View>
-                    <View style={styles.itmInfoText} >
-                        <HTML html={body} />
-                    </View>
-                    <View style={styles.sellerContainer}>
-                        <Text style={styles.sellerTitle}>{this.props.route.params.info.name.toUpperCase()}</Text>
-                        <SellerInfoHome navigation={this.props.navigation} list={this.props.route.params.list} handleVisible={this.props.route.params.handleVisible} />
-                    </View>
-                    {this.props.route.params.list ?
-                        <View style={styles.sellerItms} >
-                            {this.props.route.params.list.map((itm) => <SellerItemEntry itm={itm} navigation={this.props.navigation} />)}
-                        </View>
-                        : <Text>no image to render</Text>}
-                </ScrollView >
-                <ButtonGroup
-                    onPress={this.handleButtonPress}
-                    buttons={['Add to wishlist', 'Buy now']}
-                />
-            </LinearGradient >
+                </LinearGradient >
+                <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']}>
+                    <ButtonGroup
+                        onPress={this.handleButtonPress}
+                        buttons={['ADD TO WISHLIST', 'BUY NOW']}
+                        containerStyle={{ borderRadius: 20, backgroundColor: 'whitesmoke' }}
+                        innerBorderStyle={{ width: 0.5 }}
+                        textStyle={{
+                            fontFamily: "sans-serif",
+                            letterSpacing: 0.5,
+                            color: 'slategrey'
+                        }}
+                    />
+                </LinearGradient>
+            </>
         )
     }
 }
@@ -163,17 +182,17 @@ export default class ProductDetail extends React.Component {
 const styles = StyleSheet.create({
     sellerContainer: {
         margin: 10,
-        padding: 15
+        padding: 13
     },
     sellerTitle: {
         fontSize: 20,
-        fontWeight: "bold",
         padding: 5,
-        marginLeft: 10
+        marginLeft: 10,
+        fontFamily: 'sans-serif',
+        color: 'slateblue'
     },
     itmInfoText: {
-        textAlign: "center",
-        padding: 35,
+        padding: 40,
     },
     sellerItms: {
         justifyContent: "space-evenly",

@@ -1,7 +1,9 @@
 import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
-import { Text, Button, Input } from 'react-native-elements'
+import { Text, Button, Input, Header } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler'
+import LinearGradient from 'react-native-linear-gradient'
+import { CustomHeader } from '../../../components/CustomHeader'
 import ProductListEntry from '../../../components/ProductListEntry'
 
 export default class ProductList extends React.Component {
@@ -35,12 +37,31 @@ export default class ProductList extends React.Component {
 
     render() {
         return (
-            <ScrollView style={{ flex: 1, padding: 20 }}>
-                <Text h4>Shop</Text>
-                <Text style={{ fontSize: 15, fontWeight: "bold" }}>Trending</Text>
-                { this.list.map((product, index, array) => <ProductListEntry key={index} list={array} productInfo={product} navigation={this.props.navigation} handleVisible={this.props.route.params.handleVisible} />)}
-            </ScrollView >
+            <>
+                <CustomHeader navigation={this.props.navigation} />
+                <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1, }}>
+                    <View style={{ padding: 30, paddingTop: -30 }}>
+                        <View style={{ marginLeft: 13, padding: 5, }}>
+                            <Text style={{
+                                fontSize: 20, letterSpacing: 1, fontFamily: 'sans-serif'
+                            }}>SHOP</Text>
+                            <Text style={{ fontSize: 16, letterSpacing: 1, fontFamily: 'sans-serif-light' }}>TRENDING</Text>
+                        </View>
+                        {this.list.map((product, index, array) => <ProductListEntry key={index} list={array} productInfo={product} navigation={this.props.navigation} handleVisible={this.props.route.params.handleVisible} />)}
+                    </View>
+                </LinearGradient>
+            </>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    title: {
+        textAlign: "center",
+        letterSpacing: 1,
+        fontSize: 25,
+        padding: 5,
+        fontFamily: "sans-serif-light",
+
+    },
+})

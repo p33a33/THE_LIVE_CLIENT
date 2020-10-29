@@ -15,7 +15,7 @@ export default class OnAir extends React.Component {
             liveStatus: false,
             messages: [],
             chatInput: null,
-            count: 0
+            count: 0,
         }
         this.setCameraRef = this.setCameraRef.bind(this)
         this.handleLiveStatus = this.handleLiveStatus.bind(this)
@@ -49,6 +49,7 @@ export default class OnAir extends React.Component {
 
     componentDidMount() {
         this.requestCameraPermission();
+        this.props.route.params.handleVisible();
     }
 
     handleLiveStatus = () => {

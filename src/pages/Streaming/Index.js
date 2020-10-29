@@ -4,10 +4,11 @@ import OnAir from './OnAir/OnAir'
 import StreamingReady from './Streaming'
 
 const Stack = createStackNavigator();
-export default function SellerHomeIndex() {
+export default function SellerHomeIndex(props) {
+
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }} >
-            <Stack.Screen name="Ready" component={StreamingReady} />
+            <Stack.Screen name="Ready" component={StreamingReady} initialParams={{ handleVisible: props.route.params.handleVisible }} />
             <Stack.Screen name="OnAir" component={OnAir} />
         </Stack.Navigator>
     )

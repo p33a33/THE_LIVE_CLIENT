@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Text, Image } from 'react-native-elements'
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -17,18 +17,15 @@ export default class SellerItemEntry extends React.Component {
         let { itm } = this.props
         let imgSrc = itm.image[0]
         return (
-            <LinearGradient colors={{ useAngle: true, angle: 45 }, ['#FFFFFF', '#EEE5E2']} key={itm.title} style={{
-                borderRadius: 20, padding: 3, marginBottom: 10, alignItems: "center",
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
-
-                elevation: 3,
-            }} >
+            <View key={itm.title}
+                style={{
+                    borderRadius: 20,
+                    padding: 3,
+                    marginBottom: 10,
+                    alignItems: "center",
+                    elevation: 3,
+                    backgroundColor: "whitesmoke"
+                }} >
                 <Image
                     style={{ height: 140, width: 140, marginTop: 5, borderRadius: 20 }}
                     source={{ uri: imgSrc }}
@@ -36,14 +33,29 @@ export default class SellerItemEntry extends React.Component {
                         navigate('ProductDetail', { info: itm });
                     }}
                 ></Image>
-                <Text style={{ textAlign: "center", padding: 3, marginTop: 5, marginBottom: 5, width: 150, fontWeight: "bold" }} numberOfLines={1} ellipsizeMode="tail"
+                <Text style={{
+                    textAlign: "center",
+                    padding: 10,
+                    marginTop: 5,
+                    width: 150,
+                    fontFamily: "sans-serif",
+                    letterSpacing: -0.5
+                }} numberOfLines={1} ellipsizeMode="tail"
                     onPress={() => navigate('ProductDetail', { info: itm })} >
                     {itm.title}
                 </Text>
-                <Text style={{ textAlign: "center", padding: 3, width: 130 }} numberOfLines={1} ellipsizeMode="tail">
-                    {itm.price}
+                <Text style={{
+                    fontSize: 12,
+                    textAlign: "center",
+                    marginTop: -8,
+                    marginBottom: 10,
+                    width: 130,
+                    letterSpacing: 1,
+                    fontFamily: "sans-serif-light"
+                }} numberOfLines={1} ellipsizeMode="tail">
+                    ￦ {itm.price}
                 </Text>
-            </LinearGradient>
+            </View>
         )
     }
 }
