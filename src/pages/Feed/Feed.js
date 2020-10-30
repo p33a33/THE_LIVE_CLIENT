@@ -8,6 +8,7 @@ import { SERVER, YOUTUBE_API_KEY } from '../config'
 import { BoxShadow } from 'react-native-shadow'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+
 export default class Feed extends React.Component {
     constructor(props) {
         super(props)
@@ -17,6 +18,7 @@ export default class Feed extends React.Component {
             refreshing: false,
             dragging: false,
             currentIndex: 0,
+            userInfo: this.props.route.params.userInfo
         }
         this.FlatList = React.createRef()
         this.fetchData = this.fetchData.bind(this)
@@ -24,6 +26,7 @@ export default class Feed extends React.Component {
         this.ConvertSystemSourcetoHtml = this.ConvertSystemSourcetoHtml.bind(this)
         this.fetchNewData = this.fetchNewData.bind(this)
     }
+
     componentDidMount() {
         this.fetchData()
     }
@@ -89,9 +92,6 @@ export default class Feed extends React.Component {
             </TouchableOpacity>
         )
     }
-
-
-
     FlatListItemSeparator = () => {
         return (
             <View
@@ -181,5 +181,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     }
 });
-
 

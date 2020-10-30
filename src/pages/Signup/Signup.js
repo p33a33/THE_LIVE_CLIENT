@@ -7,6 +7,7 @@ import { SERVER } from '../config'
 import LinearGradient from 'react-native-linear-gradient'
 import { BoxShadow } from 'react-native-shadow'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Axios from 'axios'
 
 
 export default class Signup extends React.Component {
@@ -42,22 +43,33 @@ export default class Signup extends React.Component {
         let { passwordCheck, signupForm } = this.state
         let emptyInput = false
 
-        console.log('signupForm', signupForm)
-
         for (let key in this.state.signupForm) {
             if (!signupForm[key]) {
                 emptyInput = true
             }
         }
+
         if (emptyInput) {
             alert('Please fill in all the fields')
         } else {
             if (signupForm.password === passwordCheck) {
-                console.log(signupForm)
                 return axios.post(`${SERVER}/signup`, signupForm)
                     .then(res => {
                         if (res.status === 201) {
-                            this.props.navigation.navigate('Signin');
+                            console.log(`i'm here`, res.data.id)
+                            let profileImage = new FormData();
+                            let avatar = this.state.signupForm.profileImage
+                            profileImage.append('avatar', {
+                                name: avatar.path.split("/")[avatar.path.split("/").length - 1],
+                                uri: avatar.path,
+                                type: avatar.mime
+                            })
+                            profileImage.append('id', res.data.id)
+                            console.log(profileImage)
+
+                            Axios.post(`${SERVER}/profile`, profileImage, { headers: { "Content-Type": "multipart/form-data" } })
+                                .then(res => { console.log(res); this.props.navigation.navigate('Signin') })
+                                .catch(err => console.log(err))
                         } else {
                             alert('An error occurs, please try again')
                         }
@@ -75,7 +87,7 @@ export default class Signup extends React.Component {
             <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={styles.body} >
                 <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                     <Text style={styles.headerTitle} >THE LIVE</Text>
-                    <SignupForm handleFormValues={this.handleFormValues} address={signupForm.address} photo={signupForm.photo} />
+                    <SignupForm handleFormValues={this.handleFormValues} address={signupForm.address} photo={signupForm.profileImage} />
                     <BoxShadow setting={shadowOpt} >
                         <Icon.Button borderRadius={15} name="check" iconStyle={{ color: "slateblue" }} style={styles.loginButton} onPress={this.handleSignup} >
                             <Text style={styles.buttonText}>Sign Up</Text>

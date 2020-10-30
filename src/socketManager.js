@@ -21,7 +21,7 @@ class SocketManager {
         }
         SocketManager.instance = this
 
-        this.socket = io.connect(SERVER);
+        this.socket = io.connect(SERVER, { autoConnect: false });
         this.setupListenDefaultEvents();
         return this
     }
@@ -29,6 +29,11 @@ class SocketManager {
     setupListenDefaultEvents() {
         this.socket.on('connect', () => console.log('socket connected'));
         this.socket.on('disconnect', () => console.log('socket disconnected'));
+        this.socket.on('reconnect', () => console.log('socket reconnected'))
+    }
+
+    connectAfterLogin() {
+        this.socket.open();
     }
 
     emitPrepareLiveStream({ title, body }) {
