@@ -20,6 +20,11 @@ export default class Signin extends React.Component {
         this.handleSignin = this.handleSignin.bind(this)
     }
 
+
+    componentDidMount = () => {
+        axios.get(`${SERVER}/welcome`).then(data => console.log(data.data))
+    }
+
     handleSignin = () => {
         let { email, password } = this.state
         let data = qs.stringify({ email, password }) // 데이터를 Form Data 형식으로 변환해줍니다.

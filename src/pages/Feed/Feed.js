@@ -1,15 +1,12 @@
-import Axios from 'axios';
 import React from 'react'
 import { FlatList, RefreshControl, View, ScrollView, StyleSheet, ListView } from 'react-native'
-import { Text, Button, Image, Header } from 'react-native-elements'
-import { min } from 'react-native-reanimated';
-import SearchDefaultEntry from '../../components/SearchDefaultEntry';
-import { SERVER, YOUTUBE_API_KEY } from '../config'
 import { searchYouTube } from '../Feed/searchYouTube';
-import { BoxShadow } from 'react-native-shadow'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import LinearGradient from 'react-native-linear-gradient';
 import { CustomHeader } from '../../components/CustomHeader';
+import { Text, Button, Image } from 'react-native-elements'
+import { SERVER, YOUTUBE_API_KEY } from '../config'
+import { BoxShadow } from 'react-native-shadow'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Feed extends React.Component {
     constructor(props) {
@@ -70,25 +67,26 @@ export default class Feed extends React.Component {
     renderItem({ item }) {
         let imgSrc = item.snippet.thumbnails.high.url
         return (
-            <View className="video-list-entry" style={styles.listItems} >
-                <BoxShadow setting={shadowOpt}>
-                    <Image className="media-thumbnail"
-                        style={{
-                            height: 400, width: 250, borderRadius: 20,
-                        }}
-                        source={{ uri: imgSrc }}
-                        onPress={() => {
-                            this.props.navigation.navigate('Watching')
-                        }}
-                    >
-                        <View className="media-body"  >
-                            <Text className="video-list-entry-title" style={styles.itemTitle} onPress={() => this.props.navigation.navigate('Watching')} >
-                                {this.ConvertSystemSourcetoHtml(item.snippet.title.toUpperCase())}
-                            </Text>
-                        </View>
-                    </Image>
-                </BoxShadow>
-            </View >
+            <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate('Watching', { title: `${item.title}` })
+            }} >
+                <View className="video-list-entry" style={styles.listItems} >
+                    <BoxShadow setting={shadowOpt}>
+                        <Image className="media-thumbnail"
+                            style={{
+                                height: 400, width: 250, borderRadius: 20,
+                            }}
+                            source={{ uri: imgSrc }}
+                        >
+                            <View className="media-body"  >
+                                <Text className="video-list-entry-title" style={styles.itemTitle}>
+                                    {this.ConvertSystemSourcetoHtml(item.snippet.title.toUpperCase())}
+                                </Text>
+                            </View>
+                        </Image>
+                    </BoxShadow>
+                </View >
+            </TouchableOpacity>
         )
     }
 

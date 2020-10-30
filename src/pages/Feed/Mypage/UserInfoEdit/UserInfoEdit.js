@@ -73,7 +73,7 @@ export default class UserInfoEdit extends React.Component {
                     console.log('send this data', { sellerBank, sellerAccount })
                     axios.post(`${SERVER}/addseller`, { sellerBank, sellerAccount })
                         .then(data => {
-                            if (data.status === 201) {
+                            if (data.status === 200) {
                                 alert('성공적으로 판매자 등록을 마쳤습니다.')
                                 axios.get(`${SERVER}/userInfo`)
                                     .then(data => {
@@ -100,20 +100,28 @@ export default class UserInfoEdit extends React.Component {
 
     HandleRegistSeller = () => {
         if (this.state.isSeller) {
-            if (Alert.alert(
+            Alert.alert(
                 'Registration Cancellation',
                 '판매자 권한을 해제하면 판매자로서의 정보가 모두 지워집니다. 그래도 진행하시겠습니까?',
-                [{ text: "OK", onPress: () => true }, { text: "Cancel", onPress: () => false }]
-            )) {
-                axios.post(`${SERVER}/addseller`)
-                    .then(data => {
-                        if (data.status < 300) {
-                            alert("판매자 권한이 해제되었습니다.")
-                        } else {
-                            alert("에러가 발생했습니다. 다시 시도해주세요")
-                        }
-                    })
-            }
+                [{
+                    text: "OK", onPress: () => {
+                        axios.post(`${SERVER}/addseller`, { sellerBank: null, sellerAccount: null })
+                            .then(data => {
+                                if (data.status < 300) {
+                                    axios.get(`${SERVER}/userInfo`)
+                                        .then(data => {
+                                            this.setState({ isSeller: data.data.is_seller })
+                                            this.props.handleSellerState(data.data.is_seller)
+                                        })
+                                    alert("판매자 권한이 해제되었습니다.")
+                                }
+                                else {
+                                    alert("에러가 발생했습니다. 다시 시도해주세요")
+                                }
+                            })
+                    }
+                }, { text: "Cancel", onPress: () => this.setState({ isModalOpen: false }) }]
+            )
         } else {
             this.setState({ isModalOpen: true })
         }

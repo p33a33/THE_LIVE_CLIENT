@@ -54,7 +54,6 @@ export default class StreamingItems extends React.Component {
         let sliderWidth = Dimensions.get('window').width;
         let itemWidth = slideWidth + horizontalMargin * 2;
         let itemHeight = 100;
-        console.log('panResponder', this.PanResponder)
         return (
             <Animated.View {...this.PanResponder.panHandlers} style={[panStyle]} >
                 <ScrollView

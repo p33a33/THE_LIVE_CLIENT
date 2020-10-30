@@ -40,7 +40,7 @@ export default class ProductList extends React.Component {
             <>
                 <CustomHeader navigation={this.props.navigation} />
                 <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1, }}>
-                    <View style={{ padding: 30, paddingTop: -30 }}>
+                    <ScrollView style={{ padding: 30, paddingTop: -30 }}>
                         <View style={{ marginLeft: 13, padding: 5, }}>
                             <Text style={{
                                 fontSize: 20, letterSpacing: 1, fontFamily: 'sans-serif'
@@ -48,7 +48,7 @@ export default class ProductList extends React.Component {
                             <Text style={{ fontSize: 16, letterSpacing: 1, fontFamily: 'sans-serif-light' }}>TRENDING</Text>
                         </View>
                         {this.list.map((product, index, array) => <ProductListEntry key={index} list={array} productInfo={product} navigation={this.props.navigation} handleVisible={this.props.route.params.handleVisible} />)}
-                    </View>
+                    </ScrollView>
                 </LinearGradient>
             </>
         )

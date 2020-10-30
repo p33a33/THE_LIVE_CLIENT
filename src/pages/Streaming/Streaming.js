@@ -19,9 +19,8 @@ export default class StreamingReady extends React.Component {
 
     handlePressOnAir = () => {
         let { title, body } = this.state
-        console.log('state', title, body)
         SocketManager.instance.emitPrepareLiveStream({ title: title, body: body });
-        this.props.navigation.navigate('OnAir', { handleVisible: this.props.route.params.handleVisible });
+        this.props.navigation.navigate('OnAir', { handleVisible: this.props.route.params.handleVisible, userInfo: this.props.route.params.userInfo });
     }
 
 
