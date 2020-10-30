@@ -15,7 +15,7 @@ export default class ChatInput extends React.Component {
 
     handlePressSend = () => {
         this.props.handleSendChat()
-        // Keyboard.dismiss();
+        Keyboard.dismiss();
         this.chatInput.clear();
     }
 
@@ -25,7 +25,8 @@ export default class ChatInput extends React.Component {
             <KeyboardAccessoryView
                 alwaysVisible={true}
                 androidAdjustResize={true}
-                style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', height: 0, borderWidth: 2, borderColor: "black" }}
+                style={{ height: 0, flex: 1, backgroundColor: "rgba(0, 0, 0, 0)" }}
+                hideBorder={true}
             >
                 <ChatOutput messages={messages} />
                 <View style={{ width: `${100}%`, flexDirection: "row", alignItems: "center" }}>

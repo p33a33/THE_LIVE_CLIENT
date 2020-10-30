@@ -34,6 +34,35 @@ class SocketManager {
     emitPrepareLiveStream({ title, body }) {
         this.socket.emit("prepare-broadcast", { title, body });
     }
+
+    emitJoinRoom({ title, nickName }) {
+        this.socket.emit("join-room", { title, nickName })
+    }
+
+    emitLeaveRoom({ title, nickName }) {
+        this.socket.emit("leave-room", { title, nickName })
+    }
+
+    listenSendChat(callback = () => null) {
+        this.socket.on("send-message", (data) => {
+            callback(data)
+        })
+    }
+
+    listenSendHeart(callback = () => null) {
+        this.socket.on("send-heart", (data) => {
+            console.log('heart coming')
+            callback()
+        })
+    }
+
+    emitSendChat({ nickName, message, title }) {
+        this.socket.emit("send-message", { nickName, message, title })
+    }
+
+    emitSendHeart({ title }) {
+        this.socket.emit("send-heart", { title })
+    }
 }
 
 const instance = new SocketManager();

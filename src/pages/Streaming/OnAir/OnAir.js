@@ -6,6 +6,8 @@ import ChatInput from '../../../components/ChatInput';
 import { RTMP_SERVER } from '../../config'
 import FloatingHearts from '../../../components/floatingHeart/FloatingHearts'
 import StreamingItems from '../../../components/StreamingItems';
+import SocketManager from '../../../socketManager'
+import { Socket } from 'socket.io-client';
 
 
 export default class OnAir extends React.Component {
@@ -16,6 +18,8 @@ export default class OnAir extends React.Component {
             messages: [],
             chatInput: null,
             count: 0,
+            title: this.props.route.params.title,
+            userInfo: this.props.route.params.userInfo,
         }
         this.setCameraRef = this.setCameraRef.bind(this)
         this.handleLiveStatus = this.handleLiveStatus.bind(this)
@@ -48,8 +52,23 @@ export default class OnAir extends React.Component {
     }
 
     componentDidMount() {
+        let { title } = this.state
+        let { nickname } = this.state.userInfo
+        console.log(this.props)
+
         this.requestCameraPermission();
         this.props.route.params.handleVisible();
+
+        SocketManager.instance.emitJoinRoom({ nickName: nickname, title })
+        SocketManager.instance.listenSendChat(this.handleIncomingChat)
+        SocketManager.instance.listenSendHeart(this.handleIncomingHeart)
+    }
+
+    componentWillUnmount() {
+        let { title } = this.state
+        let { nickname } = this.state.userInfo
+        this.nodeCameraViewRef.stop()
+        SocketManager.instance.emitLeaveRoom({ nickName: nickname, title })
     }
 
     handleLiveStatus = () => {
@@ -68,16 +87,25 @@ export default class OnAir extends React.Component {
     }
 
     handlePressHeart = () => {
-        this.setState({ count: this.state.count + 1 })
+        SocketManager.instance.emitSendHeart({ title: this.state.title });
     }
 
     handleSendChat = () => {
-        let { chatInput, messages } = this.state
-        let message = { userName: "Sungmin", roomName: "Room with Cat", message: chatInput }
-        let temp = messages
+        let { chatInput, title } = this.state
+        let { nickname } = this.state.userInfo
+        let message = { nickName: nickname, title: title, message: chatInput }
+        SocketManager.instance.emitSendChat(message);
+    }
 
+    handleIncomingChat = (message) => {
+        let temp = this.state.messages
         temp.push(message)
         this.setState({ messages: temp })
+        console.log(this.state.messages)
+    }
+
+    handleIncomingHeart = () => {
+        this.setState({ count: this.state.count + 1 })
     }
 
     handleGoback = () => {
@@ -133,9 +161,9 @@ export default class OnAir extends React.Component {
                     style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
                     ref={this.setCameraRef}
                     outputUrl={outputURL} // URL이 확정되면 해당 URL로 영상을 전송
-                    camera={{ cameraId: 1, cameraFrontMirror: true }}
+                    camera={{ cameraId: 1, cameraFrontMirror: false }}
                     audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-                    video={{ preset: 12, bitrate: 400000, profile: 1, fps: 15, videoFrontMirror: false }}
+                    video={{ preset: 1, bitrate: 400000, profile: 0, fps: 30, videoFrontMirror: false }}
                     autopreview={true}
                 />
                 <View style={{ flex: 1, flexDirection: "row" }}>

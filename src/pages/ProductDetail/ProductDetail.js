@@ -61,8 +61,10 @@ export default class ProductDetail extends React.Component {
                             alert(' No more interesting? ')
                         })
                 }
+                break;
             case 1: {
                 this.handleOpenPayment();
+                break;
             }
         }
     }

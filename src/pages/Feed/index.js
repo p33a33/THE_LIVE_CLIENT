@@ -15,7 +15,8 @@ export default class FeedIndex extends React.Component {
         super(props)
         this.state = {
             isSeller: false,
-            visible: true
+            visible: true,
+            userInfo: {},
         }
         this.handleSellerState = this.handleSellerState.bind(this)
         this.handleVisible = this.handleVisible.bind(this)
@@ -25,6 +26,8 @@ export default class FeedIndex extends React.Component {
         Axios.get(`${SERVER}/userInfo`)
             .then(data => {
                 let { is_seller } = data.data
+                this.setState({ userInfo: Object.assign(this.state.userInfo, data.data) })
+                console.log(this.state)
                 if (is_seller) {
                     this.setState({ isSeller: true })
                 }
@@ -43,9 +46,9 @@ export default class FeedIndex extends React.Component {
         let { isSeller } = this.state
         return (
             <Tab.Navigator >
-                <Tab.Screen name="Feed" component={WatchingIndex} />
+                <Tab.Screen name="Feed" component={WatchingIndex} initialParams={{ userInfo: this.state.userInfo }} />
                 <Tab.Screen name="ProductList" component={ProductListIndex} options={{ tabBarVisible: this.state.visible }} initialParams={{ handleVisible: this.handleVisible }} />
-                { isSeller && <Tab.Screen name="Streaming" component={StreamingIndex} options={{ tabBarVisible: false }} />}
+                { isSeller && <Tab.Screen name="Streaming" component={StreamingIndex} options={{ tabBarVisible: false }} initialParams={{ userInfo: this.state.userInfo, handleVisible: this.handleVisible }} />}
                 <Tab.Screen name="Search" component={SearchIndex} />
                 <Tab.Screen name="Mypage" children={() => <MypageIndex handleSellerState={this.handleSellerState} />} />
             </Tab.Navigator>

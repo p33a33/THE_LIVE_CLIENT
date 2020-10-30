@@ -49,7 +49,7 @@ export default class MypageIndex extends React.Component {
                 <Drawer.Screen name="FollowingList" component={FollowingListIndex} />
                 { isSeller && <Drawer.Screen name="MyItemLIst" component={MyItemListIndex} />}
                 <Drawer.Screen name="WishList" component={WishList} />
-                <Drawer.Screen name="SellerOrderList" component={SellerOrderList} />
+                { isSeller && <Drawer.Screen name="SellerOrderList" component={SellerOrderList} />}
             </Drawer.Navigator>
         )
     }

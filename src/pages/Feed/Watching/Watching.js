@@ -4,8 +4,11 @@ import { Text, Button } from 'react-native-elements'
 import { NodePlayerView } from 'react-native-nodemediaclient'
 import ChatInput from '../../../components/ChatInput'
 import FloatingHearts from '../../../components/floatingHeart/FloatingHearts'
-import { RTMP_SERVER } from '../../config'
+import { SERVER, RTMP_SERVER } from '../../config'
 import StreamingItems from '../../../components/StreamingItems'
+import SocketManager from '../../../socketManager'
+import Axios from 'axios'
+
 
 export default class Watching extends React.Component {
 
@@ -15,7 +18,9 @@ export default class Watching extends React.Component {
         this.state = {
             chatInput: null,
             count: 0,
-            messages: []
+            messages: [],
+            userInfo: this.props.route.params.userInfo,
+            title: this.props.route.params.title
         }
         this.handleInputValue = this.handleInputValue.bind(this)
         this.handlePressHeart = this.handlePressHeart.bind(this)
@@ -44,9 +49,19 @@ export default class Watching extends React.Component {
             },
         ]
     }
+    componentDidMount() {
+        let { title, userInfo } = this.state
+        let { nickname } = userInfo
+        console.log(this.props)
+        SocketManager.instance.emitJoinRoom({ nickName: nickname, title })
+        SocketManager.instance.listenSendChat(this.handleIncomingChat)
+        SocketManager.instance.listenSendHeart(this.handleIncomingHeart)
+    }
 
     componentWillUnmount() {
+        let { nickName, title } = this.state
         this.NodePlayerView.stop(); // watching 페이지를 나갔음에도 play상태가 유지되는 것을 방지하기 위해, unmount시 player를 멈춥니다.
+        SocketManager.instance.emitLeaveRoom({ nickName, title })
     }
 
     handleGoback = () => {
@@ -58,16 +73,23 @@ export default class Watching extends React.Component {
     }
 
     handlePressHeart = () => {
-        this.setState({ count: this.state.count + 1 })
+        SocketManager.instance.emitSendHeart({ title: this.state.title });
     }
 
     handleSendChat = () => {
-        let { chatInput, messages } = this.state
-        let message = { userName: "Sungmin", roomName: "Room with Cat", message: chatInput }
-        let temp = messages
+        let { chatInput, nickName, title } = this.state
+        let message = { nickName: nickName, title: title, message: chatInput }
+        SocketManager.instance.emitSendChat(message);
+    }
 
+    handleIncomingChat = (message) => {
+        let temp = this.state.messages
         temp.push(message)
         this.setState({ messages: temp })
+    }
+
+    handleIncomingHeart = () => {
+        this.setState({ count: this.state.count + 1 })
     }
 
     render() {
@@ -82,7 +104,7 @@ export default class Watching extends React.Component {
                     style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
                     ref={(vb) => { this.NodePlayerView = vb }}
                     inputUrl={inputUrl}
-                    scaleMode="ScaleAspectFit"
+                    scaleMode={"ScaleAspectFill"}
                     bufferTime={300}
                     maxBufferTime={1000}
                     autoplay
