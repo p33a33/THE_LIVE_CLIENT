@@ -117,6 +117,8 @@ export default class AddItem extends React.Component {
         console.log('Formdata', imageFiles);
         Axios.post(`${SERVER}/additem`, this.state.itemInfo)
             .then(data => {
+                console.log(data.data)
+                imageFiles.append('productId', data.data.id)
                 Axios({
                     method: "POST",
                     url: `${SERVER}/products`,
@@ -126,6 +128,8 @@ export default class AddItem extends React.Component {
                     }
                 })
                     .then(uploadedImage => {
+                        this.props.route.params.refreshList();
+                        this.props.navigation.goBack();
                         console.log('addedItem', data, 'uploadImage', uploadedImage)
                     })
             })

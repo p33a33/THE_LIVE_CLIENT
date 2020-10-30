@@ -8,6 +8,7 @@ import WebView from 'react-native-webview'
 import { SERVER } from '../config'
 import { BoxShadow } from 'react-native-shadow'
 import LinearGradient from 'react-native-linear-gradient'
+import SocketManager from '../../socketManager';
 
 export default class Signin extends React.Component {
     constructor(props) {
@@ -21,17 +22,17 @@ export default class Signin extends React.Component {
     }
 
 
-    componentDidMount = () => {
-        axios.get(`${SERVER}/welcome`).then(data => console.log(data.data))
-    }
-
     handleSignin = () => {
         let { email, password } = this.state
         let data = qs.stringify({ email, password }) // 데이터를 Form Data 형식으로 변환해줍니다.
         axios.post(`${SERVER}/signin`, data)
             .then(res => {
                 if (res.status === 200) {
-                    this.props.navigation.navigate('FeedIndex')
+                    SocketManager.instance.connectAfterLogin();
+                    this.props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'FeedIndex' }],
+                    });
                 }
             })
     }

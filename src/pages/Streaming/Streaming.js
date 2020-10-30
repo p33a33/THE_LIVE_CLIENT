@@ -23,7 +23,6 @@ export default class StreamingReady extends React.Component {
         this.props.navigation.navigate('OnAir', { handleVisible: this.props.route.params.handleVisible, userInfo: this.props.route.params.userInfo });
     }
 
-
     handleStatus = (name, val) => {
         this.setState({ [name]: val })
     }
