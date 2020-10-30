@@ -3,15 +3,16 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text, Button, Header } from 'react-native-elements'
 import LinearGradient from 'react-native-linear-gradient'
+import { SERVER } from '../pages/config'
 
 
 export const CustomHeader = (props) => {
 
     const handleSignout = () => {
-        //Axios.get(`${SERVER}/signout`)
-        //    .then(data => {
-        props.navigation.navigate('Signin')
-        //})
+        Axios.get(`${SERVER}/signout`)
+            .then(() => {
+                props.navigation.navigate('Signin')
+            })
     }
     const { index, routes } = props.navigation.dangerouslyGetState();
     const currentRoute = routes[index].name;

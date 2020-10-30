@@ -33,39 +33,46 @@ export default class SignupForm extends React.Component {
         return (<View style={styles.InputContainer}>
             <View style={{ marginBottom: 15 }}>
                 <Input
+                    inputContainerStyle={{ borderBottomWidth: 0, }}
                     style={styles.Input}
-                    placeholder="Email"
+                    placeholder="EMAIL"
                     onChangeText={val => handleFormValues('email', val)}
-                    leftIcon={<Icon name="user-circle-o" type="font-awesome" size={21} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />} />
+                    leftIcon={<Icon name="user-circle-o" type="font-awesome" size={20} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />} />
                 <Input
+                    inputContainerStyle={{ borderBottomWidth: 0 }}
                     style={styles.Input}
-                    placeholder=" ••••"
+                    placeholder="••••"
                     onChangeText={val => handleFormValues('password', val)}
                     leftIcon={<Icon name="unlock-alt" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />}
                     secureTextEntry={true}
                 />
                 <Input
+                    inputContainerStyle={{ borderBottomWidth: 0 }}
                     style={styles.Input}
-                    placeholder=" ••••"
+                    placeholder="••••"
                     onChangeText={val => handleFormValues('passwordCheck', val)}
                     leftIcon={<Icon name="unlock-alt" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />}
                     secureTextEntry={true} />
             </View>
             <View >
                 <Input
+                    inputContainerStyle={{ borderBottomWidth: 0 }}
                     style={styles.Input}
-                    placeholder="Phone"
+                    placeholder="PHONE"
+                    textContentType="telephoneNumber"
                     onChangeText={val => handleFormValues('phone', val)}
                     leftIcon={<Icon name="phone" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />} />
                 {/* 전화번호 형식 확인 필요 */}
                 <Input
+                    inputContainerStyle={{ borderBottomWidth: 0 }}
                     style={styles.Input}
-                    placeholder="Fullname"
+                    placeholder="FULL NAME"
                     onChangeText={val => handleFormValues('fullname', val)}
                     leftIcon={<Icon name="user" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />} />
                 <Input
+                    inputContainerStyle={{ borderBottomWidth: 0 }}
                     style={styles.Input}
-                    placeholder="Nickname"
+                    placeholder="NICKNAME"
                     onChangeText={val => handleFormValues('nickname', val)}
                     leftIcon={<Icon name="user" type="font-awesome" size={22} style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />} />
                 <View style={{ alignItems: "center" }}>
@@ -75,7 +82,7 @@ export default class SignupForm extends React.Component {
                             borderRadius={15}
                             style={styles.loginButton}
                             onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}>
-                            <Text style={styles.buttonText}>Search Address</Text>
+                            <Text style={styles.buttonText}>SEARCH ADDRESS</Text>
                         </Icon.Button>
                     </BoxShadow>
                 </View>
@@ -90,6 +97,7 @@ export default class SignupForm extends React.Component {
                         <Text style={{ fontSize: 14, letterSpacing: -0.5 }}>{address}</Text>
                     </View>
                     <Input
+                        inputContainerStyle={{ borderBottomWidth: 0 }}
                         style={styles.Input}
                         placeholder="상세 주소"
                         onChangeText={val => handleFormValues('addressDetail', val)}
@@ -103,14 +111,17 @@ export default class SignupForm extends React.Component {
             <Modal visible={isModalOn}>
                 <Postcode style={{ flex: 1 }} jsOptions={{ animated: true }} onSelected={this.handleSelectAddress} ></Postcode>
                 <View style={{ justifyContent: "center" }}>
-                    <BoxShadow setting={shadowOpt} >
-                        <Icon.Button name="close"
-                            iconStyle={{ color: "grey" }}
-                            style={styles.loginButton}
-                            onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}>
-                            <Text style={styles.buttonText}>Close</Text>
-                        </Icon.Button>
-                    </BoxShadow>
+                    <Icon.Button name="close"
+                        iconStyle={{ color: "grey" }}
+                        style={{
+                            backgroundColor: "white",
+                            alignSelf: "center",
+                            justifyContent: "center",
+                            width: "100%"
+                        }}
+                        onPress={() => this.setState({ isModalOn: !this.state.isModalOn })}>
+                        <Text style={styles.buttonText}>CLOSE</Text>
+                    </Icon.Button>
                 </View>
             </Modal>
             <View style={{ alignItems: "center" }}>
@@ -120,7 +131,7 @@ export default class SignupForm extends React.Component {
                     <Icon.Button name="camera" onPress={this.handleChoosePhoto}
                         borderRadius={15} iconStyle={{ color: "grey" }}
                         style={styles.loginButton} >
-                        <Text style={styles.buttonText}>Choose Photo</Text>
+                        <Text style={styles.buttonText}>CHOOSE PHOTO</Text>
                     </Icon.Button>
                 </BoxShadow>
             </View>
@@ -155,6 +166,12 @@ const styles = StyleSheet.create({
         width: 300,
     },
     Input: {
+        paddingLeft: 10,
+        height: 10,
+        width: 150,
+        paddingHorizontal: 5,
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
         fontSize: 15,
         letterSpacing: -0.5,
         fontFamily: "sans-serif-light",
@@ -164,6 +181,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
     },
     buttonText: {
+        fontSize: 11,
         color: "slategrey",
         letterSpacing: -0.5,
         fontFamily: "sans-serif",

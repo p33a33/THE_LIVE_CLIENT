@@ -67,6 +67,7 @@ export default class OnAir extends React.Component {
     componentWillUnmount() {
         let { title } = this.state
         let { nickname } = this.state.userInfo
+        this.props.route.params.handleVisible();
         this.nodeCameraViewRef.stop()
         SocketManager.instance.emitLeaveRoom({ nickName: nickname, title })
     }

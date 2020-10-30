@@ -94,6 +94,7 @@ export default class ProductDetail extends React.Component {
                 inactiveDotStyle={{
                     backgroundColor: 'slategrey'
                 }}
+                animatedDuration={100}
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
             />
@@ -170,7 +171,7 @@ export default class ProductDetail extends React.Component {
                         containerStyle={{ borderRadius: 20, backgroundColor: 'whitesmoke' }}
                         innerBorderStyle={{ width: 0.5 }}
                         textStyle={{
-                            fontFamily: "sans-serif",
+                            fontFamily: "sans-serif-light",
                             letterSpacing: 0.5,
                             color: 'slategrey'
                         }}

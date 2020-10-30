@@ -53,6 +53,7 @@ export default class Watching extends React.Component {
         let { title, userInfo } = this.state
         let { nickname } = userInfo
         console.log(this.props)
+        this.props.route.params.handleVisible()
         SocketManager.instance.emitJoinRoom({ nickName: nickname, title })
         SocketManager.instance.listenSendChat(this.handleIncomingChat)
         SocketManager.instance.listenSendHeart(this.handleIncomingHeart)
@@ -61,6 +62,7 @@ export default class Watching extends React.Component {
     componentWillUnmount() {
         let { nickName, title } = this.state
         this.NodePlayerView.stop(); // watching 페이지를 나갔음에도 play상태가 유지되는 것을 방지하기 위해, unmount시 player를 멈춥니다.
+        this.props.route.params.handleVisible()
         SocketManager.instance.emitLeaveRoom({ nickName, title })
     }
 
