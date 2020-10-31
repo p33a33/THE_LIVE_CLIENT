@@ -18,7 +18,7 @@ export const CustomHeader = (props) => {
     const currentRoute = routes[index].name;
 
     return (<Header
-        containerStyle={{ height: 70 }}
+        containerStyle={{ height: 70, borderBottomWidth: 0, elevation: 5 }}
         ViewComponent={LinearGradient} // Don't forget this!
         linearGradientProps={{
             useAngle: true,

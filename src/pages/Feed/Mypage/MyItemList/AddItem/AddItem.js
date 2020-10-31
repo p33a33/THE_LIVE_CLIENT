@@ -1,13 +1,16 @@
-import { HeaderTitle } from '@react-navigation/stack'
+import { HeaderBackButton, HeaderTitle } from '@react-navigation/stack'
 import Axios from 'axios'
 import React from 'react'
-import { Image, View, Alert, KeyboardAvoidingView, NativeModules } from 'react-native'
+import { Image, View, Alert, NativeModules, StyleSheet } from 'react-native'
 import { Text, Button, Input, Card } from 'react-native-elements'
 import { ScrollView, TapGestureHandler, TouchableOpacity } from 'react-native-gesture-handler'
 // import ImageCropPicker from 'react-native-image-crop-picker'
 // import ImagePicker from 'react-native-image-crop-picker'
 import HTML from 'react-native-render-html'
 import { SERVER } from '../../../../config'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { BoxShadow } from 'react-native-shadow'
+
 
 const ImagePicker = NativeModules.ImageCropPicker
 
@@ -82,7 +85,11 @@ export default class AddItem extends React.Component {
         if (temp.length >= 3) {
             alert('태그는 3개까지 추가할 수 있습니다.')
             this.addTagInput.clear();
-        } else {
+        }
+        else if (!this.state.addTag) {
+            alert('내용을 입력해주세요.')
+        }
+        else {
             temp.push(this.state.addTag)
             this.setState({ itemInfo: Object.assign(this.state.itemInfo, { tags: temp }) })
             this.setState({ addTag: null })
@@ -139,41 +146,171 @@ export default class AddItem extends React.Component {
     render() {
         let { itemInfo } = this.state
         return (
-            <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
-                <KeyboardAvoidingView>
-                    <Text>it's AddItem Page</Text>
+            <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
+                <HeaderBackButton onPress={() => {
+                    this.props.navigation.goBack();
+                }}
+                    tintColor="slategrey"
+                    style={{ padding: 5, marginTop: 10 }} />
+                <View style={{ padding: 5 }}>
                     <ScrollView horizontal style={{ Direction: "row" }}>
                         {itemInfo.images &&
                             itemInfo.images.map((photo, index) =>
                                 <TouchableOpacity onPress={() => this.handleDeletePhoto(index)}>
-                                    <Image key={index} source={{ uri: photo.path }} style={{ width: 100, height: 100, margin: 10 }} />
+                                    <Image key={index} source={{ uri: photo.path }} style={{ width: 100, height: 100, margin: 10, borderRadius: 10 }} />
                                 </TouchableOpacity>)}
                     </ScrollView>
-                    <Button title="Select Photo" onPress={this.handleChoosePhoto} ></Button>
-                    <Input placeholder='title' onChangeText={(e) => this.handleValue('title', e)} />
-                    <Input placeholder='price' onChangeText={(e) => this.handleValue('price', e)} />
-                    <Input placeholder='qunatity' onChangeText={(e) => this.handleValue('quantity', e)} />
-                    <Input placeholder='add tags' onChangeText={(e) => this.setState({ addTag: e })} ref={ref => this.addTagInput = ref} />
-                    <Button title="add tag" onPress={this.handleAddTag} />
-                    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 50 }}>
-                        {this.state.itemInfo.tags.length > 0 && this.state.itemInfo.tags.map((tag, index) =>
-                            <TouchableOpacity onPress={() => this.handleDeleteTag(index)}>
-                                <Card key={index} containerStyle={{ padding: 10, margin: 10 }}>
-                                    <Text>{tag}</Text>
-                                </Card>
-                            </TouchableOpacity>)}
-                    </View>
-                    <ScrollView style={{ width: "100%", height: 200, backgroundColor: "white" }}>
-                        <View>
-                            {this.state.itemInfo.body ?
-                                <HTML html={itemInfo.body} onPress={this.handleEditorOpen}></HTML>
-                                : <TouchableOpacity onPress={this.handleEditorOpen}><Text style={{ textAlign: "center", marginTop: 80 }} >Click for add description</Text></TouchableOpacity>}
-                        </View>
-                    </ScrollView>
-                    <Button title="Confirm" onPress={this.handleConfirm} />
-                </KeyboardAvoidingView>
+                </View>
+                <View style={{ alignItems: "center", marginBottom: 5 }}>
+                    <BoxShadow setting={shadowOpt}>
+                        <Icon.Button onPress={this.handleChoosePhoto}
+                            iconStyle={{ color: "slateblue" }}
+                            borderRadius={15}
+                            style={styles.loginButton}
+                            name="camera">
+                            <Text style={styles.buttonText}>SELECT PHOTO</Text>
+                        </Icon.Button>
+                    </BoxShadow>
+                    <Input
+                        inputContainerStyle={{ borderBottomWidth: 0 }}
+                        style={styles.Input}
+                        placeholderTextColor="slategrey"
+                        placeholder='TITLE' onChangeText={(e) => this.handleValue('title', e)} />
+                    <Input
+                        inputContainerStyle={{ borderBottomWidth: 0 }}
+                        style={styles.Input}
+                        placeholderTextColor="slategrey"
+                        placeholder='PRICE' onChangeText={(e) => this.handleValue('price', e)} />
+                    <Input
+                        inputContainerStyle={{ borderBottomWidth: 0 }}
+                        style={styles.Input}
+                        placeholderTextColor="slategrey"
+                        placeholder='QUANTITY' onChangeText={(e) => this.handleValue('quantity', e)} />
+                    <Input
+                        inputContainerStyle={{ borderBottomWidth: 0 }}
+                        style={styles.Input}
+                        placeholderTextColor="slategrey"
+                        placeholder='TAG' onChangeText={(e) => this.setState({ addTag: e })} ref={ref => this.addTagInput = ref} />
+                    <BoxShadow setting={shadowOpt}>
+                        <Icon.Button
+                            iconStyle={{ color: "slateblue" }}
+                            borderRadius={15}
+                            style={styles.loginButton}
+                            name="tag"
+                            onPress={this.handleAddTag}>
+                            <Text style={styles.buttonText}>ADD TAG</Text>
+                        </Icon.Button>
+                    </BoxShadow>
+
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 30 }}>
+                    {this.state.itemInfo.tags.length > 0 && this.state.itemInfo.tags.map((tag, index) =>
+                        <TouchableOpacity onPress={() => this.handleDeleteTag(index)}>
+                            <Card key={index} containerStyle={{ padding: 10, margin: 10 }}>
+                                <Text>{tag}</Text>
+                            </Card>
+                        </TouchableOpacity>)}
+                </View>
+                <View>
+
+                    <TouchableOpacity onPress={this.handleEditorOpen}>
+                        <ScrollView style={{ width: "100%", height: 200, backgroundColor: "white", borderRadius: 20, padding: 10 }}>
+                            {this.state.itemInfo.body ? <HTML
+                                tagsStyles={{
+                                    div: {
+                                        padding: 6,
+                                        fontFamily: 'sans-serif-thin',
+                                        textAlign: 'left',
+                                        letterSpacing: -0.25
+                                    }
+                                }}
+                                html={itemInfo.body} onPress={this.handleEditorOpen}></HTML> :
+                                <Text style={{
+                                    textAlign: "left",
+                                    padding: 6,
+                                    color: "slategrey",
+                                    letterSpacing: -0.5,
+                                    fontFamily: "sans-serif",
+                                }} >CLICK FOR ADD DESCRIPTION</Text>}
+                        </ScrollView>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ alignItems: "center", margin: 10 }}>
+                    <BoxShadow setting={shadowOpt}>
+                        <Icon.Button
+                            iconStyle={{ color: "slateblue" }}
+                            borderRadius={15}
+                            style={styles.loginButton}
+                            name="check"
+                            onPress={this.handleConfirm}>
+                            <Text style={styles.buttonText}>CONFIRM</Text>
+                        </Icon.Button>
+                    </BoxShadow>
+                </View>
             </ScrollView>
         )
     }
 }
 
+const shadowOpt = {
+    width: 200,
+    height: 38,
+    color: "#708090",
+    border: 5,
+    radius: 15,
+    opacity: 0.17,
+    x: 0,
+    y: 0.5,
+    style: {
+        margin: 20,
+    }
+}
+
+const styles = StyleSheet.create({
+
+    body: {
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        flex: 1,
+        alignContent: 'center',
+    },
+    headerTitle: {
+        textAlign: "center",
+        letterSpacing: 1,
+        fontSize: 25,
+        padding: 28,
+        paddingBottom: -10,
+        fontFamily: "sans-serif-light",
+    },
+    title: {
+        padding: 5,
+        color: "slateblue",
+        letterSpacing: -0.5,
+        fontSize: 17,
+        fontFamily: "sans-serif",
+    },
+
+    Input: {
+        paddingLeft: 10,
+        height: 10,
+        width: 150,
+        paddingHorizontal: 5,
+        borderRadius: 20,
+        fontSize: 13,
+        letterSpacing: -0.5,
+        fontFamily: "sans-serif-light",
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    },
+    loginButton: {
+        justifyContent: "center",
+        backgroundColor: "white",
+        width: 200,
+        height: 35,
+    },
+    buttonText: {
+        color: "slateblue",
+        letterSpacing: -0.5,
+        fontFamily: "sans-serif",
+    }
+})

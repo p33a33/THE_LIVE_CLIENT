@@ -53,12 +53,14 @@ export default class FeedIndex extends React.Component {
                         labelStyle: {
                             fontSize: isSeller ? 11 : 11.5,
                             letterSpacing: -0.5,
+                            textAlignVertical: "center",
+                            height: 45
                         },
                         keyboardHidesTabBar: true,
                         style: {
-                            height: 40,
+                            height: 50,
                             backgroundColor: "rgb(0,0,0,0)",
-                            elevation: 0
+                            elevation: 0.8
                         },
                         activeTintColor: 'slateblue',
                         inactiveTintColor: 'slategrey',
