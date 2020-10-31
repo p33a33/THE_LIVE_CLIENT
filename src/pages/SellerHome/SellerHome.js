@@ -6,6 +6,7 @@ import SellerInfoHome from '../../components/SellerInfoHome'
 import SellerItemEntry from '../../components/SellerItemEntry'
 import { HeaderBackButton } from '@react-navigation/stack';
 import SearchDefaultEntry from '../../components/SearchDefaultEntry'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default class SellerHome extends React.Component {
@@ -15,7 +16,7 @@ export default class SellerHome extends React.Component {
     }
     _renderItem({ item }) {
         return (
-            <View style={{ margin: 8, }}>
+            <View style={{ margin: 10, }}>
                 <SellerItemEntry itm={item} navigation={this.props.navigation} />
             </View>
         )
@@ -24,13 +25,22 @@ export default class SellerHome extends React.Component {
         return (
 
             <ScrollView>
-                <HeaderBackButton onPress={() => {
-                    this.props.navigation.goBack();
-                }} />
                 <View style={styles.sellerContainer}>
+                    <HeaderBackButton
+                        onPress={() => {
+                            this.props.navigation.goBack();
+                        }}
+                        style={{ paddingTop: 15 }}
+                    />
                     <Text style={styles.sellerTitle}>{this.props.route.params.list[0].name.toUpperCase()}</Text>
                     <SellerInfoHome navigation={this.props.navigation} />
-                    <Button type="outline" title="Follow"></Button>
+                    <View style={{ alignItems: "center", marginBottom: 15 }}>
+                        <Icon.Button name="plus-circle"
+                            borderRadius={15}
+                            size={15}
+                            style={{ justifyContent: 'center', backgroundColor: 'slateblue', width: 200, height: 35, alignSelf: "center" }}>
+                            Follow</Icon.Button>
+                    </View>
                     <Text style={styles.sellerTitle}>{"Streaming".toUpperCase()}</Text>
                     <View style={styles.sellerItm}>
                         {this.props.route.params.list.map((itm) => <SearchDefaultEntry itm={itm} navigation={this.props.navigation} onPress={() => this.props.navigation.navigate('Watching')} />)}
@@ -51,17 +61,16 @@ export default class SellerHome extends React.Component {
 
 const styles = StyleSheet.create({
     sellerContainer: {
-        marginLeft: 7,
-        marginRight: 7,
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingBottom: 10,
+        marginLeft: 2,
+        marginRight: 2,
+        padding: 15,
     },
     sellerTitle: {
         fontSize: 20,
-        fontWeight: "bold",
         padding: 5,
-        marginLeft: 10
+        marginLeft: 20,
+        fontFamily: "sans-serif",
+        color: "slateblue"
     },
     sellerItm: {
         alignItems: "center",

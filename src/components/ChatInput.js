@@ -32,15 +32,15 @@ export default class ChatInput extends React.Component {
                 <View style={{ width: `${100}%`, flexDirection: "row", alignItems: "center" }}>
                     <TextInput
                         ref={r => this.chatInput = r}
-                        placeholder="  chat"
-                        style={{ width: `${75}%`, backgroundColor: "white", borderRadius: 15, padding: 10, margin: 10 }}
+                        placeholder="chat"
+                        style={{ width: `${75}%`, height: `${45}%`, backgroundColor: 'rgba(255, 255, 255, 0.3)', borderRadius: 25, margin: 15, marginRight: 0, paddingLeft: 13, textAlignVertical: "center" }}
                         onChangeText={e => handleInputValue(e)}
                     />
                     <TouchableOpacity onPress={this.handlePressSend}>
-                        <Icon name="send" color="skyblue" size={30} style={{ marginRight: 10 }} />
+                        <Icon name="send" color="skyblue" size={28} style={{ marginLeft: 5, marginRight: 7 }} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handlePressHeart}>
-                        <Image source={require('../images/ico_heart.png')} style={{ width: 30, height: 30 }} />
+                        <Image source={require('../images/ico_heart.png')} style={{ width: 28, height: 28 }} />
                     </TouchableOpacity>
                 </View>
             </KeyboardAccessoryView >
