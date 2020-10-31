@@ -171,7 +171,7 @@ export default class UserInfoEdit extends React.Component {
                                     <Input
                                         style={styles.Input}
                                         placeholder="계좌번호"
-                                        onChangeText={val => this.handleFormSeller('addressDetail', val)}
+                                        onChangeText={val => this.handleFormSeller('sellerAccount', val)}
                                         leftIcon={<Icon name="bank" type="font-awesome" size={18}
                                             style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} />}
                                     />
@@ -229,8 +229,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
         letterSpacing: -0.5,
         fontFamily: "sans-serif-light",
-        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-
     },
     loginButton: {
         justifyContent: "center",

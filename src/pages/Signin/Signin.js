@@ -52,7 +52,7 @@ export default class Signin extends React.Component {
                         <Input
                             inputContainerStyle={{ borderBottomWidth: 0 }}
                             style={styles.Input}
-                            placeholder="Email"
+                            placeholder="EMAIL"
                             placeholderTextColor="grey"
                             onChangeText={val => this.setState({ email: val })}
                             leftIcon={<Icon name="user-circle-o" style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} type="font-awesome" size={21.5} />} />
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     },
     InputContainer: {
         marginTop: 35,
-        marginBottom: 30,
+        marginBottom: 50,
         width: 300,
     },
     Input: {

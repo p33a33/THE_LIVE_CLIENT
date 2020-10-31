@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, SafeAreaView, View } from 'react-native'
+import { Dimensions, SafeAreaView, View, StyleSheet } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import { NodePlayerView } from 'react-native-nodemediaclient'
 import ChatInput from '../../../components/ChatInput'
@@ -8,6 +8,7 @@ import { SERVER, RTMP_SERVER } from '../../config'
 import StreamingItems from '../../../components/StreamingItems'
 import SocketManager from '../../../socketManager'
 import Axios from 'axios'
+import { HeaderBackButton } from '@react-navigation/stack'
 
 
 export default class Watching extends React.Component {
@@ -101,20 +102,24 @@ export default class Watching extends React.Component {
         let deviceWidth = Dimensions.get('window').width
         let { messages, count } = this.state
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <NodePlayerView
-                    style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
-                    ref={(vb) => { this.NodePlayerView = vb }}
-                    inputUrl={inputUrl}
-                    scaleMode={"ScaleAspectFill"}
-                    bufferTime={300}
-                    maxBufferTime={1000}
-                    autoplay
-                />
+            <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
                 <View style={{ flex: 1 }}>
-                    <Button
-                        title="뒤로 이동"
-                        onPress={this.handleGoback} />
+                    <NodePlayerView
+                        style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
+                        ref={(vb) => { this.NodePlayerView = vb }}
+                        inputUrl={inputUrl}
+                        scaleMode={"ScaleAspectFill"}
+                        bufferTime={300}
+                        maxBufferTime={1000}
+                        autoplay
+                    />
+                    <HeaderBackButton
+                        onPress={this.handleGoback}
+                        labelVisible={false}
+                        labelStyle={styles.title}
+                        tintColor="slategrey"
+                        style={{ padding: 10, }}
+                    />
                 </View>
                 <StreamingItems list={this.list} />
                 <FloatingHearts count={count} />
@@ -130,4 +135,17 @@ export default class Watching extends React.Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+
+    title: {
+        fontSize: 18.5,
+        padding: 5,
+        marginLeft: 10,
+        color: 'slateblue',
+        fontFamily: "sans-serif",
+        letterSpacing: -0.5
+    },
+});
+
 
