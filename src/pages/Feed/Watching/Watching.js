@@ -80,8 +80,9 @@ export default class Watching extends React.Component {
     }
 
     handleSendChat = () => {
-        let { chatInput, nickName, title } = this.state
-        let message = { nickName: nickName, title: title, message: chatInput }
+        let { chatInput, userInfo, title } = this.state
+        let { nickname } = userInfo;
+        let message = { nickName: nickname, title: title, message: chatInput }
         SocketManager.instance.emitSendChat(message);
     }
 
