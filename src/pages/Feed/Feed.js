@@ -1,12 +1,12 @@
 import React from 'react'
 import { FlatList, RefreshControl, View, ScrollView, StyleSheet, ListView } from 'react-native'
-import { searchYouTube } from '../Feed/searchYouTube';
 import LinearGradient from 'react-native-linear-gradient';
 import { CustomHeader } from '../../components/CustomHeader';
 import { Text, Button, Image } from 'react-native-elements'
 import { SERVER, YOUTUBE_API_KEY } from '../config'
 import { BoxShadow } from 'react-native-shadow'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Axios from 'axios';
 
 
 export default class Feed extends React.Component {
@@ -14,6 +14,7 @@ export default class Feed extends React.Component {
         super(props)
         this.state = {
             subscribeVids: [],
+            currentBroadcast: [],
             popularVids: [],
             refreshing: false,
             dragging: false,
@@ -21,72 +22,54 @@ export default class Feed extends React.Component {
             userInfo: this.props.route.params.userInfo
         }
         this.FlatList = React.createRef()
-        this.fetchData = this.fetchData.bind(this)
         this.renderItem = this.renderItem.bind(this)
-        this.ConvertSystemSourcetoHtml = this.ConvertSystemSourcetoHtml.bind(this)
-        this.fetchNewData = this.fetchNewData.bind(this)
     }
 
     componentDidMount() {
-        this.fetchData()
-    }
-    ConvertSystemSourcetoHtml(str) {
-        str = str.replace("&lt;", "<");
-        str = str.replace("&gt;", ">");
-        str = str.replace("&quot;", '"');
-        str = str.replace("&quot;", '"');
-        str = str.replace("&#39;", "'");
-        str = str.replace("&#39;", "'");
-
-        return str;
+        this.getLatestList();
     }
 
-
-    fetchData() {
-        let initOption = {
-            query: 'vertical+video',
-            max: 5,
-            key: YOUTUBE_API_KEY
-        }
-        searchYouTube(initOption, (data) => this.setState({ subscribeVids: this.state.subscribeVids.concat(data) }))
-        console.log("fetchData Called")
-    }
-    async fetchNewData() {
-        let initOption = {
-            query: 'vevo',
-            max: 5,
-            key: YOUTUBE_API_KEY
-        }
-        await this.setState({
-            refreshing: true,
-        })
-        await searchYouTube(initOption, (data) => this.setState({ subscribeVids: data.concat(this.state.subscribeVids) }))
-        await this.setState({
-            refreshing: false,
-        })
-        await console.log("fetchNewData Called");
+    getLatestList = () => {
+        Axios.get(`${SERVER}/getBroadcast`)
+            .then(data => {
+                this.setState({ currentBroadcast: data.data })
+                console.log(this.state.currentBroadcast)
+            })
     }
 
     renderItem({ item }) {
-        let imgSrc = item.snippet.thumbnails.high.url
         return (
             <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate('Watching', { title: `${item.title}`, handleVisible: this.props.route.params.handleVisible })
             }} >
                 <View style={styles.listItems} >
                     <BoxShadow setting={shadowOpt}>
-                        <Image
-                            style={{
-                                height: 400, width: 250, borderRadius: 40,
-                            }}
-                            source={{ uri: imgSrc }}
-                        >
-                            <View>
-                                <Text style={styles.itemTitle}>
-                                    {this.ConvertSystemSourcetoHtml(item.snippet.title.toUpperCase())}
-                                </Text>
-                            </View>
-                        </Image>
+                        {item.thumbnail ?
+                            <Image
+                                style={{
+                                    height: 400, width: 250, borderRadius: 40,
+                                }}
+                                source={{ uri: `${SERVER}${item.thumbnail}` }}
+                            >
+                                <View>
+                                    <Text style={styles.itemTitle}>
+                                        {item.title}
+                                    </Text>
+                                </View>
+                            </Image>
+                            : <Image
+                                style={{
+                                    height: 400, width: 250, borderRadius: 40,
+                                }}
+                                source={{ uri: `${SERVER}/thumbnail/thumbnail-1604128562013.jpg` }}
+                            >
+                                <View>
+                                    <Text style={styles.itemTitle}>
+                                        {item.title}
+                                    </Text>
+                                </View>
+                            </Image>
+                        }
                     </BoxShadow>
                 </View >
             </TouchableOpacity>
@@ -116,13 +99,13 @@ export default class Feed extends React.Component {
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
-                            onRefresh={() => this.fetchNewData()}
+                            onRefresh={this.getLatestList}
                             color="black"
                         />}
                     onScroll={e => { e.nativeEvent.contentOffset.y }}
                     onLayout={e => { this.flatListTopOffset = e.nativeEvent.layout.y }}
                     numColumns={1}
-                    data={this.state.subscribeVids}
+                    data={this.state.currentBroadcast}
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => String(index)}
                     onEndReached={this.fetchData}
