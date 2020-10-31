@@ -8,6 +8,8 @@ import FloatingHearts from '../../../components/floatingHeart/FloatingHearts'
 import StreamingItems from '../../../components/StreamingItems';
 import SocketManager from '../../../socketManager'
 import { Socket } from 'socket.io-client';
+import { HeaderBackButton } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default class OnAir extends React.Component {
@@ -120,6 +122,9 @@ export default class OnAir extends React.Component {
     handleSwitchCamera = () => {
         this.nodeCameraViewRef.switchCamera();
     }
+    handleGoback = () => {
+        this.props.navigation.goBack();
+    }
 
     requestCameraPermission = async () => {
         try {
@@ -157,36 +162,48 @@ export default class OnAir extends React.Component {
         let outputURL = `${RTMP_SERVER}/live/${userName}` // 영상을 전송받을 URL을 정의
 
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <NodeCameraView
-                    style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
-                    ref={this.setCameraRef}
-                    outputUrl={outputURL} // URL이 확정되면 해당 URL로 영상을 전송
-                    camera={{ cameraId: 1, cameraFrontMirror: false }}
-                    audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-                    video={{ preset: 1, bitrate: 400000, profile: 0, fps: 30, videoFrontMirror: false }}
-                    autopreview={true}
-                />
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                    <Button
-                        title="카메라 전환"
-                        containerStyle={{ width: 100 }}
-                        onPress={this.handleSwitchCamera} />
-                    <Button
-                        title={liveStatus ? '방송 종료' : '방송 시작'}
-                        onPress={this.handleLiveStatus}
-                        containerStyle={{ width: 80 }}
-                        style={{
-                            borderRadius: 8,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }} />
-                    <Button
-                        title="뒤로 이동"
-                        onPress={this.handleGoback} />
+            <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
+                <View style={{ flex: 1 }}>
+                    <NodeCameraView
+                        style={{ position: 'absolute', top: 0, left: 0, height: deviceHeight, width: deviceWidth }}
+                        ref={this.setCameraRef}
+                        outputUrl={outputURL} // URL이 확정되면 해당 URL로 영상을 전송
+                        camera={{ cameraId: 1, cameraFrontMirror: false }}
+                        audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
+                        video={{ preset: 1, bitrate: 400000, profile: 0, fps: 30, videoFrontMirror: false }}
+                        autopreview={true}
+                    />
+                    <HeaderBackButton
+                        onPress={this.handleGoback}
+                        tintColor="slategrey"
+                        style={{ padding: 10, }}
+                    />
+                    <View style={{ alignItems: "flex-start", marginLeft: '43%', marginBottom: -10, marginTop: "-12%", flexDirection: "row" }}>
+                        <View style={{ padding: 3 }}>
+                            <Icon.Button
+                                name="camera"
+                                onPress={this.handleSwitchCamera}
+                                borderRadius={15}
+                                size={11.5}
+                                style={{ justifyContent: "center", backgroundColor: 'slateblue', width: 100, height: 35, alignSelf: "center", padding: 10 }}
+                            >
+                                <Text style={{ color: "white", fontFamily: "sans-serif-thin", fontSize: 13 }}>카메라 전환</Text>
+                            </Icon.Button>
+                        </View>
+                        <View style={{ padding: 3 }}>
+                            <Icon.Button
+                                onPress={this.handleLiveStatus}
+                                name={liveStatus ? 'stop' : 'play'}
+                                borderRadius={15}
+                                size={11.5}
+                                style={{ justifyContent: "center", backgroundColor: 'slateblue', width: 90, height: 35, alignSelf: "center" }}
+                            ><Text style={{ color: "white", fontFamily: "sans-serif-thin", fontSize: 13 }}>{liveStatus ? '방송 종료' : '방송 시작'}</Text>
+                            </Icon.Button>
+                        </View>
+                    </View>
                 </View>
-                <StreamingItems list={this.list} />
-                <View style={{ borderwidth: 2, borderColor: "black", zIndex: 1 }}>
+                <FloatingHearts count={count} />
+                <View style={{ zIndex: 1, marginTop: 20 }}>
                     <ChatInput
                         handleInputValue={this.handleInputValue}
                         handleSendChat={this.handleSendChat}
@@ -194,7 +211,7 @@ export default class OnAir extends React.Component {
                         messages={messages}
                     />
                 </View>
-                <FloatingHearts count={count} />
+
             </SafeAreaView >
         )
     }

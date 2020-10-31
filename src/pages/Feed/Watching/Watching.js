@@ -121,7 +121,7 @@ export default class Watching extends React.Component {
                 </View>
                 <StreamingItems list={this.list} navigation={this.props.navigation} />
                 <FloatingHearts count={count} />
-                <View style={{ zIndex: 1 }}>
+                <View style={{ zIndex: 1, marginTop: 20 }}>
                     <ChatInput
                         handleInputValue={this.handleInputValue}
                         handleSendChat={this.handleSendChat}
