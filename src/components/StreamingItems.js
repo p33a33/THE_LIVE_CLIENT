@@ -30,15 +30,15 @@ export default class StreamingItems extends React.Component {
 
     renderItem = ({ item, index }) => {
         return (
-            <View style={{ marginLeft: `${5}%`, width: `${30}%` }}>
-                <Card containerStyle={{ padding: 5 }}>
-                    <Card.Title style={{ fontSize: 10 }} numberOfLines={1} ellipsizeMode="tail">{item.title}</Card.Title>
+            <View style={{ width: `${38}%`, justifyContent: "center" }}>
+                <Card containerStyle={{ padding: 8, borderRadius: 20, paddingTop: 8 }}>
+                    <Card.Title style={{ fontSize: 13, fontFamily: "sans-serif-thin", color: "slateblue" }} numberOfLines={1} ellipsizeMode="tail">{item.title}</Card.Title>
                     <View style={{ alignSelf: "center" }}>
-                        <TouchableOpacity>
-                            <Image source={{ uri: item.image[0] }} style={{ width: 50, height: 50 }} />
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ProductDetail", { info: item, previous: 'Watching', list: this.props.list })}>
+                            <Image source={{ uri: item.image[0] }} style={{ width: 70, height: 70 }} />
                         </TouchableOpacity>
                     </View>
-                    <Text style={{ textAlign: "center", marginTop: `${5}%`, marginBottom: `${5}%`, fontSize: 10 }}>{item.price}</Text>
+                    <Text style={{ textAlign: "center", marginTop: `${8}%`, marginBottom: `${8}%`, fontSize: 11, fontFamily: "sans-serif-light", letterSpacing: 1.2, color: "slategrey" }}>{item.price}</Text>
                 </Card>
             </View>
         )
@@ -55,23 +55,22 @@ export default class StreamingItems extends React.Component {
         let itemWidth = slideWidth + horizontalMargin * 2;
         let itemHeight = 100;
         return (
-            <Animated.View {...this.PanResponder.panHandlers} style={[panStyle]} >
-                <ScrollView
-                    style={{
-                        marginLeft: `${60}%`,
-                        width: `${40}%`,
-                        backgroundColor: 'rgba(0, 0, 0, 0.0)',
-                    }}>
-                    <Carousel
-                        ref={(c) => { this.carousel = c; }}
-                        data={list}
-                        renderItem={this.renderItem}
-                        sliderWidth={sliderWidth}
-                        itemWidth={itemWidth}
-                        itemHeight={itemHeight}
-                    />
-                </ScrollView>
-            </Animated.View >
+            <ScrollView
+                style={{
+
+                    marginLeft: `${60}%`,
+                    width: `${40}%`,
+                    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                }}>
+                <Carousel
+                    ref={(c) => { this.carousel = c; }}
+                    data={list}
+                    renderItem={this.renderItem}
+                    sliderWidth={sliderWidth}
+                    itemWidth={itemWidth}
+                    itemHeight={itemHeight}
+                />
+            </ScrollView>
         )
     }
 }

@@ -32,8 +32,9 @@ export default class ProductDetail extends React.Component {
 
     componentDidMount() {
         this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true });
-        this.props.route.params.handleVisible();
-
+        if (this.props.route.params.previous !== "Watching") {
+            this.props.route.params.handleVisible();
+        }
     }
 
     componentWillUnmount() {
@@ -118,9 +119,8 @@ export default class ProductDetail extends React.Component {
                         <ScrollView showsVerticalScrollIndicator={false} ref='_scrollView' onContentSizeChange={
                             () => this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })
                         }>
-                            <Text style={{ fontSize: 19, letterSpacing: -0.5, textAlign: "center", fontFamily: 'sans-serif' }}>{title}</Text>
+                            <Text style={{ fontSize: 19, letterSpacing: -0.5, textAlign: "center", fontFamily: 'sans-serif', color: "slateblue" }}>{title}</Text>
                             <Text style={{ letterSpacing: 2, fontSize: 15, textAlign: "center", marginTop: 10, fontFamily: 'sans-serif-light' }}>￦ {price}</Text>
-
                             <View style={{ alignItems: "center", }}  >
                                 <Carousel
                                     ref={(c) => { this._carousel = c; }}
@@ -134,6 +134,8 @@ export default class ProductDetail extends React.Component {
                                 {this.pagination}
                                 <View style={{ marginTop: 10, }}>
                                     <NumericInput
+                                        textColor="slategrey"
+                                        inputStyle={{ color: "slateblue" }}
                                         minValue={1}
                                         initValue={1}
                                         totalWidth={110}

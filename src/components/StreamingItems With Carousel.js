@@ -10,9 +10,9 @@ export default class StremingItems extends React.Component {
 
     renderItem = ({ item, index }) => {
         return (
-            <View style={{ alignSelf: "center", width: `${60}%` }}>
+            <View style={{ alignSelf: "center", width: `${60}%`, }}>
                 <Card>
-                    <Card.Title style={{ fontSize: 15 }} numberOfLines={1} ellipsizeMode="tail">{item.title}</Card.Title>
+                    <Card.Title style={{ fontSize: 15, }} numberOfLines={1} ellipsizeMode="tail">{item.title}</Card.Title>
                     <Card.Divider />
                     <View style={{ alignSelf: "center" }}>
                         <Image source={{ uri: item.image[0] }} style={{ width: 100, height: 100, borderWidth: 1, borderColor: "black" }} />
@@ -34,7 +34,7 @@ export default class StremingItems extends React.Component {
 
         return (
             <ScrollView horizontal style={{ height: `${50}%`, borderColor: "black", borderWidth: 2 }}>
-                <ScrollView style={{ height: `${100}%`, backgroundColor: 'rgba(0, 0, 0, 0.0)' }}>
+                <ScrollView style={{ height: `${100}%`, backgroundColor: 'rgba(0, 0, 0, 0.0)', }}>
                     <Carousel
                         ref={(c) => { this.carousel = c; }}
                         data={list}
