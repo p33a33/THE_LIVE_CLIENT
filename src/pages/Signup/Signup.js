@@ -90,7 +90,7 @@ export default class Signup extends React.Component {
                     <SignupForm handleFormValues={this.handleFormValues} address={signupForm.address} photo={signupForm.profileImage} />
                     <BoxShadow setting={shadowOpt} >
                         <Icon.Button borderRadius={15} name="check" iconStyle={{ color: "slateblue" }} style={styles.loginButton} onPress={this.handleSignup} >
-                            <Text style={styles.buttonText}>Sign Up</Text>
+                            <Text style={styles.buttonText}>SIGN UP</Text>
                         </Icon.Button>
                     </BoxShadow>
                 </ScrollView>
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     },
     body: {
         padding: 20,
+        paddingBottom: -20,
         flex: 1,
         alignItems: 'center',
     },

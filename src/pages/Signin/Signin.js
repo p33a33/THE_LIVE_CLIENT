@@ -50,12 +50,14 @@ export default class Signin extends React.Component {
                     <Text style={styles.headerTitle} >THE LIVE</Text>
                     <View style={styles.InputContainer}>
                         <Input
+                            inputContainerStyle={{ borderBottomWidth: 0 }}
                             style={styles.Input}
                             placeholder="Email"
                             placeholderTextColor="grey"
                             onChangeText={val => this.setState({ email: val })}
                             leftIcon={<Icon name="user-circle-o" style={{ paddingLeft: 8, paddingRight: 5, color: "slategrey" }} type="font-awesome" size={21.5} />} />
                         <Input
+                            inputContainerStyle={{ borderBottomWidth: 0 }}
                             style={styles.Input}
                             placeholderTextColor="grey"
                             placeholder="••••"
@@ -67,22 +69,22 @@ export default class Signin extends React.Component {
                     <BoxShadow setting={shadowOpt} >
                         <Icon.Button name="sign-in" borderRadius={15} iconStyle={{ color: "slateblue" }} onPress={this.handleSignin}
                             style={styles.loginButton} >
-                            <Text style={styles.buttonText}>Sign in</Text>
+                            <Text style={styles.buttonText}>SIGN IN</Text>
                         </Icon.Button>
                     </BoxShadow>
                     <BoxShadow setting={shadowOpt}  >
                         <Icon.Button name="google" borderRadius={15} iconStyle={{ color: "#D14E45" }} style={styles.loginButton} onPress={this.handleGoogleSignin}>
-                            <Text style={styles.buttonText}>Sign in with Google</Text>
+                            <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
                         </Icon.Button>
                     </BoxShadow>
                     <BoxShadow setting={shadowOpt} >
                         <Icon.Button name="facebook" borderRadius={15} iconStyle={{ color: "#3b5998" }} style={styles.loginButton} >
-                            <Text style={styles.buttonText}>Sign in with Facebook</Text>
+                            <Text style={styles.buttonText}>SIGN IN WITH FACEBOOK</Text>
                         </Icon.Button>
                     </BoxShadow>
                     <BoxShadow setting={shadowOpt} >
                         <Icon.Button name="user-plus" borderRadius={15} iconStyle={{ color: "slateblue" }} style={styles.loginButton} onPress={() => this.props.navigation.navigate('Signup')} >
-                            <Text style={styles.buttonText}>Sign up</Text>
+                            <Text style={styles.buttonText}>SIGN UP</Text>
                         </Icon.Button>
                     </BoxShadow>
                 </View>
@@ -125,15 +127,22 @@ const styles = StyleSheet.create({
         width: 300,
     },
     Input: {
+        paddingLeft: 10,
+        height: 10,
+        width: 150,
+        paddingHorizontal: 5,
+        borderRadius: 20,
         fontSize: 15,
         letterSpacing: -0.5,
         fontFamily: "sans-serif-light",
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
     },
     loginButton: {
         justifyContent: "center",
         backgroundColor: "whitesmoke",
     },
     buttonText: {
+        fontSize: 11,
         color: "slategrey",
         letterSpacing: -0.5,
         fontFamily: "sans-serif",

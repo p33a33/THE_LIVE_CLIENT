@@ -41,6 +41,7 @@ export default class ProductListEntry extends React.Component {
                 inactiveDotStyle={{
                     backgroundColor: 'slategrey'
                 }}
+                animatedDuration={100}
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
             />

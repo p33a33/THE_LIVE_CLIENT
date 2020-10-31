@@ -71,18 +71,18 @@ export default class Feed extends React.Component {
         let imgSrc = item.snippet.thumbnails.high.url
         return (
             <TouchableOpacity onPress={() => {
-                this.props.navigation.navigate('Watching', { title: `${item.title}` })
+                this.props.navigation.navigate('Watching', { title: `${item.title}`, handleVisible: this.props.route.params.handleVisible })
             }} >
-                <View className="video-list-entry" style={styles.listItems} >
+                <View style={styles.listItems} >
                     <BoxShadow setting={shadowOpt}>
-                        <Image className="media-thumbnail"
+                        <Image
                             style={{
-                                height: 400, width: 250, borderRadius: 20,
+                                height: 400, width: 250, borderRadius: 40,
                             }}
                             source={{ uri: imgSrc }}
                         >
-                            <View className="media-body"  >
-                                <Text className="video-list-entry-title" style={styles.itemTitle}>
+                            <View>
+                                <Text style={styles.itemTitle}>
                                     {this.ConvertSystemSourcetoHtml(item.snippet.title.toUpperCase())}
                                 </Text>
                             </View>
@@ -136,13 +136,12 @@ export default class Feed extends React.Component {
 const shadowOpt = {
     width: 250,
     height: 400,
-    color: "#000",
+    color: "#708090",
     border: 9,
-    radius: 20,
-    opacity: 0.2,
+    radius: 40,
+    opacity: 0.4,
     x: 0,
-    y: 5,
-    style: { marginVertical: 5 }
+    y: 4,
 }
 
 const styles = StyleSheet.create({
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         paddingBottom: 30,
         paddingTop: 20,
-        marginBottom: 30,
+        marginBottom: 35,
         marginLeft: 20,
         marginRight: 20,
     },
