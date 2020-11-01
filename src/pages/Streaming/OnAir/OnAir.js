@@ -178,7 +178,7 @@ export default class OnAir extends React.Component {
                         tintColor="slategrey"
                         style={{ padding: 10, }}
                     />
-                    <View style={{ alignItems: "flex-start", marginLeft: '43%', marginBottom: -10, marginTop: "-12%", flexDirection: "row" }}>
+                    <View style={{ alignItems: "flex-start", marginLeft: '43%', flexDirection: "row" }}>
                         <View style={{ padding: 3 }}>
                             <Icon.Button
                                 name="camera"
