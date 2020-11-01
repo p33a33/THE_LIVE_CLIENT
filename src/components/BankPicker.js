@@ -18,7 +18,7 @@ export const BankPicker = (props) => {
                 }
             }
             }>
-            {props.bankList.map(item => <Picker.Item label={item} value={item} color="slategrey" />)}
+            {props.bankList.map((item, idx) => <Picker.Item label={item} value={item} key={idx} color="slategrey" />)}
         </Picker>
     );
 };

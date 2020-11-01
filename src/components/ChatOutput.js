@@ -15,14 +15,16 @@ export default class ChatOutput extends React.Component {
 
     render() {
         return (
-            <ScrollView ref={r => this.scrollView = r} contentContainerStyle={{ height: `${100}%` }}>
-                {this.props.messages.map((message, key) =>
-                    <View key={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', borderRadius: 15, margin: 5, padding: 5, flexDirection: "row" }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginRight: 10 }}>{message[0]}</Text>
-                        <Text>{message[1]}</Text>
-                    </View>
-                )}
-            </ScrollView>
+            <View style={{ height: 20 }}>
+                <ScrollView ref={r => this.scrollView = r} contentContainerStyle={{ height: 0 }}>
+                    {this.props.messages.map((message, key) =>
+                        <View key={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', borderRadius: 15, margin: 5, padding: 5, flexDirection: "row" }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 16, marginRight: 10 }}>{message[0]}</Text>
+                            <Text>{message[1]}</Text>
+                        </View>
+                    )}
+                </ScrollView>
+            </View>
         )
     }
 }

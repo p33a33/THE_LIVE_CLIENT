@@ -205,8 +205,8 @@ export default class AddItem extends React.Component {
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 30 }}>
                     {this.state.itemInfo.tags.length > 0 && this.state.itemInfo.tags.map((tag, index) =>
-                        <TouchableOpacity onPress={() => this.handleDeleteTag(index)}>
-                            <Card key={index} containerStyle={{ padding: 10, margin: 10 }}>
+                        <TouchableOpacity onPress={() => this.handleDeleteTag(index)} key={index}>
+                            <Card containerStyle={{ padding: 10, margin: 10 }}>
                                 <Text>{tag}</Text>
                             </Card>
                         </TouchableOpacity>)}

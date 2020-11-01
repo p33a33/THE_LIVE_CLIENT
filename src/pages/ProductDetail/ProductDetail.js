@@ -24,7 +24,13 @@ export default class ProductDetail extends React.Component {
             inWishlist: false,
             quantity: 1,
             isPaymentPending: false, // request payment 메소드에 대응하는 state 추가
-            activeSlide: 0
+            activeSlide: 0,
+            orderInfo: {
+                quantity: this.state.quantity,
+                productId: this.props.route.params.info.id,
+                amount: this.state.quantity * this.props.route.params.info.price,
+                sellerId: this.props.route.params.info.userId
+            }
         }
         this.handleButtonPress = this.handleButtonPress.bind(this)
         this._renderItem = this._renderItem.bind(this)
@@ -43,8 +49,7 @@ export default class ProductDetail extends React.Component {
 
     handleOpenPayment = () => {
         this.setState({ isPaymentPending: true });
-        let amount = this.state.quantity * this.props.route.params.info.price
-        requestPayment(amount);
+        requestPayment(this.state.orderInfo);
     }
 
     handleButtonPress = (index) => {

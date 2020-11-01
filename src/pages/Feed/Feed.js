@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         padding: 5,
         fontFamily: "sans-serif-light",
-
     },
     listItems: {
         height: 400,

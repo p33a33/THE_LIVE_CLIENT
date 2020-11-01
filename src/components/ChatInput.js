@@ -1,5 +1,5 @@
 import React, { Children } from 'react'
-import { View, TextInput, Keyboard } from 'react-native'
+import { View, TextInput, Keyboard, SafeAreaView } from 'react-native'
 import { Input, Text, Button, Image, Icon } from 'react-native-elements'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { KeyboardAccessoryView } from 'react-native-keyboard-accessory'
@@ -24,16 +24,18 @@ export default class ChatInput extends React.Component {
         return (
             <KeyboardAccessoryView
                 alwaysVisible={true}
-                androidAdjustResize={true}
-                style={{ height: 0, flex: 1, backgroundColor: "rgba(0, 0, 0, 0)" }}
+                androidAdjustResize
+                style={{ height: "100%", backgroundColor: "rgba(0, 0, 0, 0)", borderColor: "yellow", borderWidth: 2 }}
                 hideBorder={true}
             >
-                <ChatOutput messages={messages} />
-                <View style={{ width: `${100}%`, flexDirection: "row", alignItems: "center" }}>
+                <View style={{ width: "100%", height: 200, borderColor: "red", borderWidth: 2 }}>
+                    <ChatOutput messages={messages} />
+                </View>
+                <View style={{ width: `${100}%`, flexDirection: "row", alignItems: "center", alignSelf: "baseline" }}>
                     <TextInput
                         ref={r => this.chatInput = r}
                         placeholder="chat"
-                        style={{ width: `${75}%`, height: `${45}%`, backgroundColor: 'rgba(255, 255, 255, 0.3)', borderRadius: 25, margin: 15, marginRight: 0, paddingLeft: 13, textAlignVertical: "center" }}
+                        style={{ zIndex: 2, width: `${75}%`, height: `${45}%`, backgroundColor: 'rgba(255, 255, 255, 0.3)', borderRadius: 25, margin: 15, marginRight: 0, paddingLeft: 13, textAlignVertical: "center" }}
                         onChangeText={e => handleInputValue(e)}
                     />
                     <TouchableOpacity onPress={this.handlePressSend}>
