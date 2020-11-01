@@ -8,17 +8,16 @@ export default class SelectProductForStreaming extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            productInfo: this.props.productInfo
-        }
     }
 
     render() {
-        let { id, price, title, quantity, image } = this.state.productInfo
+        let { productInfo } = this.props
+        let { id, price, title, quantity, image } = productInfo
 
         return (
             <TouchableOpacity onPress={() => {
-                this.props.handleSelectProduct(this.state.productInfo)
+                console.log("info", this.props)
+                this.props.handleSelectProduct(productInfo)
                 this.props.handleModal()
             }}>
                 <View style={{

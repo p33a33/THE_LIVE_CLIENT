@@ -28,6 +28,8 @@ export default class StreamingReady extends React.Component {
             myItems: null,
             isModalOpen: false
         }
+        this.handleSelectProduct = this.handleSelectProduct.bind(this)
+        this.handleModal = this.handleModal.bind(this)
     }
 
     componentDidMount = () => {
@@ -41,6 +43,7 @@ export default class StreamingReady extends React.Component {
 
     handleModal = () => {
         this.setState({ isModalOpen: !this.state.isModalOpen })
+        console.log(this.state)
     }
 
     handleSelectProduct = (data) => {
@@ -48,6 +51,8 @@ export default class StreamingReady extends React.Component {
     }
 
     handlePressOnAir = () => {
+        console.log('send this', this.state)
+
         let { title, body, thumbnail } = this.state
 
         let image = new FormData();
@@ -60,7 +65,7 @@ export default class StreamingReady extends React.Component {
         })
 
         Axios.post(`${SERVER}/addThumbnail`, image, { headers: { "Content-Type": "multipart/form-data" } })
-        // Axios.post(`${SERVER}/addLiveProduct`, { title: title, productid: this.state.product.id })
+        Axios.post(`${SERVER}/addLiveProduct`, { title: title, productId: this.state.product.id })
 
         this.props.navigation.navigate('OnAir', { handleVisible: this.props.route.params.handleVisible, userInfo: this.props.route.params.userInfo, title: title });
     }
