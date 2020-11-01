@@ -62,7 +62,7 @@ export default class StreamingReady extends React.Component {
         Axios.post(`${SERVER}/addThumbnail`, image, { headers: { "Content-Type": "multipart/form-data" } })
         // Axios.post(`${SERVER}/addLiveProduct`, { title: title, productid: this.state.product.id })
 
-        this.props.navigation.navigate('OnAir', { handleVisible: this.props.route.params.handleVisible, userInfo: this.props.route.params.userInfo });
+        this.props.navigation.navigate('OnAir', { handleVisible: this.props.route.params.handleVisible, userInfo: this.props.route.params.userInfo, title: title });
     }
 
     handleStatus = (name, val) => {

@@ -26,9 +26,9 @@ export default class ProductDetail extends React.Component {
             isPaymentPending: false, // request payment 메소드에 대응하는 state 추가
             activeSlide: 0,
             orderInfo: {
-                quantity: this.state.quantity,
+                quantity: this.quantity,
                 productId: this.props.route.params.info.id,
-                amount: this.state.quantity * this.props.route.params.info.price,
+                amount: this.quantity * this.props.route.params.info.price,
                 sellerId: this.props.route.params.info.userId
             }
         }

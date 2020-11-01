@@ -33,7 +33,7 @@ class SocketManager {
     }
 
     connectAfterLogin() {
-        this.socket.open();
+        this.socket.open()
     }
 
     emitPrepareLiveStream({ title, body }) {
@@ -50,6 +50,7 @@ class SocketManager {
 
     listenSendChat(callback = () => null) {
         this.socket.on("send-message", (data) => {
+            console.log(data)
             callback(data)
         })
     }
