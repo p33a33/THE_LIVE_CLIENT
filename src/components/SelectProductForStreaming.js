@@ -21,7 +21,7 @@ export default class SelectProductForStreaming extends React.Component {
                 this.props.handleModal()
             }}>
                 <View style={{
-                    width: `${95}%`,
+                    width: `${85}%`,
                     alignSelf: "center",
                     // justifyContent: "center",
                     flexDirection: "row",

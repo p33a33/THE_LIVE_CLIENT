@@ -43,9 +43,9 @@ export default class ProductList extends React.Component {
                     <ScrollView style={{ padding: 30, paddingTop: -30 }}>
                         <View style={{ marginLeft: 13, padding: 5, }}>
                             <Text style={{
-                                fontSize: 20, letterSpacing: 1, fontFamily: 'sans-serif'
+                                fontSize: 20, letterSpacing: 1, fontFamily: 'sans-serif-light', marginTop: 5, color: "slateblue"
                             }}>SHOP</Text>
-                            <Text style={{ fontSize: 16, letterSpacing: 1, fontFamily: 'sans-serif-light' }}>TRENDING</Text>
+                            <Text style={{ fontSize: 16, letterSpacing: 1, fontFamily: 'sans-serif-thin', }}>TRENDING</Text>
                         </View>
                         {this.list.map((product, index, array) => <ProductListEntry key={index} list={array} productInfo={product} navigation={this.props.navigation} handleVisible={this.props.route.params.handleVisible} />)}
                     </ScrollView>
