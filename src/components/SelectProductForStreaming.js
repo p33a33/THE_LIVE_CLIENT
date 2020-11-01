@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import React, { Children } from 'react'
 import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text, Button, Input, Image, ListItem, ButtonGroup } from 'react-native-elements'
