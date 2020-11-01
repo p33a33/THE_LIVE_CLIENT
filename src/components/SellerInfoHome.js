@@ -1,8 +1,10 @@
+import Axios from 'axios';
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { SERVER } from '../pages/config';
 
 
 
@@ -11,9 +13,9 @@ export default class SellerInfoHome extends React.Component {
         super(props)
         this.state = {
             sellerInfo: [
-                { Rate: "8.6" },
+                { Rate: (Math.random() * 10).toFixed(1) },
                 { Products: "193" },
-                { Followers: "12.1k" }
+                { Followers: `${(Math.random() * 10).toFixed(1)}k` }
             ]
         }
     }

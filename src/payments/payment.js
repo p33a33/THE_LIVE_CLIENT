@@ -10,23 +10,30 @@ stripe.setOptions({
 module.exports = {
 
     requestPayment: (orderInfo) => {
+        console.log(orderInfo)
         return stripe
             .paymentRequestWithCardForm()
             .then(stripeTokenInfo => {
                 console.log('cardform request response', stripeTokenInfo)
-                return doPayment(orderInfo.amount, stripeTokenInfo.tokenId);
+                return doPayment(5000, stripeTokenInfo.tokenId);
             })
             .then(() => {
-                Axios.post(`${SERVER}/addrrder`, orderInfo)
-                    .then(() => alert("결제와 주문이 성공적으로 처리되었습니다."))
+                Axios.post(`${SERVER}/addorder`, orderInfo)
+                    .then((data) => {
+                        console.log(data)
+                        alert("결제와 주문이 성공적으로 처리되었습니다.")
+                    })
                     .catch((err) => {
                         alert("주문처리 과정에서 문제가 발생했습니다, ")
                         console.log(err)
+                        return false;
                     })
                 console.warn('Payment succeeded!');
+                return true;
             })
             .catch(error => {
                 console.warn('Payment failed', { error });
+
             })
     }
 }

@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import LinearGradient from 'react-native-linear-gradient'
+import { SERVER } from '../pages/config'
 
 
 export default class ProductListEntry extends React.Component {
@@ -19,7 +20,7 @@ export default class ProductListEntry extends React.Component {
     _renderItem = ({ item, index }) => {
         return (
             <View style={{ margin: 10, padding: 10, alignItems: "center", }} >
-                <Image source={{ uri: item }} style={{ width: 230, height: 230, borderRadius: 20, }} />
+                <Image source={{ uri: `${SERVER}${item}` }} style={{ width: 230, height: 230, borderRadius: 20, }} />
             </View>
         );
     }
@@ -27,7 +28,7 @@ export default class ProductListEntry extends React.Component {
         const { activeSlide } = this.state;
         return (
             <Pagination
-                dotsLength={this.props.productInfo.image.length}
+                dotsLength={this.props.images.length}
                 activeDotIndex={activeSlide}
                 containerStyle={{ marginTop: -40, marginBottom: -10 }}
                 dotStyle={{
@@ -56,11 +57,12 @@ export default class ProductListEntry extends React.Component {
         return (
             <ListItem bottomDivider style={{ width: "100%", }}
                 containerStyle={{ margin: 5, borderRadius: 30, backgroundColor: 'whitesmoke', elevation: 5, height: 390 }}
-                onPress={() => navigation.navigate('ProductDetail', { info: productInfo, handleVisible: this.props.handleVisible })}>
+                onPress={() => navigation.navigate('ProductDetail', { info: productInfo, handleVisible: this.props.handleVisible, images: this.props.images })}
+            >
                 <ListItem.Content style={{ alignItems: "center" }}>
                     <Carousel ref={(c) => { this._carousel = c; }}
                         inactiveSlideScale={0.9}
-                        data={this.props.productInfo.image}
+                        data={this.props.images}
                         renderItem={this._renderItem}
                         sliderWidth={sliderWidth}
                         itemWidth={itemWidth}
