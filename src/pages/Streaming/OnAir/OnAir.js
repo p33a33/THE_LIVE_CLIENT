@@ -174,13 +174,13 @@ export default class OnAir extends React.Component {
                         video={{ preset: 1, bitrate: 400000, profile: 0, fps: 30, videoFrontMirror: false }}
                         autopreview={true}
                     />
-                    <View style={{ marginBottom: -10, flexDirection: "row", borderColor: "yellow", borderWidth: 2 }}>
+                    <View style={{ marginBottom: -10, flexDirection: "row", }}>
                         <HeaderBackButton
                             onPress={this.handleGoback}
                             tintColor="slategrey"
                             style={{ padding: 10, }}
                         />
-                        <View style={{ paddingLeft: "20%", flexDirection: "row", borderColor: "blue", borderWidth: 2 }}>
+                        <View style={{ paddingLeft: "45%", paddingTop: "3%", flexDirection: "row", }}>
                             <Icon.Button
                                 name="camera"
                                 onPress={this.handleSwitchCamera}
@@ -204,7 +204,8 @@ export default class OnAir extends React.Component {
                         </View>
                     </View>
                 </View>
-                <View style={{ zIndex: 1, borderColor: "green", borderWidth: 2, height: 300 }} >
+                <FloatingHearts count={count} />
+                <View style={{ zIndex: 1, height: 300 }} >
                     <ChatInput
                         handleInputValue={this.handleInputValue}
                         handleSendChat={this.handleSendChat}
@@ -212,7 +213,6 @@ export default class OnAir extends React.Component {
                         messages={messages}
                     />
                 </View>
-                <FloatingHearts count={count} />
             </SafeAreaView >
         )
     }

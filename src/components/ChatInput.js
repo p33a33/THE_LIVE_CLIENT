@@ -25,17 +25,17 @@ export default class ChatInput extends React.Component {
             <KeyboardAccessoryView
                 alwaysVisible={true}
                 androidAdjustResize
-                style={{ height: "100%", backgroundColor: "rgba(0, 0, 0, 0)", borderColor: "yellow", borderWidth: 2 }}
+                style={{ height: "100%", backgroundColor: "rgba(0, 0, 0, 0)", }}
                 hideBorder={true}
             >
-                <View style={{ width: "100%", height: 200, borderColor: "red", borderWidth: 2 }}>
+                <View style={{ width: "100%", height: 200, }}>
                     <ChatOutput messages={messages} />
                 </View>
                 <View style={{ width: `${100}%`, flexDirection: "row", alignItems: "center", alignSelf: "baseline" }}>
                     <TextInput
                         ref={r => this.chatInput = r}
                         placeholder="chat"
-                        style={{ zIndex: 2, width: `${75}%`, height: `${45}%`, backgroundColor: 'rgba(255, 255, 255, 0.3)', borderRadius: 25, margin: 15, marginRight: 0, paddingLeft: 13, textAlignVertical: "center" }}
+                        style={{ zIndex: 2, width: `${75}%`, height: `${45}%`, backgroundColor: 'rgba(255, 255, 255, 0.3)', borderRadius: 25, margin: 15, marginRight: 0, paddingLeft: 13, textAlignVertical: "center", color: "#484848" }}
                         onChangeText={e => handleInputValue(e)}
                     />
                     <TouchableOpacity onPress={this.handlePressSend}>
