@@ -135,30 +135,34 @@ export default class StreamingReady extends React.Component {
                             </View>
                             <Modal visible={this.state.isModalOpen}>
                                 <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1, }}>
-                                    <View style={{ height: `${100}%` }}>
+                                    <View >
                                         <View style={{ marginTop: 15 }}>
                                             <Text style={styles.headerTitle}>MY ITEMLIST</Text>
                                         </View>
-                                        {!this.state.myItems ? <Text style={{ textAlign: "center", }}>표시할 상품이 없습니다. </Text> :
+                                        {console.log(this.state.myItems)}
+                                        {!this.state.myItems || !this.state.myItems.length ?
+                                            <View style={{ marginTop: 30 }}>
+                                                <Text style={{ textAlign: "center", fontFamily: "sans-serif-light", color: "slateblue", fontSize: 15, letterSpacing: -0.5 }}>표시할 상품이 없습니다.</Text>
+                                            </View> :
                                             <ScrollView contentContainerStyle={{ height: `${80}%`, width: `${100}%` }}>
                                                 {this.state.myItems.map((item, index) =>
                                                     <SelectProductForStreaming key={index} productInfo={item} handleSelectProduct={this.handleSelectProduct} handleModal={this.handleModal} />)}
                                             </ScrollView>}
-                                        <View style={{ justifyContent: "center" }}>
-                                            <Icon.Button name="close"
-                                                iconStyle={{ color: "grey" }}
-                                                style={{
-                                                    backgroundColor: "white",
-                                                    alignSelf: "center",
-                                                    justifyContent: "center",
-                                                    width: "100%"
-                                                }}
-                                                onPress={this.handleModal}>
-                                                <Text style={styles.buttonText}>CLOSE</Text>
-                                            </Icon.Button>
-                                        </View>
                                     </View>
                                 </LinearGradient>
+                                <View style={{ justifyContent: "center" }}>
+                                    <Icon.Button name="close"
+                                        iconStyle={{ color: "grey" }}
+                                        style={{
+                                            backgroundColor: "white",
+                                            alignSelf: "center",
+                                            justifyContent: "center",
+                                            width: "100%"
+                                        }}
+                                        onPress={this.handleModal}>
+                                        <Text style={styles.buttonText}>CLOSE</Text>
+                                    </Icon.Button>
+                                </View>
                             </Modal>
                             <View style={{ alignItems: "center", }}>
                                 <BoxShadow setting={shadowOpt}>
