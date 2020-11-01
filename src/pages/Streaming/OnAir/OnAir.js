@@ -56,12 +56,13 @@ export default class OnAir extends React.Component {
     componentDidMount() {
         let { title } = this.state
         let { nickname } = this.state.userInfo
+        console.log("title", title)
         console.log(this.props)
 
         this.requestCameraPermission();
         this.props.route.params.handleVisible();
 
-        SocketManager.instance.emitJoinRoom({ nickName: nickname, title })
+        SocketManager.instance.emitJoinRoom({ nickName: nickname, title: title })
         SocketManager.instance.listenSendChat(this.handleIncomingChat)
         SocketManager.instance.listenSendHeart(this.handleIncomingHeart)
     }
