@@ -2,6 +2,7 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Text, Image } from 'react-native-elements'
 import LinearGradient from 'react-native-linear-gradient';
+import { SERVER } from '../pages/config';
 
 
 
@@ -15,7 +16,7 @@ export default class SellerItemEntry extends React.Component {
         let { navigation } = this.props
         let { navigate } = navigation
         let { itm } = this.props
-        let imgSrc = itm.image[0]
+        let imgSrc = itm.image
         return (
             <View key={itm.title}
                 style={{
@@ -28,7 +29,7 @@ export default class SellerItemEntry extends React.Component {
                 }} >
                 <Image
                     style={{ height: 140, width: 140, marginTop: 5, borderRadius: 20 }}
-                    source={{ uri: imgSrc }}
+                    source={{ uri: `${SERVER}${imgSrc}` }}
                     onPress={() => {
                         navigate('ProductDetail', { info: itm });
                     }}

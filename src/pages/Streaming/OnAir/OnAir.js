@@ -160,6 +160,7 @@ export default class OnAir extends React.Component {
         let { liveStatus, count, messages } = this.state
         let deviceHeight = Dimensions.get('window').height - StatusBar.currentHeight
         let deviceWidth = Dimensions.get('window').width
+
         let outputURL = `${RTMP_SERVER}/live/${userName}` // 영상을 전송받을 URL을 정의
 
         return (

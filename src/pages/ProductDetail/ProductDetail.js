@@ -26,21 +26,25 @@ export default class ProductDetail extends React.Component {
             isPaymentPending: false, // request payment 메소드에 대응하는 state 추가
             activeSlide: 0,
             orderInfo: {
-                quantity: this.quantity,
+                quantity: null,
                 productId: this.props.route.params.info.id,
-                amount: this.quantity * this.props.route.params.info.price,
-                sellerId: this.props.route.params.info.userId
-            }
+                amount: null,
+                sellerId: this.props.route.params.info.userId,
+            },
+            sellerItem: null,
         }
         this.handleButtonPress = this.handleButtonPress.bind(this)
-        this._renderItem = this._renderItem.bind(this)
+        // this._renderItem = this._renderItem.bind(this)
     }
 
     componentDidMount() {
+        console.log(this.props)
         this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true });
         if (this.props.route.params.previous !== "Watching") {
             this.props.route.params.handleVisible();
         }
+        Axios.post(`${SERVER}/selleritem`, { userId: this.props.route.params.info.userId })
+            .then(data => this.setState({ sellerItem: data.data }))
     }
 
     componentWillUnmount() {
@@ -49,6 +53,7 @@ export default class ProductDetail extends React.Component {
 
     handleOpenPayment = () => {
         this.setState({ isPaymentPending: true });
+        this.setState({ orderInfo: Object.assign(this.state.orderInfo, { quantity: this.state.quantity, amount: (this.state.quantity * this.props.route.params.info.price) }) })
         requestPayment(this.state.orderInfo);
     }
 
@@ -77,7 +82,7 @@ export default class ProductDetail extends React.Component {
     _renderItem = ({ item, index }) => {
         return (
             <View style={{ margin: 5, padding: 5, alignItems: "center" }} key={item.title}>
-                <Image source={{ uri: item }} style={{ width: 250, height: 250, borderRadius: 20, elevation: 2, margin: 5, }} />
+                <Image source={{ uri: `${SERVER}${item}` }} style={{ width: 250, height: 250, borderRadius: 20, elevation: 2, margin: 5, }} />
             </View>
         );
     }
@@ -85,7 +90,7 @@ export default class ProductDetail extends React.Component {
         const { activeSlide } = this.state;
         return (
             <Pagination
-                dotsLength={this.props.route.params.info.image.length}
+                dotsLength={this.props.route.params.images.length}
                 activeDotIndex={activeSlide}
                 containerStyle={{ margin: -20 }}
                 dotStyle={{
@@ -95,7 +100,6 @@ export default class ProductDetail extends React.Component {
                     marginHorizontal: 1,
                     backgroundColor: 'slateblue',
                     elevation: 3
-
                 }}
                 inactiveDotStyle={{
                     backgroundColor: 'slategrey'
@@ -129,7 +133,7 @@ export default class ProductDetail extends React.Component {
                             <View style={{ alignItems: "center", }}  >
                                 <Carousel
                                     ref={(c) => { this._carousel = c; }}
-                                    data={this.props.route.params.info.image}
+                                    data={this.props.route.params.images}
                                     renderItem={this._renderItem}
                                     sliderWidth={sliderWidth}
                                     itemWidth={itemWidth}
@@ -160,14 +164,16 @@ export default class ProductDetail extends React.Component {
                                 }} />
                             </View>
                             <View style={styles.sellerContainer}>
-                                <Text style={styles.sellerTitle}>{this.props.route.params.info.name.toUpperCase()}</Text>
-                                <SellerInfoHome navigation={this.props.navigation} list={this.props.route.params.list} handleVisible={this.props.route.params.handleVisible} />
+                                <Text style={styles.sellerTitle}>{this.props.route.params.info.seller_nickname.toUpperCase()}</Text>
+                                <SellerInfoHome
+                                    navigation={this.props.navigation}
+                                    list={this.props.route.params.list}
+                                    handleVisible={this.props.route.params.handleVisible} />
                             </View>
-                            {this.props.route.params.list ?
+                            {this.state.sellerItem &&
                                 <View style={styles.sellerItms} >
-                                    {this.props.route.params.list.map((itm) => <SellerItemEntry itm={itm} navigation={this.props.navigation} />)}
-                                </View>
-                                : <Text>no image to render</Text>}
+                                    {this.state.sellerItem.map((itm, idx) => <SellerItemEntry key={idx} itm={itm} navigation={this.props.navigation} />)}
+                                </View>}
                         </ScrollView >
                     </View>
                 </LinearGradient >
