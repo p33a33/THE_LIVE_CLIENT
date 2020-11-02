@@ -40,7 +40,7 @@ export default class Feed extends React.Component {
     renderItem({ item }) {
         return (
             <TouchableOpacity onPress={() => {
-                this.props.navigation.navigate('Watching', { title: `${item.title}`, handleVisible: this.props.route.params.handleVisible, info: item })
+                this.props.navigation.navigate('Watching', { title: `${item.title}`, handleVisible: this.props.route.params.handleVisible, info: item, streamerId: item.userId })
             }} >
                 <View style={styles.listItems} >
                     <BoxShadow setting={shadowOpt}>

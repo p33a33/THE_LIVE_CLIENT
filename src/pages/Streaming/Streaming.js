@@ -2,7 +2,7 @@ import Axios from 'axios'
 import React from 'react'
 import { View, NativeModules, Modal, StyleSheet } from 'react-native'
 import { Text, Button, Input, Image } from 'react-native-elements'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import { ScrollView, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import MyItemListEntry from '../../components/MyItemListEntry'
 import SocketManager from '../../socketManager'
 import { SERVER } from '../config'
@@ -33,6 +33,10 @@ export default class StreamingReady extends React.Component {
     }
 
     componentDidMount = () => {
+        this.handleRefreshList();
+    }
+
+    handleRefreshList = () => {
         Axios.get(`${SERVER}/myitem`).then(data => this.setState({ myItems: data.data }))
     }
 
@@ -43,7 +47,7 @@ export default class StreamingReady extends React.Component {
 
     handleModal = () => {
         this.setState({ isModalOpen: !this.state.isModalOpen })
-        console.log(this.state)
+        this.handleRefreshList();
     }
 
     handleSelectProduct = (data) => {
@@ -141,8 +145,9 @@ export default class StreamingReady extends React.Component {
                             <Modal visible={this.state.isModalOpen}>
                                 <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1, }}>
                                     <View >
-                                        <View style={{ marginTop: 15 }}>
+                                        <View style={{ marginTop: 15, flexDirection: "row" }}>
                                             <Text style={styles.headerTitle}>MY ITEMLIST</Text>
+                                            <Icon name="refresh" size={25} style={{ marginLeft: "50%", color: "slateblue" }} onPress={this.handleRefreshList} />
                                         </View>
                                         {console.log(this.state.myItems)}
                                         {!this.state.myItems || !this.state.myItems.length ?
