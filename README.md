@@ -1,20 +1,32 @@
 # THE LIVE
-![Logo](https://www.notion.so/3-4B-The-Live-808a21ee823e4f1ab4d2752915bc1fb2#d173a9a06607493fb23e092fac516bef)
 
-## About Project
+## ABOUT PROJECT
+### Stack, Architecture
+![_2020-11-02__3 47 36](https://user-images.githubusercontent.com/66895623/97844098-c291c900-1d2d-11eb-8c06-9fdacade1d26.png)
 
+### Flow Chart
+![flowchart](https://user-images.githubusercontent.com/66895623/97844170-e228f180-1d2d-11eb-9740-29c98bb4e175.jpeg)
 
-## Stack, Architecture
-![Stack_Architecture](https://www.notion.so/3-4B-The-Live-808a21ee823e4f1ab4d2752915bc1fb2#60878dd4baad4a2d9295443be606257a)
+### Screen GIF
 
-## Flow Chart
-![Flowchart](https://www.notion.so/3-4B-The-Live-808a21ee823e4f1ab4d2752915bc1fb2#5c24a4eb1e4048b6b7042935bb4adaab)
+## ABOUT US
+![4B_logo](https://user-images.githubusercontent.com/66895623/97844055-aee66280-1d2d-11eb-84f7-da98008a92af.png)
+### Members
 
-## Screen GIF
+##### 심규공 (Team Leader, Back-end)
+<img src="https://user-images.githubusercontent.com/66895623/97845386-e5bd7800-1d2f-11eb-9c95-0d696e82af5a.jpg" width="300">
+**Back-end**
 
-# Team
+##### 김광혁
+<img src="https://user-images.githubusercontent.com/66895623/97846570-8a8c8500-1d31-11eb-96be-26950ea8f783.jpg" width="300">
+**Back-end**
 
-## Members
+##### 김은혜
+<img src="https://user-images.githubusercontent.com/66895623/97847132-7301cc00-1d32-11eb-8cfe-66f7049593ac.jpeg" width="300">
+**Front-end**
 
+##### 조성민
+<img src="https://user-images.githubusercontent.com/66895623/97845662-3208b800-1d30-11eb-8f36-82ba3b55a720.jpg" width="300">
+**Front-end**
 
-Check out wiki for more
+**Checkout [wiki](https://github.com/codestates/the-live-client/wiki) for more**
