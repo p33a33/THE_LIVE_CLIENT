@@ -21,7 +21,8 @@ export default class Watching extends React.Component {
             count: 0,
             messages: [],
             userInfo: this.props.route.params.userInfo,
-            title: this.props.route.params.title
+            title: this.props.route.params.title,
+            streamerId: this.props.route.params.streamerId
         }
         this.handleInputValue = this.handleInputValue.bind(this)
         this.handlePressHeart = this.handlePressHeart.bind(this)
@@ -76,8 +77,7 @@ export default class Watching extends React.Component {
     }
 
     render() {
-        let userName = 'test'
-        let inputUrl = `${RTMP_SERVER}/live/${userName}`
+        let inputUrl = `${RTMP_SERVER}/live/${this.state.streamerId}`
         let deviceHeight = Dimensions.get('window').height
         let deviceWidth = Dimensions.get('window').width
         let { messages, count } = this.state
