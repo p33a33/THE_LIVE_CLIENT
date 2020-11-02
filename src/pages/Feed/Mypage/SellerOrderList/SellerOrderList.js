@@ -1,49 +1,75 @@
 import React from 'react'
-import { View, Text, Image } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import { View, Image, ScrollView } from 'react-native'
+import { Picker } from '@react-native-community/picker';
+import { Card, Text, Button } from 'react-native-elements'
+import Axios from 'axios'
 import { or } from 'react-native-reanimated'
+import { SERVER } from '../../../config'
+import OrderListEntry from '../../../../components/OrderListEntry'
 
 export default class SellerOrderList extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            order: null,
+            orderStatus: null,
+            orderid: null,
+        }
+        this.orderStatus = ['Select Status', 'Processing', 'Shipped out', 'In Delevery', 'Delivered', 'Completed']
+    }
 
-        this.list = [
-            {
-                id: 1,
-                status: '결제완료',
-                quantity: '3',
-                product: {
-                    name: "Bottega Veneta",
-                    id: "4", email: "seller3@test.com",
-                    image: ["https://assetsprx.matchesfashion.com/img/product/1381554_1_zoom.jpg", 'https://assetsprx.matchesfashion.com/img/product/1381554_5_zoom.jpg', "https://assetsprx.matchesfashion.com/img/product/1381554_6_zoom.jpg"],
-                    title: "스트레치 스퀘어 토 가죽 뮬",
-                    body: "스퀘어 토 실루엣으로 보테가 베네타(Bottega Veneta)를 이끄는 다니엘 리(Daniel Lee) 고유의 디자인 미학을 담아낸 크림 색상 스트레치 뮬을 만나보세요. 부드러운 가죽으로 넓은 앞면 스트랩을 구성하고 가느다란 스틸레토 힐을 세팅한 이탈리아 제작 상품이며 안정적인 착화감을 위해 밑창에 고무 그립을 더했습니다. 테일러드 룩에 우아한 포인트 아이템으로 매치해보세요.",
-                    price: "₩ 150,000"
-                }
-            }
-        ]
+    componentDidMount = () => {
+        Axios.get(`${SERVER}/sellerorder`).then(data => { this.setState({ orders: data.data }); console.log(data.data) })
+    }
+
+    handleChangeStatus = () => {
+        Axios.post(`${SERVER}/sellerOrderStatus`, { id: this.state.orderid, status: this.state.orderStatus })
+            .then(data => {
+                alert("주문 상태가 변경되었습니다.")
+                this.setState({ orderStatus: "Select Status" })
+                Axios.get(`${SERVER}/sellerorder`).then(data => { this.setState({ orders: data.data }); console.log(data.data) })
+            })
+            .catch(err => console.log(err))
     }
 
     render() {
         return (
-            <View>
-                <Text> Seller Order List page </Text>
-                { this.list.map(order => {
-                    return (
-                        <View>
-                            <Text>주문번호 : {order.id}</Text>
-                            <Text>처리상태 : {order.status}</Text>
-                            <Text>주문수량 : {order.quantity}</Text>
-                            <Image source={{ uri: order.product.image[1] }} style={{ width: 100, height: 100 }} />
-                            <Text onPress={() => this.props.navigation.navigate('ProductDetail', { info: order.product })}>상품명 : {order.product.title}</Text>
-                        </View>
-                    )
-                })}
-                <Text> 주문번호(orders_id)
-                주문처리상태(orders_status)
-                주문수량(orders_quantity)
-                제품(사우진띄고, 제목만, 클릭 시 상세페이지)
-                    </Text>
-            </View>
+            <LinearGradient useAngle={true} angle={91.5} colors={['#E2E2E2', '#C9D6FF']} style={{ flex: 1, }}>
+                <View style={{ padding: 20, height: "100%" }}>
+                    <Text h4 style={{ textAlign: "left", marginBottom: 20 }}>Orders</Text>
+                    <ScrollView style={{ padding: 10 }}>
+                        {this.state.orders && this.state.orders.map((order, key) => {
+                            return <Card containerStyle={{ padding: 10, borderRadius: 15 }} key={key}>
+                                <Card.Title> <OrderListEntry order={order} navigation={this.props.navigation} /> </Card.Title>
+                                <Card.Divider />
+                                <View style={{ flexDirection: "row", alignSelf: "center" }} >
+                                    <Picker
+                                        mode="dropdown"
+                                        selectedValue={this.state.orderStatus}
+                                        style={{ height: 30, width: 200, margin: 5, color: "slateblue" }}
+                                        itemStyle={{
+                                            fontFamily: "sans-serif-light",
+                                            letterSpacing: -0.5,
+                                            marginLeft: 100
+                                        }}
+                                        onValueChange={(value) => {
+                                            if (value !== "Select Status") {
+                                                this.setState({ orderStatus: value, orderid: order.id })
+                                            }
+                                        }} >
+                                        {this.orderStatus.map((item, idx) => <Picker.Item label={item} value={item} key={idx} color="slategrey" />)}
+                                    </Picker>
+                                    <Button title="Change" onPress={this.handleChangeStatus} />
+                                </View>
+                                <Text>Order Number : {order.id}</Text>
+                                <Text>Address : {order.address + order.addressDtail}</Text>
+                                <Text>Status : {order.payment_status} </Text>
+                            </Card>
+                        })}
+                    </ScrollView >
+                </View >
+            </LinearGradient >
         )
     }
 }
