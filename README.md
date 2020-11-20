@@ -1,8 +1,8 @@
 # THE LIVE
 
-![https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg](https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg)
-
 **인터넷에서 사진만 보고 샀다가 낭패본 경험...다들 있으시죠?**
+
+![https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg](https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg)
 
 이젠 직접보고 낭패볼 수 있습니다!
 
@@ -118,5 +118,7 @@ Front-end
 ##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;조성민
 <img src="https://user-images.githubusercontent.com/66895623/97845662-3208b800-1d30-11eb-8f36-82ba3b55a720.jpg" width="300">
 Front-end
+
+**here is [THE LIVE SERVER](https://github.com/p33a33/THE_LIVE_SERVER)**
 
 **Checkout [wiki](https://github.com/p33a33/THE_LIVE_CLIENT/wiki) for more**
