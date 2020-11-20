@@ -1,5 +1,36 @@
 # THE LIVE
 
+## 견물생심(見物生心) : **물건을 보면 마음이 생겨난다**
+
+![https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg](https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg)
+
+## **인터넷에서 사진만 보고 샀다가 낭패본 경험...다들 있으시죠?**
+
+이젠 직접보고 낭패볼 수 있습니다!
+
+하지만, 판매자와 직접 이야기 나누고 영상까지 확인했다면 이제 **낭패**는 당신의 책임입니다!
+
+### 자신의 물건을 다른 사람에게 판매해본 적 있으신가요?
+
+물건은 정말 좋은데 설명할 방법이 없어서 답답하시지는 않으셨나요?
+
+![uncomfortable](https://user-images.githubusercontent.com/66895623/99763404-1f6aed00-2b3e-11eb-93f2-232ba15c6bc9.png)
+
+(불-편)
+
+이젠, 라이브 방송으로 물건을 보여주세요, 혹시 고객들이 당신을 찾지 않나요?
+
+그렇다면, 재미있는 방송으로 고객을 모아보세요! 
+
+## Live Streaming 을 통한 Global Shopping Platform.
+
+차가운 기계 대 기계가 아닌 미지근한 인간(人間) 대 인간(人間)으로써 의 써-비스
+
+# **THE LIVE를 소개합니다!**
+![comportable](https://user-images.githubusercontent.com/66895623/99763383-0d894a00-2b3e-11eb-99be-f90f14804687.png)
+
+(편-안)
+
 ## &nbsp;&nbsp;ABOUT PROJECT
 ### &nbsp;&nbsp;&nbsp;&nbsp;Stack, Architecture
 ![_2020-11-02__3 47 36](https://user-images.githubusercontent.com/66895623/97844098-c291c900-1d2d-11eb-8c06-9fdacade1d26.png)
