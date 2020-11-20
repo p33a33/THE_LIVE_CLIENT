@@ -2,13 +2,13 @@
 
 ![https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg](https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg)
 
-## **인터넷에서 사진만 보고 샀다가 낭패본 경험...다들 있으시죠?**
+**인터넷에서 사진만 보고 샀다가 낭패본 경험...다들 있으시죠?**
 
 이젠 직접보고 낭패볼 수 있습니다!
 
 하지만, 판매자와 직접 이야기 나누고 영상까지 확인했다면 이제 **낭패**는 당신의 책임입니다!
 
-### 자신의 물건을 다른 사람에게 판매해본 적 있으신가요?
+**자신의 물건을 다른 사람에게 판매해본 적 있으신가요?**
 
 물건은 정말 좋은데 설명할 방법이 없어서 답답하시지는 않으셨나요?
 
@@ -20,11 +20,12 @@
 
 그렇다면, 재미있는 방송으로 고객을 모아보세요! 
 
-## Live Streaming 을 통한 Global Shopping Platform.
+**Live Streaming 을 통한 Global Shopping Platform**
 
 차가운 기계 대 기계가 아닌 미지근한 인간(人間) 대 인간(人間)으로써 의 써-비스
 
-# **THE LIVE를 소개합니다!**
+ **THE LIVE를 소개합니다!**
+
 ![comportable](https://user-images.githubusercontent.com/66895623/99763383-0d894a00-2b3e-11eb-99be-f90f14804687.png)
 
 (편-안)
