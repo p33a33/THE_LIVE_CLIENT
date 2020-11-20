@@ -1,7 +1,5 @@
 # THE LIVE
 
-## 견물생심(見物生心) : **물건을 보면 마음이 생겨난다**
-
 ![https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg](https://img.postshare.co.kr/images/2017/09/jy170921f10.jpg)
 
 ## **인터넷에서 사진만 보고 샀다가 낭패본 경험...다들 있으시죠?**
