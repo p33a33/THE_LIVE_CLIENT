@@ -36,8 +36,9 @@
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;Flow Chart
 ![flowchart](https://user-images.githubusercontent.com/66895623/97844170-e228f180-1d2d-11eb-9740-29c98bb4e175.jpeg)
-<details>
-<summary>Screen GIFs</summary>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;Examples
+
 <details>
 <summary>&nbsp;&nbsp;Signup</summary>
 <img src="https://user-images.githubusercontent.com/66895623/97937334-bc4d2c80-1dc1-11eb-83c6-1957d1fe4bd2.gif" width="300">
@@ -96,8 +97,6 @@
 <details>
 <summary>&nbsp;&nbsp;Seller order list</summary>
 <img src="https://user-images.githubusercontent.com/66895623/97940231-f4a33980-1dc6-11eb-8c3f-d6c9f813b998.gif" width="300">
-</details>
-
 </details>
 
 ## &nbsp;&nbsp;&nbsp;&nbsp;ABOUT US
